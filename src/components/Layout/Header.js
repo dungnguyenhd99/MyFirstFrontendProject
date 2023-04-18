@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
+import '../../css/Header.css'
 import { Link } from "react-router-dom";
+import logo from '../../asset/logo.svg'
 
 export default function Header() {
     const clickView = () => {
@@ -13,29 +14,25 @@ export default function Header() {
 
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
-                <div class="container">
-                    <Link to="/#start" class="navbar-brand" onClick={clickView}>
-                        <img src="https://i.imgur.com/CkZJbLx.png" height="42" width='68' alt="99Bro" /></Link>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
-                    <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-lg-center align-items-start">
-                            <li class="nav-item px-3 px-xl-4"><Link to="/" class="nav-link fw-medium" onClick={clickView}>Trang chủ</Link></li>
-                            <li class="nav-item px-3 px-xl-4"><Link to="/aboutMe" class="nav-link fw-medium" onClick={clickView}>Giới thiệu</Link></li>
-                            <li class="nav-item px-3 px-xl-4"><Link to="/tintuc" class="nav-link fw-medium" onClick={clickView}>Tin tức</Link></li>
-                            <li class="nav-item px-3 px-xl-4"><Link to="/Contact" class="nav-link fw-medium" aria-current="page" href="#testimonial" onClick={clickView}>Liên hệ</Link></li>
+            <nav className="navbar-main fixed-top cl-effect-17">
+                <a href="#" style={{ marginLeft: 70 }}><img src={logo} width={85}></img></a>
+                <a href="#" style={{ marginLeft: 50 }} data-hover="Home">Home</a>
+                <a href="#" style={{ marginLeft: 40 }} data-hover="Project">Project</a>
+                <a href="#" style={{ marginLeft: 40 }} data-hover="Event">Event</a>
+                <a href="#" style={{ marginLeft: 40 }} data-hover="About">About</a>
+                <a href="#" style={{ marginLeft: 40 }} data-hover="Download">Download</a>
 
-                            <li class="nav-item px-3 px-xl-4"><Link to="/collection" class="btn btn-outline-dark order-1 order-lg-0 fw-medium" href="#!">Đăng nhập</Link></li>
-                            <li class="nav-item dropdown px-3 px-lg-0"> <a class="d-inline-block ps-0 py-2 pe-3 text-decoration-none dropdown-toggle fw-medium" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">VIE</a>
-                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#!">VIE</a></li>
-                                    <li><a class="dropdown-item" href="#!">ENG</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                <span style={{ marginLeft: 40 }} className="dropdown">
+                    <span style={{ color: 'white' }}>ENG</span>
+                    <div className="dropdown-content">
+                        <button className='btn' style={{ width: 60, fontSize: 13 }}>VIE</button><br></br>
+                        <button className='btn' style={{ width: 60, fontSize: 13 }}>ENG</button>
                     </div>
-                </div>
+                </span>
+
+                <span className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;SIGN IN&#160;&#160;<i class="fas fa-user-alt"></i></span></span></span>
             </nav>
+            <br /> <br /> <br />
         </>
     )
 }
