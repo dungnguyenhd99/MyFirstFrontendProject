@@ -1,9 +1,15 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import '../../css/Header.css'
+import '../../styles/css/Header.css'
 import { Link } from "react-router-dom";
 import logo from '../../asset/logo.svg'
+import { useTranslation } from 'react-i18next';
+import vie from '../../asset/images/vie.png';
+import eng from '../../asset/images/eng.webp'
 
 export default function Header() {
+    const { t, i18n } = useTranslation();
+
     const clickView = () => {
         window.scrollTo({
             top: 0, behavior:
@@ -11,28 +17,35 @@ export default function Header() {
         });
     }
 
+    const handleLanguageChange = (language) => {
+        i18n.changeLanguage(language);
+        localStorage.setItem('selectedLanguage', language);
+    };
+
+    const selectedLanguage = localStorage.getItem('selectedLanguage') ? localStorage.getItem('selectedLanguage') : 'VI';
 
     return (
         <>
             <nav className="navbar-main fixed-top cl-effect-17">
-                <a href="#" style={{ marginLeft: 70 }}><img src={logo} width={85}></img></a>
-                <a href="#" style={{ marginLeft: 50 }} data-hover="Home">Home</a>
-                <a href="#" style={{ marginLeft: 40 }} data-hover="Project">Project</a>
-                <a href="#" style={{ marginLeft: 40 }} data-hover="Event">Event</a>
-                <a href="#" style={{ marginLeft: 40 }} data-hover="About">About</a>
-                <a href="#" style={{ marginLeft: 40 }} data-hover="Download">Download</a>
+                <Link to={'/'} style={{ marginLeft: 70 }}><img src={logo} width={85}></img></Link>
+                <Link to={'/'} style={{ marginLeft: 50 }} data-hover={t('home')}>{t('home')}</Link>
+                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('project')}>{t('project')}</Link>
+                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('event')}>{t('event')}</Link>
+                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('about')}>{t('about')}</Link>
+                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</Link>
 
-                <span style={{ marginLeft: 40 }} className="dropdown">
-                    <span style={{ color: 'white' }}>ENG</span>
-                    <div className="dropdown-content">
-                        <button className='btn' style={{ width: 60, fontSize: 13 }}>VIE</button><br></br>
-                        <button className='btn' style={{ width: 60, fontSize: 13 }}>ENG</button>
-                    </div>
+                <span>
+                    <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">
+                        <span>{selectedLanguage.toUpperCase() === 'VI' ? (<><img src={vie} width={30} height={20}></img></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
+                        <div className="dropdown-content">
+                            <button className='btn' style={{ width: 60, fontSize: 13 }} onClick={() => handleLanguageChange('vi')}>Vietnamese</button><br></br>
+                            <button className='btn' style={{ width: 60, fontSize: 13 }} onClick={() => handleLanguageChange('en')}>English</button>
+                        </div>
+                    </span>
+
+                    <span className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-user-alt"></i></span></span></span>
                 </span>
-
-                <span className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;SIGN IN&#160;&#160;<i class="fas fa-user-alt"></i></span></span></span>
             </nav>
-            <br /> <br /> <br />
         </>
     )
 }
