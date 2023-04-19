@@ -180,7 +180,7 @@ nav a:focus {
   height: 100%;
   z-index: -1;
   border-radius: .4rem;
-  background-color: rgba(255, 93, 57, 0.766);
+  background-color: rgba(104, 29, 12, 0.766);
   transition: all 0.3s;
 }
 .btn-three:hover::before {

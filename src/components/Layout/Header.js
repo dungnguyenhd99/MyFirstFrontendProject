@@ -38,12 +38,12 @@ export default function Header() {
                     <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">
                         <span>{selectedLanguage.toUpperCase() === 'VI' ? (<><img src={vie} width={30} height={20}></img></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
                         <div className="dropdown-content">
-                            <button className='btn' style={{ width: 60, fontSize: 13 }} onClick={() => handleLanguageChange('vi')}>Vietnamese</button><br></br>
-                            <button className='btn' style={{ width: 60, fontSize: 13 }} onClick={() => handleLanguageChange('en')}>English</button>
+                            <button className='btn text-light' style={{ width: 90, fontSize: 13 }} onClick={() => handleLanguageChange('vi')}>Vietnamese</button><br></br>
+                            <button className='btn text-light' style={{ width: 90, fontSize: 13 }} onClick={() => handleLanguageChange('en')}>English</button>
                         </div>
                     </span>
 
-                    <span className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-user-alt"></i></span></span></span>
+                    <span className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></span>
                 </span>
             </nav>
         </>
