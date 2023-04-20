@@ -27,12 +27,12 @@ export default function Header() {
     return (
         <>
             <nav className="navbar-main fixed-top cl-effect-17">
-                <Link to={'/'} style={{ marginLeft: 70 }}><img src={logo} width={85}></img></Link>
-                <Link to={'/'} style={{ marginLeft: 50 }} data-hover={t('home')}>{t('home')}</Link>
-                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('project')}>{t('project')}</Link>
-                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('event')}>{t('event')}</Link>
-                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('about')}>{t('about')}</Link>
-                <Link to={'/'} style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 70 }}><img src={logo} width={85}></img></Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 50 }} data-hover={t('home')}>{t('home')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('project')}>{t('project')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('event')}>{t('event')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('about')}>{t('about')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</Link>
 
                 <span>
                     <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">
@@ -43,7 +43,7 @@ export default function Header() {
                         </div>
                     </span>
 
-                    <span className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></span>
+                <Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></Link>
                 </span>
             </nav>
         </>

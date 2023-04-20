@@ -106,7 +106,7 @@ nav a:focus {
 
 
 /* Effect 17: move up fade out, push border */
-.cl-effect-17 a {
+.cl-effect-17 .title {
   color: #fdfdfd;
   font-weight: 500;
   padding: 8px 0;
