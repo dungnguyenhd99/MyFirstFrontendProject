@@ -32,6 +32,7 @@ export default function Header() {
           }).catch((err) => {
             console.log(err);
           });
+          localStorage.setItem('userToken', JSON.stringify(token));
     }
 
     const handleProfile = () => {
@@ -60,7 +61,7 @@ export default function Header() {
                 <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('project')}>{t('project')}</Link>
                 <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('event')}>{t('event')}</Link>
                 <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('about')}>{t('about')}</Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</Link>
+                <a className='title' href='https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download' style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</a>
 
                 <span>
                     <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">
