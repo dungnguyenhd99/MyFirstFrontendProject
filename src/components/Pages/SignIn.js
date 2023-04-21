@@ -26,6 +26,9 @@ export default function Signin() {
     level: "USER",
   })
 
+  const [errorSignUp, setErrorSignUp] = useState(null);
+  const [error, setError] = useState(null);
+
   const [isSignin, setIsSignin] = useState(true);
 
   const changeToSignin = (e) => {
@@ -53,7 +56,7 @@ export default function Signin() {
         console.log(err);
       });
     }).catch((err) => {
-      console.log(err);
+      setError(err.response.data.messageCode);
     });
   }
 
@@ -64,12 +67,19 @@ export default function Signin() {
       ...stateSignup,
     });
 
-    authService.signup(stateSignup).then((res) => {
-      console.log(res.data);
-      navigate("/send-success");
-    }).catch((err) => {
-      console.log(err);
-    });
+    if (stateSignup.userName.length < 6) {
+      setErrorSignUp('Username must be at least 6 characters');
+    } else if (stateSignup.password.length < 8) {
+      setErrorSignUp('Password must be at least 8 characters')
+    }
+    else {
+      authService.signup(stateSignup).then((res) => {
+        console.log(res.data);
+        navigate("/send-success");
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   return (
@@ -102,7 +112,8 @@ export default function Signin() {
                 onChange={(e) => setStateSignup({ ...stateSignup, password: e.target.value, })}
                 style={{ color: 'white' }}
               />
-              <button>{t('signup')}</button>
+              <button style={{marginTop: 7}}>{t('signup')}</button>
+              <p style={{ color: 'red' }}>{errorSignUp ? errorSignUp : (<></>)}</p>
             </form>
           </div>
         ) : (
@@ -126,6 +137,7 @@ export default function Signin() {
               />
               <a href="#">{t('forgotYourPassword')}</a>
               <button>{t('signin')}</button>
+              <p style={{ color: 'red' }}>{error ? error : (<></>)}</p>
             </form>
           </div>
         )}
