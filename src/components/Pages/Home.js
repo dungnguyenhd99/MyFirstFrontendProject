@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import '../../styles/css/App.css';
 import video from '../../asset/videos/background-video.mp4';
 import ngt from '../../asset/images/ngtpresent.png'
@@ -6,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Home() {
   const { t } = useTranslation();
+
   return (
     <>
       <div className='home-module-video' style={{ position: 'relative' }}>

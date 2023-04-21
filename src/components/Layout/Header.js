@@ -7,15 +7,35 @@ import { useTranslation } from 'react-i18next';
 import vie from '../../asset/images/vie.png';
 import eng from '../../asset/images/eng.webp';
 import icon from '../../asset/images/icon.svg';
+import { useLocation } from 'react-router-dom';
+import authService from '../Services/authService';
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const token = new URLSearchParams(location.search).get('token');
 
-    const clickView = () => {
-        window.scrollTo({
-            top: 0, behavior:
-                'smooth'
-        });
+    // const clickView = () => {
+    //     window.scrollTo({
+    //         top: 0, behavior:
+    //             'smooth'
+    //     });
+    // }
+
+    if(token) {
+        authService.profile(token).then((res) => {
+            localStorage.setItem('userProfile', JSON.stringify(res.data));
+            navigate("/");
+            window.location.reload();
+          }).catch((err) => {
+            console.log(err);
+          });
+    }
+
+    const handleProfile = () => {
+        navigate("/profile");
     }
 
     const handleLogout = () => {
@@ -56,8 +76,8 @@ export default function Header() {
                         (<> <span style={{ color: 'white' }} className="dropdown box-3 position-absolute top-50 end-0 translate-middle">
                             <span>{userProfile ? (<><img src={icon} height={20}></img>&#160; &#160;<span>{userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
                             <div className="dropdown-content">
-                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} >Account</button><br></br>
-                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} onClick={handleLogout}>Logout</button>
+                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} onClick={handleProfile}><i className="fa fa-user"></i>&#160; Account</button><br></br>
+                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} onClick={handleLogout}><i className="fa fa-sign-out-alt"></i>&#160; Logout</button>
                             </div>
                         </span></>)}
                 </span>

@@ -5,7 +5,7 @@ import React from "react";
 import authService from "../Services/authService";
 import { useState } from "react";
 import '../../styles/css/Signin.css';
-import bg from '../../asset/images/signin-bg.png'
+import bg from '../../asset/images/signin-bg.png';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -111,8 +111,7 @@ export default function Signin() {
               <h1>{t('signin')}</h1>
               <div className="social-container">
                 <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-                <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
+                <a href="https://ngtbackend-production.up.railway.app/auth/google" className="social"><i className="fab fa-google-plus-g"></i></a>
               </div>
               <span>{t('orUseYourAccount')}</span>
               <input type="email" placeholder="Email" name="user_name"
