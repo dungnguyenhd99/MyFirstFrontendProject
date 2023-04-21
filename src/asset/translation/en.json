@@ -4,5 +4,16 @@
     "event": "Event",
     "about": "About",
     "download": "Download",
-    "signin": "Sign in"
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "orUseYourEmailForRegistration": "or use your email for registration",
+    "orUseYourAccount": "or use your account",
+    "forgotYourPassword": "Forgot your password?",
+    "helloFriend": "Hello, Friend!",
+    "welcomeBack": "Welcome Back!",
+    "signupinfo": "If you do not already have an account, click here to create account",
+    "signininfo": "If you are already have an account, click here to sign in",
+    "sendSuccess1": "A confirmation mail has been send to your email",
+    "sendSuccess2": "Please check your email to confirm your account email",
+    "homeMessage": "A PRODUCT OF NGT STUDIO"
 }

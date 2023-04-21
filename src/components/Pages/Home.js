@@ -2,8 +2,10 @@ import '../../styles/css/App.css';
 import video from '../../asset/videos/background-video.mp4';
 import ngt from '../../asset/images/ngtpresent.png'
 import '../../styles/css/Home.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation();
   return (
     <>
       <div className='home-module-video' style={{ position: 'relative' }}>
@@ -11,7 +13,7 @@ export default function Home() {
           <source src={video} type="video/mp4" />
         </video>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-          <p className='text-center' style={{ color: 'white', fontFamily: 'Comic Sans MS', letterSpacing: 3, paddingBottom: 7 }}>A PRODUCT OF NGT STUDIO</p>
+          <p className='text-center' style={{ color: 'white', fontFamily: 'Comic Sans MS', letterSpacing: 3, paddingBottom: 7 }}>{t('homeMessage')}</p>
           <img alt="DiEdIEdieÍ" loading="lazy" src={ngt} />
           <div>
             <svg className="arrows">

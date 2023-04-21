@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import logo from '../../asset/logo.svg'
 import { useTranslation } from 'react-i18next';
 import vie from '../../asset/images/vie.png';
-import eng from '../../asset/images/eng.webp'
+import eng from '../../asset/images/eng.webp';
+import icon from '../../asset/images/icon.svg';
 
 export default function Header() {
     const { t, i18n } = useTranslation();
@@ -16,6 +17,13 @@ export default function Header() {
                 'smooth'
         });
     }
+
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.reload();
+      }
+
+    const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
     const handleLanguageChange = (language) => {
         i18n.changeLanguage(language);
@@ -43,7 +51,15 @@ export default function Header() {
                         </div>
                     </span>
 
-                <Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></Link>
+                    {!userProfile ?
+                        (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></Link>) :
+                        (<> <span style={{ color: 'white' }} className="dropdown box-3 position-absolute top-50 end-0 translate-middle">
+                            <span>{userProfile ? (<><img src={icon} height={20}></img>&#160; &#160;<span>{userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
+                            <div className="dropdown-content">
+                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} >Account</button><br></br>
+                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} onClick={handleLogout}>Logout</button>
+                            </div>
+                        </span></>)}
                 </span>
             </nav>
         </>

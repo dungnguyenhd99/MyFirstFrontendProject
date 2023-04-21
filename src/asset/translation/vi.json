@@ -4,5 +4,16 @@
     "event": "Sự kiện",
     "about": "Về tôi",
     "download": "Tải xuống",
-    "signin": "Đăng nhập"
+    "signin": "Đăng nhập",
+    "signup": "Đăng kí",
+    "orUseYourEmailForRegistration": "hoặc đăng kí tài khoản của bạn",
+    "orUseYourAccount": "hoặc sử dụng tài khoản của bạn",
+    "forgotYourPassword": "Quên mật khẩu?",
+    "helloFriend": "Xin chào!",
+    "welcomeBack": "Chào mừng!",
+    "signupinfo": "Nếu bạn chưa có tài khoản, bấm vào đây để đăng kí",
+    "signininfo": "Nếu bạn đã có tài khoản, bấm vào đây để đăng nhập",
+    "sendSuccess1": "Thư xác nhận đã được gửi đến email của bạn",
+    "sendSuccess2": "Vui lòng kiểm tra hòm thư của bạn để xác minh email",
+    "homeMessage": "A PRODUCT OF NGT STUDIO"
 }
