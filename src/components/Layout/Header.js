@@ -17,12 +17,12 @@ export default function Header() {
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
 
-    // const clickView = () => {
-    //     window.scrollTo({
-    //         top: 0, behavior:
-    //             'smooth'
-    //     });
-    // }
+    const clickView = () => {
+        window.scrollTo({
+            top: 0, behavior:
+                'smooth'
+        });
+    }
 
     if(token) {
         authService.profile(token).then((res) => {
@@ -56,11 +56,11 @@ export default function Header() {
     return (
         <>
             <nav className="navbar-main fixed-top cl-effect-17">
-                <Link className='title' to={'/'} style={{ marginLeft: 70 }}><img src={logo} width={85}></img></Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 50 }} data-hover={t('home')}>{t('home')}</Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('project')}>{t('project')}</Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('event')}>{t('event')}</Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} data-hover={t('about')}>{t('about')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 70 }} onClick={clickView}><img src={logo} width={85}></img></Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 50 }} onClick={clickView} data-hover={t('home')}>{t('home')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</Link>
+                <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('about')}>{t('about')}</Link>
                 <a className='title' href='https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download' style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</a>
 
                 <span>
@@ -73,7 +73,7 @@ export default function Header() {
                     </span>
 
                     {!userProfile ?
-                        (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle"><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></Link>) :
+                        (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle" onClick={clickView}><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></Link>) :
                         (<> <span style={{ color: 'white' }} className="dropdown box-3 position-absolute top-50 end-0 translate-middle">
                             <span>{userProfile ? (<><img src={icon} height={20}></img>&#160; &#160;<span>{userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
                             <div className="dropdown-content">
