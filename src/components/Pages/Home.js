@@ -121,14 +121,20 @@ export default function Home() {
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [isModalOpen3, setIsModalOpen3] = useState(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+  const handleOpenModal = () => {setIsModalOpen(true)};
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleOpenModal2 = () => {setIsModalOpen2(true)};
+
+  const handleOpenModal3 = () => {setIsModalOpen3(true)};
+
+  const handleCloseModal = () => {setIsModalOpen(false)};
+
+  const handleCloseModal2 = () => setIsModalOpen2(false);
+
+  const handleCloseModal3 = () => setIsModalOpen3(false);
 
   return (
     <>
@@ -236,16 +242,16 @@ export default function Home() {
               <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('hoaamdescription')}</p>
               <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('hoaamdescription2')}</p>
               <span className="text-box">
-                <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+                <ReactModal isOpen={isModalOpen2} onRequestClose={handleCloseModal2} style={{
                   content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                   overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
                 }}>
-                  <iframe width="770" height="450" src="https://www.youtube.com/watch?v=lfHEgyeO8T4&t=490s&ab_channel=NGTStudio" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                  <iframe width="770" height="450" src="https://www.youtube.com/embed/lfHEgyeO8T4" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                     style={{ display: 'block', margin: 'auto', }}
                   ></iframe>
                 </ReactModal>
 
-                <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+                <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal2}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
                 <a href="https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
               </span>
             </span>
@@ -280,17 +286,17 @@ export default function Home() {
               <p style={{ paddingLeft: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('citydescription')}</p>
               <p style={{ paddingLeft: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('citydescription2')}</p>
               <span className="text-box">
-                <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+                <ReactModal isOpen={isModalOpen3} onRequestClose={handleCloseModal3} style={{
                   content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                   overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
                 }}>
                   <iframe
-                    width="770" height="450" src="https://www.youtube.com/watch?v=MnBXQodntz0&t=1s&ab_channel=NGTStudio" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                    width="770" height="450" src="https://www.youtube.com/embed/MnBXQodntz0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                     style={{ display: 'block', margin: 'auto', }}
                   ></iframe>
                 </ReactModal>
 
-                <a href="javascript:void(0)" className="btn btn-white btn-animate" onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+                <a href="javascript:void(0)" className="btn btn-white btn-animate" onClick={handleOpenModal3}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
                 <a href="javascript:void(0)" style={{ marginLeft: 250 }} className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
               </span>
             </span>
@@ -318,7 +324,7 @@ export default function Home() {
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
-                <iframe width="770" height="450" src="https://www.youtube.com/watch?v=TgP6LXrM_xY&t=123s&ab_channel=NGTStudio" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                <iframe width="770" height="450" src="https://www.youtube.com/embed/TgP6LXrM_xY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                   style={{ display: 'block', margin: 'auto', }}
                 ></iframe>
               </ReactModal>
@@ -348,8 +354,8 @@ export default function Home() {
           <p style={{ fontSize: '0.95rem' }}>Start create your Unreal Engine Project: <a href='https://www.unrealengine.com/en-US'>https://www.unrealengine.com/en-US</a></p>
           <p style={{ fontSize: '0.95rem' }}>Start create your 3d Model Free: <a href='https://www.blender.org/'>https://www.blender.org/</a></p>
         </div>
-        <div className='col-4 text-center' style={{paddingLeft: 100}}>
-          <img src='https://i.pinimg.com/originals/78/c6/f2/78c6f275d9cd802a053b2453233a4c6c.gif' height={250}/>
+        <div className='col-4 text-center' style={{ paddingLeft: 100 }}>
+          <img src='https://i.pinimg.com/originals/78/c6/f2/78c6f275d9cd802a053b2453233a4c6c.gif' height={250} />
         </div>
         <div className='col-2'></div>
       </div>
@@ -368,19 +374,19 @@ export default function Home() {
             }}
             pagination={{ clickable: true }}
           >
-            <SwiperSlide><img src='https://www.vhv.rs/dpng/d/498-4989583_nestjs-logo-hd-png-download.png' height={55} style={{paddingLeft: 45}} /></SwiperSlide>
-            <SwiperSlide><img src='https://cdn.worldvectorlogo.com/logos/react-1.svg' height={55} style={{paddingLeft: 45}} /></SwiperSlide>
-            <SwiperSlide><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3pzMmevwtJl6MQYbv301-rFXJtQzAsYSPK_HJ9xwNKJPJ-M4ybc39brBV1S1RFkC9bqA&usqp=CAU' height={60} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/2503px-Blender_logo_no_text.svg.png' height={55} style={{paddingLeft: 45}} /></SwiperSlide>
-            <SwiperSlide><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiERgeYqmgBy0ksDOpfYikYDJwtJGv420Dcg&usqp=CAU' height={55} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png' height={55} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://cdn.worldvectorlogo.com/logos/postman.svg' height={65} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://cdn3.iconfinder.com/data/icons/inficons/512/github.png' height={70} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://cdn.iconscout.com/icon/free/png-256/netlify-3628945-3030170.png' height={65} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://railway.app/brand/logo-light.png' height={70} style={{paddingLeft: 45}}/></SwiperSlide>
-            <SwiperSlide><img src='https://d3uwib8iif8w1p.cloudfront.net/megascans/icons/bridge_icon_2048_preview.png' height={55} style={{paddingLeft: 45}}/></SwiperSlide>
+            <SwiperSlide><img src='https://www.vhv.rs/dpng/d/498-4989583_nestjs-logo-hd-png-download.png' height={55} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://cdn.worldvectorlogo.com/logos/react-1.svg' height={55} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3pzMmevwtJl6MQYbv301-rFXJtQzAsYSPK_HJ9xwNKJPJ-M4ybc39brBV1S1RFkC9bqA&usqp=CAU' height={60} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/2503px-Blender_logo_no_text.svg.png' height={55} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiERgeYqmgBy0ksDOpfYikYDJwtJGv420Dcg&usqp=CAU' height={55} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png' height={55} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://cdn.worldvectorlogo.com/logos/postman.svg' height={65} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://cdn3.iconfinder.com/data/icons/inficons/512/github.png' height={70} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://cdn.iconscout.com/icon/free/png-256/netlify-3628945-3030170.png' height={65} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://railway.app/brand/logo-light.png' height={70} style={{ paddingLeft: 45 }} /></SwiperSlide>
+            <SwiperSlide><img src='https://d3uwib8iif8w1p.cloudfront.net/megascans/icons/bridge_icon_2048_preview.png' height={55} style={{ paddingLeft: 45 }} /></SwiperSlide>
 
-            <br /><br/> <br/>
+            <br /><br /> <br />
           </Swiper>
         </div>
         <div className='col-3'></div>
