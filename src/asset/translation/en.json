@@ -1,7 +1,7 @@
 {
     "home": "Home",
     "project": "Project",
-    "event": "Event",
+    "event": "News",
     "about": "About",
     "download": "Download",
     "signin": "Sign in",
@@ -15,5 +15,12 @@
     "signininfo": "If you are already have an account, click here to sign in",
     "sendSuccess1": "A confirmation mail has been send to your email",
     "sendSuccess2": "Please check your email to confirm your account email",
-    "homeMessage": "A PRODUCT OF NGT STUDIO"
+    "homeMessage": "A PRODUCT OF NGT STUDIO",
+    "hoaamdescription": "Hoa Am is the first game project I made when I started learning Unreal Engine. The story of Hoa Am is set against an urban legend of a high school where, in the 10th month, no one is allowed to stay at school after 6 pm.",
+    "hoaamdescription2": "The game's story begins when a group of students decides to break the law and climb into school at 6 pm. They are then separated and fall into an endless time loop where strange phenomena constantly occur. As secrets are gradually revealed, how can they find a way to survive and escape the school.",
+    "citydescription": "This project is a game level which is built according to the medieval city theme in RPG games using Blender modeling, Quixel texture and lighting in Unreal Engine 4",
+    "citydescription2": "The level include many type of models, AI citizen movement, weather, animals, .... You can move around, climb around the city throw a chateracter to wandering over the world.",
+    "rpgdescription": "This project is a rpg complicate combat system using Unreal Engine 4 inspired by the combat system of the Souls game series.",
+    "rpgdescription2": "The combat system includes many functions like: assassination, light attack combo, heavy attack combat, many kinds of weapons combat type, dodging, posion health, AI enemy behavior, etc ...",
+    "conclution1":"This website template built on ReactJs for frontend site and NestJs for backend server."
 }

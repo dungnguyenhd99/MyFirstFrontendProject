@@ -18,6 +18,15 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
+  <meta name="viewport" content="width=1280, initial-scale=1">
+
+  <script>
+    var siteWidth = 1980;
+    var scale = screen.width / siteWidth;
+
+    document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=' + siteWidth + ', initial-scale=' + scale + '');
+  </script>
+
   <!-- <script rel="stylesheet" href="../src/styles/script/headers.js"></script> -->
 
   <!--
@@ -45,6 +54,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
 
 </html>

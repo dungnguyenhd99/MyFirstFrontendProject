@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import '../../styles/css/Header.css'
@@ -10,6 +11,7 @@ import icon from '../../asset/images/icon.svg';
 import { useLocation } from 'react-router-dom';
 import authService from '../Services/authService';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 export default function Header() {
     const { t, i18n } = useTranslation();
@@ -24,15 +26,15 @@ export default function Header() {
         });
     }
 
-    if(token) {
+    if (token) {
         authService.profile(token).then((res) => {
             localStorage.setItem('userProfile', JSON.stringify(res.data));
             navigate("/");
             window.location.reload();
-          }).catch((err) => {
+        }).catch((err) => {
             console.log(err);
-          });
-          localStorage.setItem('userToken', JSON.stringify(token));
+        });
+        localStorage.setItem('userToken', JSON.stringify(token));
     }
 
     const handleProfile = () => {
@@ -42,7 +44,7 @@ export default function Header() {
     const handleLogout = () => {
         localStorage.clear();
         window.location.reload();
-      }
+    }
 
     const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
@@ -51,17 +53,23 @@ export default function Header() {
         localStorage.setItem('selectedLanguage', language);
     };
 
-    const selectedLanguage = localStorage.getItem('selectedLanguage') ? localStorage.getItem('selectedLanguage') : 'VI';
+    const selectedLanguage = localStorage.getItem('selectedLanguage') ? localStorage.getItem('selectedLanguage') : 'EN';
+
+    useEffect(() => {
+        if (selectedLanguage) {
+            i18n.changeLanguage(selectedLanguage);
+        }
+    }, [])
 
     return (
         <>
             <nav className="navbar-main fixed-top cl-effect-17">
                 <Link className='title' to={'/'} style={{ marginLeft: 70 }} onClick={clickView}><img src={logo} width={85}></img></Link>
                 <Link className='title' to={'/'} style={{ marginLeft: 50 }} onClick={clickView} data-hover={t('home')}>{t('home')}</Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</Link>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</Link>
+                <a className='title' href='#myproject' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</a>
+                <a className='title' href='#event' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</a>
                 <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('about')}>{t('about')}</Link>
-                <a className='title' href='https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download' style={{ marginLeft: 40 }} data-hover={t('download')}>{t('download')}</a>
+                <a className='title' href='https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download' target='_blank' style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</a>
 
                 <span>
                     <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">
@@ -73,7 +81,7 @@ export default function Header() {
                     </span>
 
                     {!userProfile ?
-                        (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle" onClick={clickView}><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-ghost"></i></span></span></Link>) :
+                        (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle" onClick={clickView}><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-user"></i></span></span></Link>) :
                         (<> <span style={{ color: 'white' }} className="dropdown box-3 position-absolute top-50 end-0 translate-middle">
                             <span>{userProfile ? (<><img src={icon} height={20}></img>&#160; &#160;<span>{userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
                             <div className="dropdown-content">

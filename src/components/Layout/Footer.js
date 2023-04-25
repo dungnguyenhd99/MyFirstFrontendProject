@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import '../../styles/css/Footer.css';
 import logo from '../../asset/images/icon.svg';
 
@@ -9,12 +10,12 @@ export default function Footer() {
                     <div className="row">
                         <div className="row">
                             <div className='col-3'>
-                                <hr/> <br/>
+                                <hr/> <br/> <br/>
                                 <img src={logo} width={40} /> &#160; NGT Studio
                             </div>
                             <div className="col-3">
                                 <hr />
-                                <ul className="list-unstyled">
+                                <ul className="list-unstyled mt-5">
                                     <li><a href="" style={{fontWeight: 'bold'}}>Production</a></li>
                                     <li><a href="" style={{fontSize: '.9rem'}}>Benefits</a></li>
                                     <li><a href="" style={{fontSize: '.9rem'}}>Partners</a></li>
@@ -23,7 +24,7 @@ export default function Footer() {
                             </div>
                             <div className="col-3">
                                 <hr />
-                                <ul className="list-unstyled">
+                                <ul className="list-unstyled mt-5">
                                     <li><a href="" style={{fontWeight: 'bold'}}>Documentation</a></li>
                                     <li><a href="" style={{fontSize: '.9rem'}}>Support</a></li>
                                     <li><a href="" style={{fontSize: '.9rem'}}>Legal Terms</a></li>
@@ -32,7 +33,7 @@ export default function Footer() {
                             </div>
                             <div className="col-3">
                                 <hr />
-                                <ul className="list-unstyled">
+                                <ul className="list-unstyled mt-5">
                                     <li><a href="" style={{fontWeight: 'bold'}}>Future</a></li>
                                     <li><a href="" style={{fontSize: '.9rem'}}>Support</a></li>
                                     <li><a href="" style={{fontSize: '.9rem'}}>Legal Terms</a></li>

@@ -14,7 +14,7 @@ i18n
         translation: viTrans,
       }
     },
-    fallbackLng: 'vi'
+    fallbackLng: 'en'
   });
 
 export default i18n;

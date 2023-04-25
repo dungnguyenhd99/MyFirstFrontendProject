@@ -1,7 +1,7 @@
 {
     "home": "Trang chủ",
     "project": "Dự án",
-    "event": "Sự kiện",
+    "event": "Tin tức",
     "about": "Về tôi",
     "download": "Tải xuống",
     "signin": "Đăng nhập",
@@ -15,5 +15,12 @@
     "signininfo": "Nếu bạn đã có tài khoản, bấm vào đây để đăng nhập",
     "sendSuccess1": "Thư xác nhận đã được gửi đến email của bạn",
     "sendSuccess2": "Vui lòng kiểm tra hòm thư của bạn để xác minh email",
-    "homeMessage": "A PRODUCT OF NGT STUDIO"
+    "homeMessage": "A PRODUCT OF NGT STUDIO",
+    "hoaamdescription": "Họa Âm là sản phẩm game kinh dị đầu tay của mình được thực hiện khi mình bắt đầu học Unreal Engine. Bối cảnh của Họa Âm dựa trên một truyền thuyết đô thị tại một ngôi trường cấp 3, vào ngày mùng 10 tháng 2 hàng năm, không ai được phép ở lại trường sau 6 giờ tối.",
+    "hoaamdescription2": "Trò chơi bắt đầu khi một nhóm học sinh đã phá luật khi trèo vào trường để khám phá vào 6 giờ tối. Tại đây họ bị chia cắt và rơi vào một vòng lặp thời gian vô tận nơi những hiện tượng kì quái liên tục xảy ra. Bí mật dần được vén màn và họ phải tìm cách để sống sót rời khỏi trường.",
+    "citydescription": "Dự án này là một game level lấy cảm hứng từ các thành phố trung cổ châu Âu trong các trò chơi RPG sử dụng Blender modeling, Quixel texture và thiết kế ánh sáng trong Unreal Engine 4",
+    "citydescription2": "Level bao gồm nhiều loại model khác nhau, cư dân thành phố tự động di chuyển, thời tiết, các loại động vật, .... Bạn có thể di chuyển, leo trèo xung quanh thành phố bằng nhân vật của bạn để khám phá xung quanh.",
+    "rpgdescription": "Dự án này là một hệ thống combat phức tạp sử dụng Unreal Engine 4 và được lấy cảm hứng từ hệ thống combat của các dòng game Souls.",
+    "rpgdescription2": "Hệ thống combat gồm nhiều chức năng như: ám sát, đánh thường, trọng kính, các kiểu combat theo từng loại vũ khí, né chiêu, postion health, AI enemy behavior, etc ...",
+    "conclution1":"Website template được xây dựng trên ReactJs cho frontend site và NestJs cho backend server."
 }
