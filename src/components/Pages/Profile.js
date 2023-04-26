@@ -40,13 +40,12 @@ export default function Profile() {
         event.preventDefault();
         if (avatarFile) {
             authService.uploadAvatar(avatarFile)
-                .then(async (response) => {
-                    const avatar = JSON.parse(response.data.data.link);
-                    setUpdateData({avatar: avatar})
-                    await authService.updateProfile(saveToken.accessToken, {full_name: updateData.full_name, avatar: avatar}).then((res) => {
+                .then((response) => {
+                    authService.updateProfile(saveToken.accessToken, {avatar: response.data.data.link}).then((res) => {
                         localStorage.setItem('userProfile', JSON.stringify(res.data));
                         setUserProfile(res.data)
                         setIsUpload(false);
+                        setUpdateData({ avatar: response.data.data.link })
                     }).catch((err) => {
                         console.log(err);
                     })
@@ -109,13 +108,13 @@ export default function Profile() {
                                                 :
                                                 (<><form className='profile-form' onSubmit={handleSubmitAvatar}>
                                                     <label>
-                                                        <input className='form-control form-control-sm' style={{fontSize: '.73rem'}} type="file" onChange={handleFileChange} />
+                                                        <input className='form-control form-control-sm' style={{ fontSize: '.73rem' }} type="file" onChange={handleFileChange} />
                                                     </label>
                                                     {previewUrl && (
                                                         <img src={previewUrl} alt="Avatar Preview" height={110} width={110} style={{ border: '1px solid white', borderRadius: 60 }} />
                                                     )}
-                                                    <button className='btn btn-info mt-3' style={{fontSize: '.75rem', textTransform: 'none', padding: 5, marginLeft: 15, marginRight: 10}} type="submit">Save</button>
-                                                    <button className='btn btn-danger mt-3' style={{fontSize: '.75rem', textTransform: 'none', padding: 5}} onClick={handleClickCloseUpload}>Cancel</button>
+                                                    <button className='btn btn-info mt-3' style={{ fontSize: '.75rem', textTransform: 'none', padding: 5, marginLeft: 15, marginRight: 10 }} type="submit">Save</button>
+                                                    <button className='btn btn-danger mt-3' style={{ fontSize: '.75rem', textTransform: 'none', padding: 5 }} onClick={handleClickCloseUpload}>Cancel</button>
                                                 </form></>)}
                                             <br />
                                             {!isUpload ? (<button className='btn btn-light' style={{ fontSize: '.65rem', marginTop: 13, textTransform: 'none', padding: 5 }} onClick={handleClickUpload}>Change avatar</button>) : null}
