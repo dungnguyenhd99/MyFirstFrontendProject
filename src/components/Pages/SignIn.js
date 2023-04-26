@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useEffect } from "react";
 import authService from "../Services/authService";
 import { useState } from "react";
 import '../../styles/css/Signin.css';
@@ -25,11 +26,19 @@ export default function Signin() {
     status: "ACTIVE",
     level: "USER",
   })
+  const saveToken = JSON.parse(localStorage.getItem('userToken'));
+  const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
   const [errorSignUp, setErrorSignUp] = useState(null);
   const [error, setError] = useState(null);
 
   const [isSignin, setIsSignin] = useState(true);
+
+  useEffect(() => {
+    if(saveToken || userProfile) {
+      navigate("/");
+    }
+  }, [])
 
   const changeToSignin = (e) => {
     setIsSignin(true);
@@ -92,7 +101,7 @@ export default function Signin() {
       <div className="container" id="container">
         {!isSignin ? (
           <div className="form-container sign-up-container">
-            <form action="/send-success" onSubmit={(e) => handleSignup(e)}>
+            <form className="signin-form" action="/send-success" onSubmit={(e) => handleSignup(e)}>
               <h1>{t('signup')}</h1>
               <div className="social-container">
                 <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
@@ -117,7 +126,7 @@ export default function Signin() {
           </div>
         ) : (
           <div className="form-container sign-in-container">
-            <form action="/" onSubmit={(e) => handleLogin(e)}>
+            <form className="signin-form" action="/" onSubmit={(e) => handleLogin(e)}>
               <h1>{t('signin')}</h1>
               <div className="social-container">
                 <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>

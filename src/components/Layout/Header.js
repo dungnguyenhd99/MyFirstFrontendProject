@@ -18,6 +18,8 @@ export default function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
+    const saveToken = JSON.parse(localStorage.getItem('userToken'));
+    const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
     const clickView = () => {
         window.scrollTo({
@@ -26,16 +28,19 @@ export default function Header() {
         });
     }
 
-    if (token) {
-        authService.profile(token).then((res) => {
-            localStorage.setItem('userProfile', JSON.stringify(res.data));
-            navigate("/");
-            window.location.reload();
-        }).catch((err) => {
-            console.log(err);
-        });
-        localStorage.setItem('userToken', JSON.stringify(token));
-    }
+    useEffect(() => {
+        if (token && (!userProfile || !saveToken)) {
+            authService.profile(token).then((res) => {
+                localStorage.setItem('userProfile', JSON.stringify(res.data));
+                navigate("/");
+                window.location.reload();
+            }).catch((err) => {
+                localStorage.clear();
+                console.log(err);
+            });
+            localStorage.setItem('userToken', JSON.stringify(token));
+        }
+    }, []);
 
     const handleProfile = () => {
         navigate("/profile");
@@ -45,8 +50,6 @@ export default function Header() {
         localStorage.clear();
         window.location.reload();
     }
-
-    const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
     const handleLanguageChange = (language) => {
         i18n.changeLanguage(language);

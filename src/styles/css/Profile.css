@@ -6,7 +6,7 @@
     overflow: hidden;
 }
 
-.card {
+.card-profile {
     border-radius: 5px;
     -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
@@ -53,14 +53,8 @@ h6 {
     font-size: 14px;
 }
 
-.card .card-block p {
+.card-profile .card-block p {
     line-height: 25px;
-}
-
-@media only screen and (min-width: 1400px) {
-    p {
-        font-size: 14px;
-    }
 }
 
 .card-block {

@@ -86,7 +86,7 @@ button.ghost {
 	border-color: #FFFFFF;
 }
 
-form {
+.signin-form {
 	background-color: #222222;
 	color: white;
 	display: flex;
