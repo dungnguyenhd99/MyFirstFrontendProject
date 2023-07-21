@@ -71,7 +71,7 @@ export default function Header() {
                 <Link className='title' to={'/'} style={{ marginLeft: 50 }} onClick={clickView} data-hover={t('home')}>{t('home')}</Link>
                 <a className='title' href='#myproject' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</a>
                 <a className='title' href='#event' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</a>
-                <Link className='title' to={'/'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('about')}>{t('about')}</Link>
+                <Link className='title' to={'/community'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('community')}>{t('community')}</Link>
                 <a className='title' href='https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download' target='_blank' style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</a>
 
                 <span>

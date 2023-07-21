@@ -5,6 +5,7 @@ import SignIn from './components/Pages/SignIn';
 import '../src/styles/css/App.css'
 import SendSuccess from './components/Pages/SendSuccess';
 import Profile from './components/Pages/Profile';
+import Communinty from './components/Pages/Community';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="signin" element={<SignIn />} />
+          <Route path="community" element={<Communinty />} />
           <Route path="send-success" element={<SendSuccess />} />
           <Route path="profile" element={<Profile />} />
         </Route>
