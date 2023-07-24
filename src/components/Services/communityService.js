@@ -19,6 +19,14 @@ class CommunintyService {
     };
     return axios.get(API_URL + `search-friend-list?search=${search}&take=10`, {headers})
   }
+
+  addFriend(access_token, friendId) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.post(API_URL + `send-request?friendId=${friendId}`, {}, {headers})
+  }
 }
 
 export default new CommunintyService();

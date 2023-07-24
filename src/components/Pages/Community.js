@@ -17,6 +17,7 @@ export default function Communinty() {
   const saveToken = JSON.parse(localStorage.getItem('userToken'));
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [friendRequestResponse, setFriendRequestResponse] = useState(null);
 
   useEffect(() => {
     if (!userProfile) {
@@ -65,6 +66,16 @@ export default function Communinty() {
     setUserSearch(e.target.value);
   }
 
+  const handleSendFriendRequest = (e, friendId) => {
+    e.preventDefault();
+    e.currentTarget.disabled = true;
+    communityService.addFriend(saveToken.accessToken, friendId).then((res) => {
+      setFriendRequestResponse(res.data);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
   const handleClickSearchUser = (e) => {
     e.preventDefault();
     communityService.searchForUsers(saveToken.accessToken, userSearch).then((res) => {
@@ -82,8 +93,8 @@ export default function Communinty() {
     }
   };
 
-  const onlineFriends = friendList.filter((friend) => onlineUsers.includes(friend.friendId));
-  const offlineFriends = friendList.filter((friend) => !onlineUsers.includes(friend.friendId));
+  const onlineFriends = friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : [];
+  const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
   const sortedFriendList = [...onlineFriends, ...offlineFriends];
 
   return (
@@ -137,16 +148,18 @@ export default function Communinty() {
             </div>
 
             <div className='friend-list-bottom text-center'>
-              <button className='btn btn-success' style={{ fontSize: '0.7rem' }} onClick={handleAddFriend}><i className="fas fa-user-plus"></i> Add friend</button>
+              <button className='btn btn-success' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleAddFriend}><i className="fas fa-user-plus"></i> Add friend</button>
+              &#160;&#160;
+              <button className='btn btn-primary' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleAddFriend}><i class="fas fa-stream"></i> Requests <span className='friend-request-number'>0</span></button>
             </div>
 
             {/* The pop-up */}
             {showPopup && (
-              <div className="popup-container" onClick={handlePopupContainerClick}>
+              <div className="popup-container" onClick={(event) => handlePopupContainerClick(event)}>
                 <div className="popup-content">
                   <form class="d-flex" onSubmit={handleClickSearchUser}>
                     <input className="form-control me-2" type="search" placeholder="Search ..." aria-label="Search" style={{ backgroundColor: '#161616', color: 'white', fontSize: '0.9rem' }} onChange={handleSearchUsers} />
-                    <button className='btn btn-success mt-2' style={{ fontSize: '0.8rem', height: '37px' }}><i class="fas fa-search"></i></button>
+                    <button className='btn btn-success mt-2' style={{ fontSize: '0.8rem', height: '37px' }}>Search</button>
                   </form>
 
                   <div className="friend-list-container-2">
@@ -155,12 +168,15 @@ export default function Communinty() {
                       userList.map((friend) => (
                         <li key={friend.id} style={{ paddingTop: '10px' }}>
                           <div className='row'>
-                            <div className='col-2'>
+                            <div className='col-1'>
                               <img src={friend.avatar ? friend.avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
                                 height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
                             </div>
-                            <div className='col-5 friend_name'>
+                            <div className='col-9 friend_name'>
                               &#160; {friend.full_name ? friend.full_name : null}
+                            </div>
+                            <div className='col-1'>
+                              <button className='add-friend-button' onClick={(e) => handleSendFriendRequest(e, friend.id)}><i class="fas fa-user-plus"></i></button>
                             </div>
                           </div>
                         </li>

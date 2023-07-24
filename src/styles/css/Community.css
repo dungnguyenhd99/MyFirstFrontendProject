@@ -81,6 +81,31 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.204);
 }
 
+.add-friend-button {
+    margin-left: 5px;
+    background-color: #cec3c3cb;
+    border: none;
+    border-radius: 15px;
+    margin-left: 20px;
+    padding: 3px 6px 3px 6px;
+}
+
+.add-friend-button:hover {
+    background-color: #a4edfc;
+}
+
+.friend-request-number {
+    background-color: #911e1e;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    top: 50.2rem;
+    left: 96.05%;
+    padding: 3px 8.5px;
+}
+
 /* custom scrollbar */
 ::-webkit-scrollbar {
     width: 20px;

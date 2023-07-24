@@ -60,7 +60,7 @@
 	margin: 15px 0;
 }
 
-button {
+.signin button {
 	border-radius: 20px;
 	border: 1px solid #FF4B2B;
 	background-color: #FF4B2B;
@@ -73,15 +73,15 @@ button {
 	transition: transform 80ms ease-in;
 }
 
-button:active {
+.signin button:active {
 	transform: scale(0.95);
 }
 
-button:focus {
+.signin button:focus {
 	outline: none;
 }
 
-button.ghost {
+.signin button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
