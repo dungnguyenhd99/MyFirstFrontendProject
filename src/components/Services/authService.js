@@ -24,10 +24,10 @@ class AuthService {
     return axios.post(API_URL + "signup", data, { headers });
   }
 
-  profile(data) {
+  profile(accessToken) {
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${data.accessToken}`
+      'Authorization': `Bearer ${accessToken}`
     };
     return axios.get(API_URL + "profile", { headers })
   }
