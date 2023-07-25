@@ -20,6 +20,22 @@ class CommunintyService {
     return axios.get(API_URL + `search-friend-list?search=${search}&take=10`, {headers})
   }
 
+  searchForFriendRequest(access_token, search) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.get(API_URL + `user-friend-requests?search=${search}`, {headers})
+  }
+
+  acceptFriendRequest(access_token, friendshipId, accept) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.patch(API_URL + `response-friend-request`, {friendship_id: friendshipId, accept: accept}, {headers})
+  }
+
   addFriend(access_token, friendId) {
     const headers = {
       'Content-Type': 'application/json',
