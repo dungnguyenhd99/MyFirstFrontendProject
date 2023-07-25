@@ -57,7 +57,7 @@ export default function Signin() {
 
     authService.signin(stateLogin.user_name, stateLogin.password).then((res) => {
       localStorage.setItem('userToken', JSON.stringify(res.data));
-      authService.profile(res.data.accessToken).then((res) => {
+      authService.profile(res.data).then((res) => {
         localStorage.setItem('userProfile', JSON.stringify(res.data));
         navigate("/");
         window.location.reload();
