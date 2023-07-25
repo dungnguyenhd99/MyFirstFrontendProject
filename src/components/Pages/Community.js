@@ -92,7 +92,7 @@ export default function Communinty() {
 
   const handleSendAceptRequest = (e, friendshipId, accept) => {
     communityService.acceptFriendRequest(saveToken.accessToken, friendshipId, accept).then(() => {
-      
+
       communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
         setFriendRequestList(res.data);
       }).catch((err) => {
@@ -153,12 +153,47 @@ export default function Communinty() {
       <div className="row">
         <div className="col-2">
           <p className='text-center'><i class="fas fa-vr-cardboard"></i> &#160; Server name</p>
-          <div className='friend-list'>...</div>
+          <div className='friend-list'>
+            <div className='server-list'>...</div>
+
+            <div className='name-card'>
+              <hr></hr>
+              <div className='row'>
+                <div className='col-2'>
+                  <img src={userProfile.avatar} height={43} width={43} style={{ borderRadius: 25, marginLeft: '10px' }} />
+                </div>
+                <div className='col-7 ms-3'>
+                  <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 'bold' }}>{userProfile.full_name ? userProfile.full_name : userProfile.user_name}</p>
+                  <span style={{ fontSize: '0.7rem' }}><span style={{ color: 'green', fontSize: '0.5rem' }}><i className="fas fa-circle"></i></span> Online</span>
+                </div>
+                <div className='col-1 pt-2'>
+                  <span><i class="fas fa-cog"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="col-8">
           <p className='text-center'><i class="fas fa-comment-alt"></i> &#160; Chat area</p>
-          <div className='friend-list'>...</div>
+          <div className='friend-list'>
+            <div className='chat-list'>...</div>
+            <div className='chat-input'>
+              <hr style={{marginTop: 15, marginBottom: 10, color: '0f0f0f'}}></hr>
+              <div className='row'>
+                <div className='col-11'>
+                  <input className="form-control" type="search" placeholder="Message ..." aria-label="Search"
+                    style={{
+                      backgroundColor: '#272626', color: 'white', fontSize: '0.9rem',
+                      height: 40, marginLeft: 20, border: 'none',
+                    }}></input>
+                </div>
+                <div className='col-1 pt-3'>
+                    <span style={{marginLeft: 20}}><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="col-2">

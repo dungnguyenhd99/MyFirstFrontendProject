@@ -121,6 +121,23 @@
     padding: 2px 9px 2px 9px;
 }
 
+.server-list {
+    height: 640px;
+}
+
+.name-card {
+    height: 72px;
+    background-color: #0f0f0f;
+}
+
+.chat-list {
+    height: 640px;
+}
+
+.chat-input {
+    height: 72px;
+}
+
 .add-friend-button:hover {
     background-color: #a4edfc;
 }
