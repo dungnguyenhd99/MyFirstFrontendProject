@@ -99,6 +99,12 @@ export default function Communinty() {
         console.log(err);
       })
 
+      communityService.getFriendList(saveToken.accessToken, search).then((res) => {
+        setFriendList(res.data.friendList);
+      }).catch((err) => {
+        console.log(err);
+      })
+
     }).catch((err) => {
       console.log(err);
     });
@@ -221,8 +227,8 @@ export default function Communinty() {
                                 &#160; {friend.user_fullName ? friend.user_fullName : null}
                               </div>
                               <div className='col-2'>
-                                <button className='add-friend-button' onClick={(e) => handleSendAceptRequest(e, friend.id, true)}>Accept</button>
-                                <button className='add-friend-button' onClick={(e) => handleSendAceptRequest(e, friend.id, false)}>Reject</button>
+                                <button className='accept-button' onClick={(e) => handleSendAceptRequest(e, friend.id, true)}><i class="fas fa-check"></i></button>
+                                <button className='reject-button' onClick={(e) => handleSendAceptRequest(e, friend.id, false)}><i class="fas fa-times"></i></button>
                               </div>
                             </div>
                           </li>

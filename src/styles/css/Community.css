@@ -104,6 +104,23 @@
     padding: 3px 6px 3px 6px;
 }
 
+.accept-button {
+    margin-left: 5px;
+    background-color: #0dc53ba2;
+    border: none;
+    border-radius: 15px;
+    margin-left: 60px;
+    padding: 2px 6px 2px 6px;
+}
+
+.reject-button {
+    background-color: #fa5f5fcb;
+    border: none;
+    border-radius: 15px;
+    margin-left: 10px;
+    padding: 2px 9px 2px 9px;
+}
+
 .add-friend-button:hover {
     background-color: #a4edfc;
 }
