@@ -38,7 +38,7 @@ export default function Header() {
                 localStorage.clear();
                 console.log(err);
             });
-            localStorage.setItem('userToken', JSON.stringify(token));
+            localStorage.setItem('userToken', JSON.stringify({accessToken: token, expriesIn: 0}));
         }
     }, []);
 
