@@ -127,11 +127,18 @@
 
 .name-card {
     height: 72px;
-    background-color: #0f0f0f;
+    background-color: #242323;
+}
+
+.chat-friend {
+    background-color: #201f1f;
+    padding-top: 8px;
+    text-align: center;
+    height: 40px;
 }
 
 .chat-list {
-    height: 640px;
+    height: 600px;
 }
 
 .chat-input {

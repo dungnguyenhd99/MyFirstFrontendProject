@@ -21,6 +21,7 @@ export default function Communinty() {
   const [showPopup2, setShowPopup2] = useState(false);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendRequestResponse, setFriendRequestResponse] = useState(null);
+  const [currentChatFriend, setCurrentChatFriend] = useState(null);
 
   useEffect(() => {
     if (!userProfile) {
@@ -144,6 +145,10 @@ export default function Communinty() {
     }
   };
 
+  const handleChatWithFriend = (e, friendId, friendName, friendAvatar) => {
+    setCurrentChatFriend({ friend_name: friendName, friend_avatar: friendAvatar });
+  }
+
   const onlineFriends = friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : [];
   const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
   const sortedFriendList = [...onlineFriends, ...offlineFriends];
@@ -177,9 +182,17 @@ export default function Communinty() {
         <div className="col-8">
           <p className='text-center'><i class="fas fa-comment-alt"></i> &#160; Chat area</p>
           <div className='friend-list'>
+            <div className='chat-friend'>
+              {currentChatFriend ?
+                (<>
+                  <img src={currentChatFriend.friend_avatar ? currentChatFriend.friend_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{borderRadius: 15}}/>
+                  <span style={{paddingLeft: 10, fontSize: '0.85rem'}}>{currentChatFriend.friend_name}</span>
+                </>)
+                : (<></>)}
+            </div>
             <div className='chat-list'>...</div>
             <div className='chat-input'>
-              <hr style={{marginTop: 15, marginBottom: 10, color: '0f0f0f'}}></hr>
+              <hr style={{ marginTop: 15, marginBottom: 10, color: '0f0f0f' }}></hr>
               <div className='row'>
                 <div className='col-11'>
                   <input className="form-control" type="search" placeholder="Message ..." aria-label="Search"
@@ -189,7 +202,7 @@ export default function Communinty() {
                     }}></input>
                 </div>
                 <div className='col-1 pt-3'>
-                    <span style={{marginLeft: 20}}><i class="fas fa-plus"></i></span>
+                  <span style={{ marginLeft: 20 }}><i class="fas fa-plus"></i></span>
                 </div>
               </div>
             </div>
@@ -209,13 +222,13 @@ export default function Communinty() {
                 {sortedFriendList.length > 0 ? (
                   sortedFriendList.map((friend) => (
                     <li key={friend.friendshipId} style={{ paddingTop: '10px' }}>
-                      <div className='row'>
+                      <div className='row' onClick={(e) => handleChatWithFriend(e, friend.friendId, friend.friendFullname ? friend.friendFullname : friend.friendName, friend.friendAvatar)}>
                         <div className='col-2'>
                           <img src={friend.friendAvatar ? friend.friendAvatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
                             height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
                         </div>
-                        <div className='col-5 friend_name'>
-                          &#160; {friend.friendFullname ? friend.friendFullname : null}
+                        <div className='col-5 friend_name' style={{ fontSize: '0.85rem' }}>
+                          &#160; {friend.friendFullname ? friend.friendFullname : friend.friendName}
                         </div>
                         <div className='col-2 pt-2'>
                           {onlineUsers.includes(friend.friendId) ? (
@@ -259,7 +272,7 @@ export default function Communinty() {
                                   height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
                               </div>
                               <div className='col-9 friend_name'>
-                                &#160; {friend.user_fullName ? friend.user_fullName : null}
+                                &#160; {friend.user_fullName ? friend.user_fullName : friend.user_name}
                               </div>
                               <div className='col-2'>
                                 <button className='accept-button' onClick={(e) => handleSendAceptRequest(e, friend.id, true)}><i class="fas fa-check"></i></button>
@@ -289,22 +302,42 @@ export default function Communinty() {
                   <div className="friend-list-container-2">
                     <ul className='friend-list-mapper'>
                       {userList.length > 0 ? (
-                        userList.map((friend) => (
-                          <li key={friend.id} style={{ paddingTop: '10px' }}>
-                            <div className='row'>
-                              <div className='col-1'>
-                                <img src={friend.avatar ? friend.avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
-                                  height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
-                              </div>
-                              <div className='col-9 friend_name'>
-                                &#160; {friend.full_name ? friend.full_name : null}
-                              </div>
-                              <div className='col-1'>
-                                <button className='add-friend-button' onClick={(e) => handleSendFriendRequest(e, friend.id)}><i class="fas fa-user-plus"></i></button>
-                              </div>
-                            </div>
-                          </li>
-                        ))
+                        userList.map((friend) => {
+                          // Kiểm tra xem friend có trong friendList không
+                          const isFriendInList = friendList.some((friendItem) => friendItem.friendId === friend.id);
+
+                          // Nếu friend không có trong friendList thì thực hiện render thông tin
+                          if (!isFriendInList) {
+                            return (
+                              <li key={friend.id} style={{ paddingTop: '10px' }}>
+                                <div className='row'>
+                                  <div className='col-1'>
+                                    <img
+                                      src={
+                                        friend.avatar
+                                          ? friend.avatar
+                                          : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'
+                                      }
+                                      height={40}
+                                      width={40}
+                                      style={{ border: '1px solid white', borderRadius: 60 }}
+                                    />
+                                  </div>
+                                  <div className='col-9 friend_name'>&#160; {friend.full_name ? friend.full_name : friend.user_name}</div>
+                                  <div className='col-1'>
+                                    <button
+                                      className='add-friend-button'
+                                      onClick={(e) => handleSendFriendRequest(e, friend.id)}
+                                    >
+                                      <i class='fas fa-user-plus'></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </li>
+                            );
+                          }
+                          return null; // Trả về null nếu friend có trong friendList
+                        })
                       ) : (
                         <li>No friends found.</li>
                       )}
