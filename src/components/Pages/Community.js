@@ -22,7 +22,7 @@ export default function Communinty() {
   const [showPopup2, setShowPopup2] = useState(false);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendRequestResponse, setFriendRequestResponse] = useState(null);
-  const [currentChatFriend, setCurrentChatFriend] = useState(1);
+  const [currentChatFriend, setCurrentChatFriend] = useState({friend_id: 1, friend_name: null, friend_avatar: null});
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [imageInput, setImageInput] = useState('');
@@ -218,6 +218,9 @@ export default function Communinty() {
   const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
   const sortedFriendList = [...onlineFriends, ...offlineFriends];
 
+  console.log(messages);
+  console.log(currentChatFriend);
+
   return (
     <div className="community container-fluid text-light">
       <div className="row">
@@ -258,11 +261,11 @@ export default function Communinty() {
             <div className='chat-list ms-3' ref={chatListRef}>
               {
                 messages.map((messageData) => {
-                  if (messageData.friend_id === currentChatFriend.friend_id) {
+                  if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
                     return (
                       <div key={messageData.id} style={{marginTop: '10px'}}>
                         <img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={30} width={30} style={{borderRadius: 15}}/> &#160;&#160; 
-                        <span style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_fullName}</span> &#160;
+                        <span style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
                          <span style={{fontSize: '0.7rem', color: 'lightgray'}}>{formatDateTime(messageData.created_at)}</span> &#160;
                           <p style={{marginLeft: '2.7rem'}}>{messageData.message}</p>
                           {messageData.image ? (<img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={200} width={200} style={{marginLeft: '2.7rem'}}/>) : <></>}
