@@ -139,6 +139,13 @@
 
 .chat-list {
     height: 600px;
+    max-height: 600px;
+    overflow: auto;
+}
+
+.chat-list .scroll-to-bottom {
+    /* Đảm bảo rằng phần tử cuối cùng có đủ độ cao để kéo xuống */
+    height: 1px;
 }
 
 .chat-input {

@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import '../../styles/css/Community.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import communityService from '../Services/communityService';
 import io from 'socket.io-client';
+import authService from '../Services/authService';
 
 export default function Communinty() {
   const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('userProfile')));
@@ -21,7 +22,14 @@ export default function Communinty() {
   const [showPopup2, setShowPopup2] = useState(false);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendRequestResponse, setFriendRequestResponse] = useState(null);
-  const [currentChatFriend, setCurrentChatFriend] = useState(null);
+  const [currentChatFriend, setCurrentChatFriend] = useState(1);
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState('');
+  const [imageInput, setImageInput] = useState('');
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const chatListRef = useRef(null);
 
   useEffect(() => {
     if (!userProfile) {
@@ -51,10 +59,19 @@ export default function Communinty() {
     const socket = io('ngtbackend-production.up.railway.app', {
       query: { userId: userProfile.id.toString() }, // Định danh userId trong thông báo kết nối
     });
+    setSocket(socket);
 
     socket.on('onlineUsers', (users) => {
       // Nhận danh sách user_id đang trực tuyến từ socket server và cập nhật state
       setOnlineUsers(users);
+    });
+
+    socket.on('newMessage', (messageData) => {
+      setMessages((prevMessages) => [...prevMessages, messageData]);
+    });
+
+    socket.on('chatHistory', (history) => {
+      setMessages(history);
     });
 
     return () => {
@@ -62,6 +79,43 @@ export default function Communinty() {
       socket.disconnect();
     };
   }, [])
+
+  useEffect(() => {
+    const chatList = chatListRef.current;
+    chatList.scrollTop = chatList.scrollHeight;
+  }, [messages, currentChatFriend]);
+
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+    setAvatarFile(file);
+
+    // Create a URL for the image preview
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+
+    authService.uploadAvatar(avatarFile).then((res) => {
+      setImageInput(res.data.data.link);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+  const handleSendMessage = () => {
+    if (socket && (messageInput.trim() !== '' || imageInput.trim() !== '')) {
+      // Gửi tin nhắn và hình ảnh mới lên máy chủ
+      socket.emit('sendMessage', {
+        userId: userProfile.id,
+        friendId: currentChatFriend.friend_id ? currentChatFriend.friend_id : 1,
+        message: messageInput,
+        image: imageInput,
+      });
+      setMessageInput('');
+      setImageInput('');
+    }
+  };
 
   const handleAddFriend = () => {
     // Toggle the state to show/hide the pop-up
@@ -137,6 +191,17 @@ export default function Communinty() {
     })
   }
 
+  function formatDateTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year} (${hours}:${minutes}:${seconds})`;
+  }
+
   const handlePopupContainerClick2 = (event) => {
     // Check if the click event originated from the popup container
     if (event.target.classList.contains('popup-container-2')) {
@@ -146,7 +211,7 @@ export default function Communinty() {
   };
 
   const handleChatWithFriend = (e, friendId, friendName, friendAvatar) => {
-    setCurrentChatFriend({ friend_name: friendName, friend_avatar: friendAvatar });
+    setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
   }
 
   const onlineFriends = friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : [];
@@ -157,7 +222,7 @@ export default function Communinty() {
     <div className="community container-fluid text-light">
       <div className="row">
         <div className="col-2">
-          <p className='text-center'><i class="fas fa-vr-cardboard"></i> &#160; Server name</p>
+          <p className='text-center'><i className="fas fa-vr-cardboard"></i> &#160; Server name</p>
           <div className='friend-list'>
             <div className='server-list'>...</div>
 
@@ -172,7 +237,7 @@ export default function Communinty() {
                   <span style={{ fontSize: '0.7rem' }}><span style={{ color: 'green', fontSize: '0.5rem' }}><i className="fas fa-circle"></i></span> Online</span>
                 </div>
                 <div className='col-1 pt-2'>
-                  <span><i class="fas fa-cog"></i></span>
+                  <span><i className="fas fa-cog"></i></span>
                 </div>
               </div>
             </div>
@@ -180,30 +245,52 @@ export default function Communinty() {
         </div>
 
         <div className="col-8">
-          <p className='text-center'><i class="fas fa-comment-alt"></i> &#160; Chat area</p>
+          <p className='text-center'><i className="fas fa-comment-alt"></i> &#160; Chat area</p>
           <div className='friend-list'>
             <div className='chat-friend'>
               {currentChatFriend ?
                 (<>
-                  <img src={currentChatFriend.friend_avatar ? currentChatFriend.friend_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{borderRadius: 15}}/>
-                  <span style={{paddingLeft: 10, fontSize: '0.85rem'}}>{currentChatFriend.friend_name}</span>
+                  <img src={currentChatFriend.friend_avatar ? currentChatFriend.friend_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{ borderRadius: 15 }} />
+                  <span style={{ paddingLeft: 10, fontSize: '0.85rem' }}>{currentChatFriend.friend_name}</span>
                 </>)
                 : (<></>)}
             </div>
-            <div className='chat-list'>...</div>
+            <div className='chat-list ms-3' ref={chatListRef}>
+              {
+                messages.map((messageData) => {
+                  if (messageData.friend_id === currentChatFriend.friend_id) {
+                    return (
+                      <div key={messageData.id} style={{marginTop: '10px'}}>
+                        <img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={30} width={30} style={{borderRadius: 15}}/> &#160;&#160; 
+                        <span style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_fullName}</span> &#160;
+                         <span style={{fontSize: '0.7rem', color: 'lightgray'}}>{formatDateTime(messageData.created_at)}</span> &#160;
+                          <p style={{marginLeft: '2.7rem'}}>{messageData.message}</p>
+                          {messageData.image ? (<img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={200} width={200} style={{marginLeft: '2.7rem'}}/>) : <></>}
+                      </div>
+                    )
+                  } else {
+                    return <></>
+                  }
+                })}
+              <span class="scroll-to-bottom"></span>
+            </div>
             <div className='chat-input'>
               <hr style={{ marginTop: 15, marginBottom: 10, color: '0f0f0f' }}></hr>
-              <div className='row'>
-                <div className='col-11'>
-                  <input className="form-control" type="search" placeholder="Message ..." aria-label="Search"
-                    style={{
-                      backgroundColor: '#272626', color: 'white', fontSize: '0.9rem',
-                      height: 40, marginLeft: 20, border: 'none',
-                    }}></input>
-                </div>
-                <div className='col-1 pt-3'>
-                  <span style={{ marginLeft: 20 }}><i class="fas fa-plus"></i></span>
-                </div>
+              <div style={{ display: 'flex', marginLeft: 15 }}>
+                <label className="btn btn-sm btn-secondary" style={{ fontSize: '1.13rem', marginTop: 10, marginBottom: 10 }}>
+                  <i className="fas fa-image"></i>
+                  <input className='form-control form-control-sm' style={{ display: 'none' }} type="file" accept=".jpg,.jpeg,.png" onChange={handleFileChange} />
+                </label> &#160;&#160;
+
+                <input className="form-control" type="search" value={messageInput} placeholder="Message ..." aria-label="Search"
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  style={{
+                    backgroundColor: '#272626', color: 'white', fontSize: '0.9rem',
+                    height: 40, width: 1085, border: 'none',
+                  }}>
+                </input>
+
+                <button className='btn btn-secondary' style={{ height: 38, width: 80, marginTop: 10, marginLeft: 5 }} onClick={handleSendMessage}><i className="fas fa-paper-plane"></i></button>
               </div>
             </div>
           </div>
@@ -249,14 +336,14 @@ export default function Communinty() {
             <div className='friend-list-bottom text-center'>
               <button className='btn btn-success' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleAddFriend}><i className="fas fa-user-plus"></i> Add friend</button>
               &#160;&#160;
-              <button className='btn btn-primary' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleRequestList}><i class="fas fa-stream"></i> Requests {friendRequestList.length > 0 ? <span className='friend-request-number'>{friendRequestList.length}</span> : <></>}</button>
+              <button className='btn btn-primary' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleRequestList}><i className="fas fa-stream"></i> Requests {friendRequestList.length > 0 ? <span className='friend-request-number'>{friendRequestList.length}</span> : <></>}</button>
             </div>
 
             {/* The pop-up of request*/}
             {showPopup2 && (
               <div className="popup-container-2" onClick={(event) => handlePopupContainerClick2(event)}>
                 <div className="popup-content">
-                  <form class="d-flex" onSubmit={handleClickSearchUser2}>
+                  <form className="d-flex" onSubmit={handleClickSearchUser2}>
                     <input className="form-control me-2" type="search" placeholder="Search ..." aria-label="Search" style={{ backgroundColor: '#161616', color: 'white', fontSize: '0.9rem' }} onChange={handleSearchUsers} />
                     <button className='btn btn-success mt-2' style={{ fontSize: '0.8rem', height: '37px' }}>Search</button>
                   </form>
@@ -275,8 +362,8 @@ export default function Communinty() {
                                 &#160; {friend.user_fullName ? friend.user_fullName : friend.user_name}
                               </div>
                               <div className='col-2'>
-                                <button className='accept-button' onClick={(e) => handleSendAceptRequest(e, friend.id, true)}><i class="fas fa-check"></i></button>
-                                <button className='reject-button' onClick={(e) => handleSendAceptRequest(e, friend.id, false)}><i class="fas fa-times"></i></button>
+                                <button className='accept-button' onClick={(e) => handleSendAceptRequest(e, friend.id, true)}><i className="fas fa-check"></i></button>
+                                <button className='reject-button' onClick={(e) => handleSendAceptRequest(e, friend.id, false)}><i className="fas fa-times"></i></button>
                               </div>
                             </div>
                           </li>
@@ -294,7 +381,7 @@ export default function Communinty() {
             {showPopup && (
               <div className="popup-container" onClick={(event) => handlePopupContainerClick(event)}>
                 <div className="popup-content">
-                  <form class="d-flex" onSubmit={handleClickSearchUser}>
+                  <form className="d-flex" onSubmit={handleClickSearchUser}>
                     <input className="form-control me-2" type="search" placeholder="Search ..." aria-label="Search" style={{ backgroundColor: '#161616', color: 'white', fontSize: '0.9rem' }} onChange={handleSearchUsers} />
                     <button className='btn btn-success mt-2' style={{ fontSize: '0.8rem', height: '37px' }}>Search</button>
                   </form>
@@ -329,7 +416,7 @@ export default function Communinty() {
                                       className='add-friend-button'
                                       onClick={(e) => handleSendFriendRequest(e, friend.id)}
                                     >
-                                      <i class='fas fa-user-plus'></i>
+                                      <i className='fas fa-user-plus'></i>
                                     </button>
                                   </div>
                                 </div>
