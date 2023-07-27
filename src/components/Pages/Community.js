@@ -2,11 +2,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import '../../styles/css/Community.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import communityService from '../Services/communityService';
 import io from 'socket.io-client';
 import authService from '../Services/authService';
+import { animateScroll } from 'react-scroll';
 
 export default function Communinty() {
   const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('userProfile')));
@@ -22,14 +23,13 @@ export default function Communinty() {
   const [showPopup2, setShowPopup2] = useState(false);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendRequestResponse, setFriendRequestResponse] = useState(null);
-  const [currentChatFriend, setCurrentChatFriend] = useState({friend_id: 1, friend_name: null, friend_avatar: null});
+  const [currentChatFriend, setCurrentChatFriend] = useState({ friend_id: 1, friend_name: null, friend_avatar: null });
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [imageInput, setImageInput] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [socket, setSocket] = useState(null);
-  const chatListRef = useRef(null);
 
   useEffect(() => {
     if (!userProfile) {
@@ -70,20 +70,31 @@ export default function Communinty() {
       setMessages((prevMessages) => [...prevMessages, messageData]);
     });
 
+    console.log(socket);
+
     socket.on('chatHistory', (history) => {
       setMessages(history);
     });
 
     return () => {
       // Cleanup: đóng kết nối khi component unmount
+      socket.off('onlineUsers');
+      socket.off('newMessage');
+      socket.off('chatHistory');
       socket.disconnect();
     };
-  }, [])
+  }, [userProfile.id])
 
   useEffect(() => {
-    const chatList = chatListRef.current;
-    chatList.scrollTop = chatList.scrollHeight;
+    scrollToBottom();
   }, [messages, currentChatFriend]);
+
+  const scrollToBottom = () => {
+    animateScroll.scrollToBottom({
+      containerId: 'chat-list-container',
+      smooth: true,
+    });
+  };
 
   function handleFileChange(event) {
     const file = event.target.files[0];
@@ -103,7 +114,8 @@ export default function Communinty() {
     })
   }
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e) => {
+    e.preventDefault();
     if (socket && (messageInput.trim() !== '' || imageInput.trim() !== '')) {
       // Gửi tin nhắn và hình ảnh mới lên máy chủ
       socket.emit('sendMessage', {
@@ -114,6 +126,7 @@ export default function Communinty() {
       });
       setMessageInput('');
       setImageInput('');
+      console.log('gửi tin nhắn');
     }
   };
 
@@ -193,13 +206,24 @@ export default function Communinty() {
 
   function formatDateTime(dateTimeString) {
     const date = new Date(dateTimeString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
-    return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year} (${hours}:${minutes}:${seconds})`;
+
+    if (date.toDateString() === today.toDateString()) {
+      return `Today at ${hours}:${minutes}:${seconds}`;
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      return `Yesterday at ${hours}:${minutes}:${seconds}`;
+    } else {
+      return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year} (${hours}:${minutes}:${seconds})`;
+    }
   }
 
   const handlePopupContainerClick2 = (event) => {
@@ -218,8 +242,22 @@ export default function Communinty() {
   const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
   const sortedFriendList = [...onlineFriends, ...offlineFriends];
 
-  console.log(messages);
-  console.log(currentChatFriend);
+  const chatHistoryList =
+    messages.map((messageData) => {
+      if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
+        return (
+          <div key={messageData.id} style={{ marginTop: '10px' }}>
+            <img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
+            <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
+            <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
+            <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
+            {messageData.image ? (<img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={200} width={200} style={{ marginLeft: '2.7rem' }} />) : <></>}
+          </div>
+        )
+      } else {
+        return <></>
+      }
+    })
 
   return (
     <div className="community container-fluid text-light">
@@ -258,24 +296,9 @@ export default function Communinty() {
                 </>)
                 : (<></>)}
             </div>
-            <div className='chat-list ms-3' ref={chatListRef}>
-              {
-                messages.map((messageData) => {
-                  if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
-                    return (
-                      <div key={messageData.id} style={{marginTop: '10px'}}>
-                        <img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={30} width={30} style={{borderRadius: 15}}/> &#160;&#160; 
-                        <span style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
-                         <span style={{fontSize: '0.7rem', color: 'lightgray'}}>{formatDateTime(messageData.created_at)}</span> &#160;
-                          <p style={{marginLeft: '2.7rem'}}>{messageData.message}</p>
-                          {messageData.image ? (<img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={200} width={200} style={{marginLeft: '2.7rem'}}/>) : <></>}
-                      </div>
-                    )
-                  } else {
-                    return <></>
-                  }
-                })}
-              <span class="scroll-to-bottom"></span>
+            <div className='chat-list ms-3' id='chat-list-container'>
+              {chatHistoryList}
+              <span className="scroll-to-bottom"></span>
             </div>
             <div className='chat-input'>
               <hr style={{ marginTop: 15, marginBottom: 10, color: '0f0f0f' }}></hr>
@@ -285,15 +308,17 @@ export default function Communinty() {
                   <input className='form-control form-control-sm' style={{ display: 'none' }} type="file" accept=".jpg,.jpeg,.png" onChange={handleFileChange} />
                 </label> &#160;&#160;
 
-                <input className="form-control" type="search" value={messageInput} placeholder="Message ..." aria-label="Search"
-                  onChange={(e) => setMessageInput(e.target.value)}
-                  style={{
-                    backgroundColor: '#272626', color: 'white', fontSize: '0.9rem',
-                    height: 40, width: 1085, border: 'none',
-                  }}>
-                </input>
+                <form onSubmit={(e) => handleSendMessage(e)} style={{display: 'flex'}}>
+                  <input className="form-control" type="search" value={messageInput} placeholder="Message ..." aria-label="Search"
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    style={{
+                      backgroundColor: '#272626', color: 'white', fontSize: '0.9rem',
+                      height: 40, width: 1085, border: 'none',
+                    }}>
+                  </input>
 
-                <button className='btn btn-secondary' style={{ height: 38, width: 80, marginTop: 10, marginLeft: 5 }} onClick={handleSendMessage}><i className="fas fa-paper-plane"></i></button>
+                  <button className='btn btn-secondary' style={{ height: 38, width: 80, marginTop: 10, marginLeft: 5 }} type='submit'><i className="fas fa-paper-plane"></i></button>
+                </form>
               </div>
             </div>
           </div>
