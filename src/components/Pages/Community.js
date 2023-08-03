@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import '../../styles/css/Community.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import communityService from '../Services/communityService';
 import io from 'socket.io-client';
@@ -90,15 +90,15 @@ export default function Communinty() {
     scrollToBottom();
   }, [messages, currentChatFriend]);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     animateScroll.scrollToBottom({
       containerId: 'chat-list-container',
       smooth: true,
     });
-  };
+  });
 
-  function handleFileChange(event) {
-    const file = event.target.files[0];
+  const handleFileChange = useCallback((e) => {
+    const file = e.target.files[0];
     setAvatarFile(file);
 
     // Create a URL for the image preview
@@ -113,9 +113,9 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     })
-  }
+  });
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = useCallback((e) => {
     e.preventDefault();
     if (socket && (messageInput.trim() !== '' || imageInput.trim() !== '')) {
       // Gửi tin nhắn và hình ảnh mới lên máy chủ
@@ -129,27 +129,27 @@ export default function Communinty() {
       setImageInput('');
       console.log('gửi tin nhắn');
     }
-  };
+  });
 
-  const handleAddFriend = () => {
+  const handleAddFriend = useCallback(() => {
     // Toggle the state to show/hide the pop-up
     setShowPopup(!showPopup);
-  };
+  });
 
-  const handleRequestList = () => {
+  const handleRequestList = useCallback(() => {
     // Toggle the state to show/hide the pop-up
     setShowPopup2(!showPopup2);
-  };
+  });
 
-  const handleSearchFriend = (e) => {
+  const handleSearchFriend = useCallback((e) => {
     setSearch(e.target.value);
-  }
+  })
 
-  const handleSearchUsers = (e) => {
+  const handleSearchUsers = useCallback((e) => {
     setUserSearch(e.target.value);
-  }
+  });
 
-  const handleSendFriendRequest = (e, friendId) => {
+  const handleSendFriendRequest = useCallback((e, friendId) => {
     e.preventDefault();
     e.currentTarget.disabled = true;
     communityService.addFriend(saveToken.accessToken, friendId).then((res) => {
@@ -157,9 +157,9 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     });
-  }
+  });
 
-  const handleSendAceptRequest = (e, friendshipId, accept) => {
+  const handleSendAceptRequest = useCallback((e, friendshipId, accept) => {
     communityService.acceptFriendRequest(saveToken.accessToken, friendshipId, accept).then(() => {
 
       communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
@@ -177,35 +177,35 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     });
-  }
+  });
 
-  const handleClickSearchUser = (e) => {
+  const handleClickSearchUser = useCallback((e) => {
     e.preventDefault();
     communityService.searchForUsers(saveToken.accessToken, userSearch).then((res) => {
       setUserList(res.data.userList);
     }).catch((err) => {
       console.log(err);
     })
-  }
+  });
 
-  const handlePopupContainerClick = (event) => {
+  const handlePopupContainerClick = useCallback((event) => {
     // Check if the click event originated from the popup container
     if (event.target.classList.contains('popup-container')) {
       // Close the popup when clicking outside of it
       setShowPopup(false);
     }
-  };
+  });
 
-  const handleClickSearchUser2 = (e) => {
+  const handleClickSearchUser2 = useCallback((e) => {
     e.preventDefault();
     communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
       setFriendRequestList(res.data);
     }).catch((err) => {
       console.log(err);
     })
-  }
+  });
 
-  function formatDateTime(dateTimeString) {
+  const formatDateTime = useCallback((dateTimeString) => {
     const date = new Date(dateTimeString);
     const today = new Date();
     const yesterday = new Date(today);
@@ -225,25 +225,25 @@ export default function Communinty() {
     } else {
       return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year} (${hours}:${minutes}:${seconds})`;
     }
-  }
+  });
 
-  const handlePopupContainerClick2 = (event) => {
+  const handlePopupContainerClick2 = useCallback((event) => {
     // Check if the click event originated from the popup container
     if (event.target.classList.contains('popup-container-2')) {
       // Close the popup when clicking outside of it
       setShowPopup2(false);
     }
-  };
+  });
 
-  const handleChatWithFriend = (e, friendId, friendName, friendAvatar) => {
+  const handleChatWithFriend = useCallback((e, friendId, friendName, friendAvatar) => {
     setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
-  }
+  });
 
-  const onlineFriends = friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : [];
-  const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
-  const sortedFriendList = [...onlineFriends, ...offlineFriends];
+  const onlineFriends = useCallback(friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : []);
+  const offlineFriends = useCallback(friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : []);
+  const sortedFriendList = useCallback([...onlineFriends, ...offlineFriends]);
 
-  const chatHistoryList =
+  const chatHistoryList = useCallback(
     messages.map((messageData) => {
       if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
         return (
@@ -258,7 +258,7 @@ export default function Communinty() {
       } else {
         return <></>
       }
-    })
+    }));
 
   return (
     <div className="community container-fluid text-light">
@@ -272,7 +272,7 @@ export default function Communinty() {
               <hr></hr>
               <div className='row'>
                 <div className='col-2'>
-                  <img src={userProfile ? userProfile.avatar : null} height={43} width={43} style={{ borderRadius: 25, marginLeft: '10px' }} />
+                  <img src={userProfile ? (userProfile.avatar ? userProfile.avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png') : null} height={43} width={43} style={{ borderRadius: 25, marginLeft: '10px' }} />
                 </div>
                 <div className='col-7 ms-3'>
                   <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 'bold' }}>{userProfile ? (userProfile.full_name ? userProfile.full_name : userProfile.user_name) : null}</p>
@@ -384,11 +384,11 @@ export default function Communinty() {
                           <li key={friend.user_id} style={{ paddingTop: '10px' }}>
                             <div className='row'>
                               <div className='col-1'>
-                                <img src={friend.user_avatar ? friend.user_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
+                                <img src={friend ? (friend.friend_avatar ? friend.friend_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png') : null}
                                   height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
                               </div>
                               <div className='col-9 friend_name'>
-                                &#160; {friend.user_fullName ? friend.user_fullName : friend.user_name}
+                                &#160; {friend ? friend.friend_fullName : friend.friend_name}
                               </div>
                               <div className='col-2'>
                                 <button className='accept-button' onClick={(e) => handleSendAceptRequest(e, friend.id, true)}><i className="fas fa-check"></i></button>
