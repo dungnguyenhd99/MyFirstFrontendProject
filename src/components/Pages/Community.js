@@ -44,6 +44,7 @@ export default function Communinty() {
   }, [search])
 
   useEffect(() => {
+    if (saveToken) {
     communityService.searchForUsers(saveToken.accessToken, userSearch).then((res) => {
       setUserList(res.data.userList);
     }).catch((err) => {
@@ -55,6 +56,7 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     })
+    }
 
     const socket = io('ngtbackend-production.up.railway.app', {
       query: { userId: userProfile.id.toString() },
