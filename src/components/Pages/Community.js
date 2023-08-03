@@ -57,12 +57,11 @@ export default function Communinty() {
     })
 
     const socket = io('ngtbackend-production.up.railway.app', {
-      query: { userId: userProfile.id.toString() }, // Định danh userId trong thông báo kết nối
+      query: { userId: userProfile.id.toString() },
     });
     setSocket(socket);
 
     socket.on('onlineUsers', (users) => {
-      // Nhận danh sách user_id đang trực tuyến từ socket server và cập nhật state
       setOnlineUsers(users);
     });
 
@@ -83,7 +82,7 @@ export default function Communinty() {
       socket.off('chatHistory');
       socket.disconnect();
     };
-  }, [userProfile.id])
+  }, [])
 
   useEffect(() => {
     scrollToBottom();
@@ -271,10 +270,10 @@ export default function Communinty() {
               <hr></hr>
               <div className='row'>
                 <div className='col-2'>
-                  <img src={userProfile.avatar} height={43} width={43} style={{ borderRadius: 25, marginLeft: '10px' }} />
+                  <img src={userProfile ? userProfile.avatar : null} height={43} width={43} style={{ borderRadius: 25, marginLeft: '10px' }} />
                 </div>
                 <div className='col-7 ms-3'>
-                  <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 'bold' }}>{userProfile.full_name ? userProfile.full_name : userProfile.user_name}</p>
+                  <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 'bold' }}>{userProfile ? (userProfile.full_name ? userProfile.full_name : userProfile.user_name) : null}</p>
                   <span style={{ fontSize: '0.7rem' }}><span style={{ color: 'green', fontSize: '0.5rem' }}><i className="fas fa-circle"></i></span> Online</span>
                 </div>
                 <div className='col-1 pt-2'>
