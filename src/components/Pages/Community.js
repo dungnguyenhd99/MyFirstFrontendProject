@@ -56,7 +56,6 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     })
-    }
 
     const socket = io('ngtbackend-production.up.railway.app', {
       query: { userId: userProfile.id.toString() },
@@ -84,6 +83,7 @@ export default function Communinty() {
       socket.off('chatHistory');
       socket.disconnect();
     };
+    }
   }, [])
 
   useEffect(() => {
