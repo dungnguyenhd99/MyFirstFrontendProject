@@ -58,6 +58,58 @@
     /* Loại bỏ padding */
 }
 
+.popup-container-3 {
+    left: 378px;
+    top: 565px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 9999;
+}
+
+.popup-content-3 {
+    position: relative;
+    width: 200px;
+    height: 195px;
+    background-color: #1f1d1d;
+    padding: 5px 8px 6px 10px;
+    border-radius: 5px;
+}
+
+.popup-text-3 {
+    border: 1px solid rgb(32, 27, 27);
+    background-color: #413d3d;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    color: rgb(223, 6, 6);
+    padding: 3px 6px 3px 6px;
+    margin-left: 9.65rem;
+}
+
+.popup-text-3-1 {
+    border: 1px solid rgb(32, 27, 27);
+    background-color: #413d3d;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    color: rgb(122, 118, 118);
+    padding: 3px 5px 3px 5px;
+    margin-left: -3.4rem;
+}
+
+.popup-text-3:hover {
+    cursor: pointer;
+    background-color: rgb(77, 77, 94);
+}
+
+.popup-text-3-1:hover {
+    cursor: pointer;
+    background-color: rgb(77, 77, 94);
+}
+
+
 .popup-container-2 {
     padding-top: 100px;
     position: fixed;
@@ -127,6 +179,10 @@
 
 .name-card {
     height: 72px;
+    background-color: #242323;
+}
+
+.name-card:hover {
     background-color: #242323;
 }
 

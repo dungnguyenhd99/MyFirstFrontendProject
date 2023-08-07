@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import '../../styles/css/Community.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import communityService from '../Services/communityService';
 import io from 'socket.io-client';
@@ -25,6 +25,7 @@ export default function Communinty() {
   const [friendRequestResponse, setFriendRequestResponse] = useState(null);
   const [currentChatFriend, setCurrentChatFriend] = useState({ friend_id: 1, friend_name: null, friend_avatar: null });
   const [messages, setMessages] = useState([]);
+  const [unreadMessages, setUnreadMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [imageInput, setImageInput] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
@@ -59,6 +60,7 @@ export default function Communinty() {
 
       communityService.getChatHistories(saveToken.accessToken).then((res) => {
         setMessages(res.data);
+        setUnreadMessages(res.data);
       }).catch((err) => {
         console.log(err);
       })
@@ -72,10 +74,6 @@ export default function Communinty() {
         setOnlineUsers(users);
       });
 
-      socket.on('newMessage', (messageData) => {
-        setMessages((prevMessages) => [...prevMessages, messageData]);
-      });
-
       // socket.on('chatHistory', (history) => {
       //   setMessages(history);
       //   console.log(history);
@@ -84,8 +82,8 @@ export default function Communinty() {
       return () => {
         // Cleanup: đóng kết nối khi component unmount
         socket.off('onlineUsers');
-        socket.off('newMessage');
         socket.off('chatHistory');
+        socket.off('newMessage');
         socket.disconnect();
       };
     }
@@ -93,16 +91,31 @@ export default function Communinty() {
 
   useEffect(() => {
     scrollToBottom();
+    if (socket) {
+      socket.on('newMessage', async (messageData) => {
+        console.log(currentChatFriend);
+        if (messageData.user_id === currentChatFriend.friend_id && messageData.friend_id === userProfile.id) {
+          console.log('mark as read');
+          await communityService.markAsRead(saveToken.accessToken, [messageData.id]);
+        } else {
+          setUnreadMessages((prevMessages) => [...prevMessages, messageData]);
+        }
+        setMessages((prevMessages) => [...prevMessages, messageData]);
+      });
+      return () => {
+        socket.off('newMessage');
+      };
+    }
   }, [messages, currentChatFriend]);
 
-  const scrollToBottom = useCallback(() => {
+  const scrollToBottom = () => {
     animateScroll.scrollToBottom({
       containerId: 'chat-list-container',
       smooth: true,
     });
-  });
+  };
 
-  const handleFileChange = useCallback((e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     setAvatarFile(file);
 
@@ -118,9 +131,9 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     })
-  });
+  };
 
-  const handleSendMessage = useCallback((e) => {
+  const handleSendMessage = (e) => {
     e.preventDefault();
     if (socket && (messageInput.trim() !== '' || imageInput.trim() !== '')) {
       // Gửi tin nhắn và hình ảnh mới lên máy chủ
@@ -134,27 +147,27 @@ export default function Communinty() {
       setImageInput('');
       console.log('gửi tin nhắn');
     }
-  });
+  };
 
-  const handleAddFriend = useCallback(() => {
+  const handleAddFriend = () => {
     // Toggle the state to show/hide the pop-up
     setShowPopup(!showPopup);
-  });
+  };
 
-  const handleRequestList = useCallback(() => {
+  const handleRequestList = () => {
     // Toggle the state to show/hide the pop-up
     setShowPopup2(!showPopup2);
-  });
+  };
 
-  const handleSearchFriend = useCallback((e) => {
+  const handleSearchFriend = (e) => {
     setSearch(e.target.value);
-  })
+  }
 
-  const handleSearchUsers = useCallback((e) => {
+  const handleSearchUsers = (e) => {
     setUserSearch(e.target.value);
-  });
+  };
 
-  const handleSendFriendRequest = useCallback((e, friendId) => {
+  const handleSendFriendRequest = (e, friendId) => {
     e.preventDefault();
     e.currentTarget.disabled = true;
     communityService.addFriend(saveToken.accessToken, friendId).then((res) => {
@@ -162,9 +175,9 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     });
-  });
+  };
 
-  const handleSendAceptRequest = useCallback((e, friendshipId, accept) => {
+  const handleSendAceptRequest = (e, friendshipId, accept) => {
     communityService.acceptFriendRequest(saveToken.accessToken, friendshipId, accept).then(() => {
 
       communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
@@ -182,35 +195,35 @@ export default function Communinty() {
     }).catch((err) => {
       console.log(err);
     });
-  });
+  };
 
-  const handleClickSearchUser = useCallback((e) => {
+  const handleClickSearchUser = (e) => {
     e.preventDefault();
     communityService.searchForUsers(saveToken.accessToken, userSearch).then((res) => {
       setUserList(res.data.userList);
     }).catch((err) => {
       console.log(err);
     })
-  });
+  };
 
-  const handlePopupContainerClick = useCallback((event) => {
+  const handlePopupContainerClick = (event) => {
     // Check if the click event originated from the popup container
     if (event.target.classList.contains('popup-container')) {
       // Close the popup when clicking outside of it
       setShowPopup(false);
     }
-  });
+  };
 
-  const handleClickSearchUser2 = useCallback((e) => {
+  const handleClickSearchUser2 = (e) => {
     e.preventDefault();
     communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
       setFriendRequestList(res.data);
     }).catch((err) => {
       console.log(err);
     })
-  });
+  };
 
-  const formatDateTime = useCallback((dateTimeString) => {
+  const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const today = new Date();
     const yesterday = new Date(today);
@@ -230,31 +243,36 @@ export default function Communinty() {
     } else {
       return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year} (${hours}:${minutes}:${seconds})`;
     }
-  });
+  };
 
-  const handlePopupContainerClick2 = useCallback((event) => {
+  const handlePopupContainerClick2 = (event) => {
     // Check if the click event originated from the popup container
     if (event.target.classList.contains('popup-container-2')) {
       // Close the popup when clicking outside of it
       setShowPopup2(false);
     }
-  });
+  };
 
-  const handleChatWithFriend = useCallback((e, friendId, friendName, friendAvatar) => {
+  const handleChatWithFriend = (e, friendId, friendName, friendAvatar) => {
     if (saveToken) {
       setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
       const listId = messages
-        .filter(message => message.user_id === currentChatFriend.friend_id && message.friend_id === userProfile.id && !message.isRead)
+        .filter(message => message.user_id === friendId && message.friend_id === userProfile.id && !message.isRead)
         .map(message => message.id);
       communityService.markAsRead(saveToken.accessToken, listId);
+      communityService.getChatHistories(saveToken.accessToken).then((res) => {
+        setUnreadMessages(res.data);
+      }).catch((err) => {
+        console.log(err);
+      })
     }
-  });
+  };
 
-  const onlineFriends = useCallback(friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : []);
-  const offlineFriends = useCallback(friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : []);
-  const sortedFriendList = useCallback([...onlineFriends, ...offlineFriends]);
+  const onlineFriends = friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : [];
+  const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
+  const sortedFriendList = [...onlineFriends, ...offlineFriends];
 
-  const chatHistoryList = useCallback(
+  const chatHistoryList =
     messages.map((messageData) => {
       if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
         return (
@@ -269,7 +287,7 @@ export default function Communinty() {
       } else {
         return <></>
       }
-    }));
+    });
 
   return (
     <div className="community container-fluid text-light">
@@ -349,9 +367,10 @@ export default function Communinty() {
                 {sortedFriendList.length > 0 ? (
                   sortedFriendList.map((friend) => {
                     // Tìm các tin nhắn chưa đọc của người bạn hiện tại
-                    const unreadMessages = messages.filter((message) =>
+                    const unread = unreadMessages.filter((message) =>
                       message.user_id === friend.friendId && message.friend_id === userProfile.id && !message.isRead
                     );
+                    console.log(messages);
 
                     return (
                       <li className='friend-list-map' key={friend.friendshipId} style={{ paddingTop: '5px', paddingBottom: '5px' }}>
@@ -360,7 +379,7 @@ export default function Communinty() {
                             &#160;
                             <img src={friend.friendAvatar ? friend.friendAvatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
                               height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
-                            {unreadMessages.length > 0 ? <span className='unread-message-number'>{unreadMessages.length}</span> : <></>}
+                            {unread.length > 0 ? <span className='unread-message-number'>{unread.length}</span> : <></>}
                           </div>
                           <div className='col-5 friend_name' style={{ fontSize: '0.85rem' }}>
                             {friend.friendFullname ? friend.friendFullname : friend.friendName}
@@ -387,6 +406,19 @@ export default function Communinty() {
               &#160;&#160;
               <button className='btn btn-primary' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleRequestList}><i className="fas fa-stream"></i> Requests {friendRequestList.length > 0 ? <span className='friend-request-number'>{friendRequestList.length}</span> : <></>}</button>
             </div>
+
+            {/* The pop-up of request*/}
+            {previewUrl && (
+              <div className="popup-container-3">
+                <div className="popup-content-3">
+                  <span style={{display: 'flex'}}>
+                <span className="popup-text-3"><i class="fas fa-trash-alt"></i></span>
+                <span className="popup-text-3-1"><i class="fas fa-pen"></i></span>
+                </span>
+                  <img src={previewUrl} height={140} width={180} style={{marginTop: 10}}/>
+                </div>
+              </div>
+            )}
 
             {/* The pop-up of request*/}
             {showPopup2 && (
