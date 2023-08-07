@@ -10,6 +10,10 @@
   font-style: normal;
 }
 
+.name-card:hover {
+  background-color: #716d62;
+}
+
 .navbar-main {
   padding-top: 10px;
   background-color: rgb(28 28 28 / 73%);

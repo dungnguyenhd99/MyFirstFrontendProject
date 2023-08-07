@@ -80,7 +80,10 @@ export default function Signin() {
       setErrorSignUp('Username must be at least 6 characters');
     } else if (stateSignup.password.length < 8) {
       setErrorSignUp('Password must be at least 8 characters')
+    } else if (stateSignup.userName.length < 12) {
+      setErrorSignUp('Full name must be at least 12 characters')
     }
+
     else {
       authService.signup(stateSignup).then((res) => {
         console.log(res.data);
@@ -110,7 +113,7 @@ export default function Signin() {
               <span>{t('orUseYourEmailForRegistration')}</span>
               <input type="text" placeholder="Full Name" value={stateSignup.fullName}
                 onChange={(e) => setStateSignup({ ...stateSignup, fullName: e.target.value, })}
-                style={{ color: 'white' }}
+                style={{ color: 'white' }} maxLength={13}
               />
               <input type="email" placeholder="Email" value={stateSignup.userName}
                 onChange={(e) => setStateSignup({ ...stateSignup, userName: e.target.value, })}
@@ -118,7 +121,7 @@ export default function Signin() {
               />
               <input type="password" placeholder="Password" value={stateSignup.password}
                 onChange={(e) => setStateSignup({ ...stateSignup, password: e.target.value, })}
-                style={{ color: 'white' }}
+                style={{ color: 'white' }} maxLength={30}
               />
               <button style={{marginTop: 7}}>{t('signup')}</button>
               <p style={{ color: 'red' }}>{errorSignUp ? errorSignUp : (<></>)}</p>

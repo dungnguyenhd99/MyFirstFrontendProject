@@ -85,11 +85,11 @@ export default function Header() {
 
                     {!userProfile ?
                         (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle" onClick={clickView}><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-user"></i></span></span></Link>) :
-                        (<> <span style={{ color: 'white' }} className="dropdown box-3 position-absolute top-50 end-0 translate-middle">
+                        (<> <span style={{ color: 'white', top:35, right: 10}} className="dropdown box-3 position-absolute translate-middle">
                             <span>{userProfile ? (<><img src={userProfile.avatar ? userProfile.avatar : icon} height={30} width={30} style={{borderRadius: 20}}></img>&#160; &#160;<span style={{fonntSize: '0.8rem'}}>{userProfile.full_name ? userProfile.full_name : userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
                             <div className="dropdown-content">
-                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} onClick={handleProfile}><i className="fa fa-user"></i>&#160; Account</button><br></br>
-                                <button className='btn text-light' style={{ width: 250, fontSize: 13 }} onClick={handleLogout}><i className="fa fa-sign-out-alt"></i>&#160; Logout</button>
+                                <button className='btn text-light' style={{ width: 150, fontSize: 13 }} onClick={handleProfile}><i className="fa fa-user"></i>&#160; Account</button><br></br>
+                                <button className='btn text-light' style={{ width: 150, fontSize: 13 }} onClick={handleLogout}><i className="fa fa-sign-out-alt"></i>&#160; Logout</button>
                             </div>
                         </span></>)}
                 </span>

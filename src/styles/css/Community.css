@@ -168,6 +168,25 @@
     padding: 3px 8.5px;
 }
 
+.unread-message-number {
+    font-size: 0.7rem;
+    background-color: #911e1e;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Thêm thuộc tính này để căn giữa theo chiều dọc */
+    right: 235px; /* Đặt vị trí từ bên phải */
+    color: white;
+    position: absolute;
+    padding: 3px 8px 3px 8px; /* Điều chỉnh lề bên trong */
+}
+
+.friend-list-map:hover{
+    cursor: pointer;
+    background-color: #3a3838;
+    border-radius: 5px;
+}
+
 /* custom scrollbar */
 ::-webkit-scrollbar {
     width: 20px;

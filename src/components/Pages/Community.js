@@ -44,45 +44,50 @@ export default function Communinty() {
   }, [search])
 
   useEffect(() => {
-    if (saveToken) {
-    communityService.searchForUsers(saveToken.accessToken, userSearch).then((res) => {
-      setUserList(res.data.userList);
-    }).catch((err) => {
-      console.log(err);
-    })
+    if (saveToken && userProfile) {
+      communityService.searchForUsers(saveToken.accessToken, userSearch).then((res) => {
+        setUserList(res.data.userList);
+      }).catch((err) => {
+        console.log(err);
+      })
 
-    communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
-      setFriendRequestList(res.data);
-    }).catch((err) => {
-      console.log(err);
-    })
+      communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
+        setFriendRequestList(res.data);
+      }).catch((err) => {
+        console.log(err);
+      })
 
-    const socket = io('ngtbackend-production.up.railway.app', {
-      query: { userId: userProfile.id.toString() },
-    });
-    setSocket(socket);
+      communityService.getChatHistories(saveToken.accessToken).then((res) => {
+        setMessages(res.data);
+      }).catch((err) => {
+        console.log(err);
+      })
 
-    socket.on('onlineUsers', (users) => {
-      setOnlineUsers(users);
-    });
+      const socket = io('ngtbackend-production.up.railway.app', {
+        query: { userId: userProfile.id.toString() },
+      });
+      setSocket(socket);
 
-    socket.on('newMessage', (messageData) => {
-      setMessages((prevMessages) => [...prevMessages, messageData]);
-    });
+      socket.on('onlineUsers', (users) => {
+        setOnlineUsers(users);
+      });
 
-    console.log(socket);
+      socket.on('newMessage', (messageData) => {
+        setMessages((prevMessages) => [...prevMessages, messageData]);
+      });
 
-    socket.on('chatHistory', (history) => {
-      setMessages(history);
-    });
+      // socket.on('chatHistory', (history) => {
+      //   setMessages(history);
+      //   console.log(history);
+      // });
 
-    return () => {
-      // Cleanup: đóng kết nối khi component unmount
-      socket.off('onlineUsers');
-      socket.off('newMessage');
-      socket.off('chatHistory');
-      socket.disconnect();
-    };
+      return () => {
+        // Cleanup: đóng kết nối khi component unmount
+        socket.off('onlineUsers');
+        socket.off('newMessage');
+        socket.off('chatHistory');
+        socket.disconnect();
+      };
     }
   }, [])
 
@@ -236,7 +241,13 @@ export default function Communinty() {
   });
 
   const handleChatWithFriend = useCallback((e, friendId, friendName, friendAvatar) => {
-    setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
+    if (saveToken) {
+      setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
+      const listId = messages
+        .filter(message => message.user_id === currentChatFriend.friend_id && message.friend_id === userProfile.id && !message.isRead)
+        .map(message => message.id);
+      communityService.markAsRead(saveToken.accessToken, listId);
+    }
   });
 
   const onlineFriends = useCallback(friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : []);
@@ -309,7 +320,7 @@ export default function Communinty() {
                   <input className='form-control form-control-sm' style={{ display: 'none' }} type="file" accept=".jpg,.jpeg,.png" onChange={handleFileChange} />
                 </label> &#160;&#160;
 
-                <form onSubmit={(e) => handleSendMessage(e)} style={{display: 'flex'}}>
+                <form onSubmit={(e) => handleSendMessage(e)} style={{ display: 'flex' }}>
                   <input className="form-control" type="search" value={messageInput} placeholder="Message ..." aria-label="Search"
                     onChange={(e) => setMessageInput(e.target.value)}
                     style={{
@@ -336,26 +347,35 @@ export default function Communinty() {
             <div className="friend-list-container">
               <ul className='friend-list-mapper'>
                 {sortedFriendList.length > 0 ? (
-                  sortedFriendList.map((friend) => (
-                    <li key={friend.friendshipId} style={{ paddingTop: '10px' }}>
-                      <div className='row' onClick={(e) => handleChatWithFriend(e, friend.friendId, friend.friendFullname ? friend.friendFullname : friend.friendName, friend.friendAvatar)}>
-                        <div className='col-2'>
-                          <img src={friend.friendAvatar ? friend.friendAvatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
-                            height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
+                  sortedFriendList.map((friend) => {
+                    // Tìm các tin nhắn chưa đọc của người bạn hiện tại
+                    const unreadMessages = messages.filter((message) =>
+                      message.user_id === friend.friendId && message.friend_id === userProfile.id && !message.isRead
+                    );
+
+                    return (
+                      <li className='friend-list-map' key={friend.friendshipId} style={{ paddingTop: '5px', paddingBottom: '5px' }}>
+                        <div className='row' onClick={(e) => handleChatWithFriend(e, friend.friendId, friend.friendFullname ? friend.friendFullname : friend.friendName, friend.friendAvatar)}>
+                          <div className='col-3' style={{ display: 'flex' }}>
+                            &#160;
+                            <img src={friend.friendAvatar ? friend.friendAvatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
+                              height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
+                            {unreadMessages.length > 0 ? <span className='unread-message-number'>{unreadMessages.length}</span> : <></>}
+                          </div>
+                          <div className='col-5 friend_name' style={{ fontSize: '0.85rem' }}>
+                            {friend.friendFullname ? friend.friendFullname : friend.friendName}
+                          </div>
+                          <div className='col-2 pt-2'>
+                            {onlineUsers.includes(friend.friendId) ? (
+                              <span style={{ color: 'green', fontSize: '0.8rem' }}><i className="fas fa-circle"></i></span>
+                            ) : (
+                              <span style={{ color: 'gray', fontSize: '0.8rem' }}><i className="fas fa-circle"></i></span>
+                            )}
+                          </div>
                         </div>
-                        <div className='col-5 friend_name' style={{ fontSize: '0.85rem' }}>
-                          &#160; {friend.friendFullname ? friend.friendFullname : friend.friendName}
-                        </div>
-                        <div className='col-2 pt-2'>
-                          {onlineUsers.includes(friend.friendId) ? (
-                            <span style={{ color: 'green', fontSize: '0.8rem' }}><i className="fas fa-circle"></i></span>
-                          ) : (
-                            <span style={{ color: 'gray', fontSize: '0.8rem' }}><i className="fas fa-circle"></i></span>
-                          )}
-                        </div>
-                      </div>
-                    </li>
-                  ))
+                      </li>
+                    );
+                  })
                 ) : (
                   <li>No friends found.</li>
                 )}

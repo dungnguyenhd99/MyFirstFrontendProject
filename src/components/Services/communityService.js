@@ -12,6 +12,22 @@ class CommunintyService {
     return axios.get(API_URL + `list?search=${search}`, { headers })
   }
 
+  getChatHistories(access_token) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.get(API_URL + `chat-histories`, { headers })
+  }
+
+  markAsRead(access_token, ids) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.patch(API_URL + `mark-as-read`, ids, { headers })
+  }
+
   searchForUsers(access_token, search) {
     const headers = {
       'Content-Type': 'application/json',
