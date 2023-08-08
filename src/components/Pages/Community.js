@@ -179,7 +179,7 @@ export default function Communinty() {
       } else {
         socket.emit('sendMessageServer', {
           userId: userProfile.id,
-          serverId: currentServer.server_id ,
+          serverId: currentServer.server_id,
           message: messageInput,
           image: imageInput,
         });
@@ -346,36 +346,36 @@ export default function Communinty() {
   const sortedFriendList = [...onlineFriends, ...offlineFriends];
 
   const chatHistoryList =
-    currentServer.server_id ? 
-    (messagesServer.length > 0 ? (messagesServer.map((messageData) => {
+    currentServer.server_id ?
+      (messagesServer.length > 0 ? (messagesServer.map((messageData) => {
         return (
           <div key={messageData.id} style={{ marginTop: '10px' }}>
             <img src={messageData.user_avatar ? messageData.user_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
-            <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{ messageData.user_fullName ? messageData.user_fullName : messageData.user_name }</span> &#160;
-            <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{ formatDateTime(messageData.createdAt) }</span> &#160;
+            <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_fullName ? messageData.user_fullName : messageData.user_name}</span> &#160;
+            <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.createdAt)}</span> &#160;
             <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
             {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
           </div>
         )
-    })) : 
-    (<></>)
-    )
-    : 
-    (messages.map((messageData) => {
-      if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
-        return (
-          <div key={messageData.id} style={{ marginTop: '10px' }}>
-            <img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
-            <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
-            <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
-            <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-            {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
-          </div>
-        )
-      } else {
-        return <></>
-      }
-    }));
+      })) :
+        (<></>)
+      )
+      :
+      (messages.map((messageData) => {
+        if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
+          return (
+            <div key={messageData.id} style={{ marginTop: '10px' }}>
+              <img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
+              <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
+              <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
+              <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
+              {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
+            </div>
+          )
+        } else {
+          return <></>
+        }
+      }));
 
   return (
     <div className="community container-fluid text-light">
@@ -384,16 +384,14 @@ export default function Communinty() {
           <p className='text-center'><i className="fas fa-vr-cardboard"></i></p>
           <div className='friend-list'>
             <div className='server-list' style={{ paddingTop: 2 }}>
-              <span style={{ display: 'flex' }}>
-                <img src={icon} height={35} style={{ paddingTop: 10, paddingLeft: 85 }} />
-                &#160;
-                <span style={{ paddingTop: 14, paddingLeft: 2, fontSize: '0.8rem', fontWeight: 'bold', paddingBottom: 7 }} >Server System</span>
+              <span style={{ display: 'flex', paddingBottom: 5 }}>
+                <span style={{ paddingTop: 14, paddingLeft: 22, fontSize: '0.8rem', fontWeight: 'bold', paddingBottom: 3 }} > <i className="fas fa-comment-alt"></i> &#160; Text server</span>
               </span>
               <ul className='friend-list-mapper'>
                 {serverList.length > 0 ? (
                   serverList.map((server) => {
                     return (
-                      <li className='server-list-map' key={server.id} style={{ paddingTop: '5px', paddingBottom: '5px', marginTop: 10 }} onClick={(e) => handleChatWithServer(e, server.id, server.server_name, server.server_avatar)}>
+                      <li className='server-list-map' key={server.id} style={{ paddingTop: '5px', paddingBottom: '5px', marginTop: 8 }} onClick={(e) => handleChatWithServer(e, server.id, server.server_name, server.server_avatar)}>
                         <div className='row'>
                           <div className='col-3' style={{ display: 'flex' }}>
                             &#160;
@@ -408,9 +406,24 @@ export default function Communinty() {
                     );
                   })
                 ) : (
-                  <li>No friends found.</li>
+                  <li>No server found.</li>
                 )}
               </ul>
+
+              <span>
+                <p></p>
+                <span style={{ paddingLeft: 22, fontSize: '0.8rem', fontWeight: 'bold' }} > <i className="fas fa-microphone"></i> &#160; Voice server</span>
+
+                <div className='voice-chanel row' style={{ marginTop: 10 }}>
+                  <div className='col-2' style={{ fontSize: '0.9rem' }}>
+                    <i className="fas fa-volume-up"></i>
+                  </div>
+                  <div className='col-7 friend_name' style={{ fontSize: '0.8rem', paddingLeft: 0 }}>
+                    Voice chanel 01
+                  </div>
+                </div>
+              </span>
+
             </div>
 
             <div className='name-card'>
@@ -527,8 +540,8 @@ export default function Communinty() {
               <div className="popup-container-3">
                 <div className="popup-content-3">
                   <span style={{ display: 'flex' }}>
-                    <span className="popup-text-3" onClick={(e) => handleRemoveImage(e)}><i class="fas fa-trash-alt"></i></span>
-                    <span className="popup-text-3-1" type="file" accept=".jpg,.jpeg,.png" onClick={handleFileChange}><i class="fas fa-pen"></i></span>
+                    <span className="popup-text-3" onClick={(e) => handleRemoveImage(e)}><i className="fas fa-trash-alt"></i></span>
+                    <span className="popup-text-3-1" type="file" accept=".jpg,.jpeg,.png" onClick={handleFileChange}><i className="fas fa-pen"></i></span>
                   </span>
                   <img src={previewUrl} height={140} width={180} style={{ marginTop: 10 }} />
                 </div>

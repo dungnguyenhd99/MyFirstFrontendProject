@@ -272,6 +272,28 @@
     border-radius: 5px;
 }
 
+.voice-chanel {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: #242222;
+}
+
+.voice-member {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 7px;
+    background-color: #242222;
+}
+
+.voice-chanel:hover {
+    cursor: pointer;
+    background-color: #454d5f;
+    border-radius: 5px;
+}
+
 .friend-list-map:hover {
     cursor: pointer;
     background-color: #454d5f;

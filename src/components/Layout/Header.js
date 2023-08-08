@@ -72,7 +72,7 @@ export default function Header() {
                 <a className='title' href='#myproject' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</a>
                 <a className='title' href='#event' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</a>
                 <Link className='title' to={'/community'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('community')}>{t('community')}</Link>
-                <a className='title' href='https://drive.google.com/u/6/uc?id=1F9DcEvNOy5TEzMCyt5C65_fmTGo4jbjq&export=download' target='_blank' style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</a>
+                <Link className='title' to={'/about-me'} style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</Link>
 
                 <span>
                     <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">
@@ -85,9 +85,9 @@ export default function Header() {
 
                     {!userProfile ?
                         (<Link to={'/signin'} className="box-3 position-absolute top-50 end-0 translate-middle" onClick={clickView}><span className="btn btn-three"><span>&#160;&#160;{t('signin')}&#160;&#160;<i className="fas fa-user"></i></span></span></Link>) :
-                        (<> <span style={{ color: 'white', top:35, right: 10}} className="dropdown box-3 position-absolute translate-middle">
-                            <span>{userProfile ? (<><img src={userProfile.avatar ? userProfile.avatar : icon} height={30} width={30} style={{borderRadius: 20}}></img>&#160; &#160;<span style={{fonntSize: '0.8rem'}}>{userProfile.full_name ? userProfile.full_name : userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
-                            <div className="dropdown-content">
+                        (<> <span style={{ color: 'white', top:35, right: 10}} className="dropdown box-3 position-absolute translate-middle name-card-header">
+                            <span style={{fontSize: '0.95rem'}}>&#160; {userProfile ? (<><img src={userProfile.avatar ? userProfile.avatar : icon} height={30} width={30} style={{borderRadius: 20}}></img>&#160; &#160;<span style={{fonntSize: '0.8rem'}}>{userProfile.full_name ? userProfile.full_name : userProfile.user_name}</span></>) : (<><img src={eng} width={26} height={16}></img></>)}</span>
+                            <div className="dropdown-content pt-2">
                                 <button className='btn text-light' style={{ width: 150, fontSize: 13 }} onClick={handleProfile}><i className="fa fa-user"></i>&#160; Account</button><br></br>
                                 <button className='btn text-light' style={{ width: 150, fontSize: 13 }} onClick={handleLogout}><i className="fa fa-sign-out-alt"></i>&#160; Logout</button>
                             </div>
