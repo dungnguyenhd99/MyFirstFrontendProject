@@ -115,7 +115,7 @@ export default function Communinty() {
   };
 
   const handleFileChange = async (e) => {
-    const file = await e.target.files && e.target.files[0]; // Check if files array exists and has elements
+    const file = await e.target.files && await e.target.files[0]; // Check if files array exists and has elements
     setAvatarFile(file);
 
     // Create a URL for the image preview
@@ -125,9 +125,7 @@ export default function Communinty() {
       setPreviewUrl(reader.result);
     };
 
-    console.log(avatarFile);
-
-    authService.uploadAvatar(avatarFile).then((res) => {
+    authService.uploadAvatar(file).then((res) => {
       setImageInput(res.data.data.link);
     }).catch((err) => {
       console.log(err);
