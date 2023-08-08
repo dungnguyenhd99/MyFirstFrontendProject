@@ -93,7 +93,6 @@ export default function Communinty() {
     scrollToBottom();
     if (socket) {
       socket.on('newMessage', async (messageData) => {
-        console.log(currentChatFriend);
         if (messageData.user_id === currentChatFriend.friend_id && messageData.friend_id === userProfile.id) {
           console.log('mark as read');
           await communityService.markAsRead(saveToken.accessToken, [messageData.id]);
@@ -116,21 +115,23 @@ export default function Communinty() {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setAvatarFile(file);
-
-    // Create a URL for the image preview
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result);
-    };
-
-    authService.uploadAvatar(avatarFile).then((res) => {
-      setImageInput(res.data.data.link);
-    }).catch((err) => {
-      console.log(err);
-    })
+    const file = e.target.files && e.target.files[0]; // Check if files array exists and has elements
+    if (file) {
+      setAvatarFile(file);
+  
+      // Create a URL for the image preview
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+  
+      authService.uploadAvatar(avatarFile).then((res) => {
+        setImageInput(res.data.data.link);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const handleSendMessage = (e) => {
@@ -145,7 +146,6 @@ export default function Communinty() {
       });
       setMessageInput('');
       setImageInput('');
-      console.log('gửi tin nhắn');
     }
   };
 
@@ -158,6 +158,12 @@ export default function Communinty() {
     // Toggle the state to show/hide the pop-up
     setShowPopup2(!showPopup2);
   };
+
+  const handleRemoveImage = (e) => {
+    setPreviewUrl(null);
+    console.log(previewUrl);
+    setImageInput('');
+  }
 
   const handleSearchFriend = (e) => {
     setSearch(e.target.value);
@@ -370,7 +376,6 @@ export default function Communinty() {
                     const unread = unreadMessages.filter((message) =>
                       message.user_id === friend.friendId && message.friend_id === userProfile.id && !message.isRead
                     );
-                    console.log(messages);
 
                     return (
                       <li className='friend-list-map' key={friend.friendshipId} style={{ paddingTop: '5px', paddingBottom: '5px' }}>
@@ -407,15 +412,15 @@ export default function Communinty() {
               <button className='btn btn-primary' style={{ fontSize: '0.7rem', width: 100 }} onClick={handleRequestList}><i className="fas fa-stream"></i> Requests {friendRequestList.length > 0 ? <span className='friend-request-number'>{friendRequestList.length}</span> : <></>}</button>
             </div>
 
-            {/* The pop-up of request*/}
+            {/* The pop-up of add image*/}
             {previewUrl && (
               <div className="popup-container-3">
                 <div className="popup-content-3">
-                  <span style={{display: 'flex'}}>
-                <span className="popup-text-3"><i class="fas fa-trash-alt"></i></span>
-                <span className="popup-text-3-1"><i class="fas fa-pen"></i></span>
-                </span>
-                  <img src={previewUrl} height={140} width={180} style={{marginTop: 10}}/>
+                  <span style={{ display: 'flex' }}>
+                    <span className="popup-text-3" onClick={(e) => handleRemoveImage(e)}><i class="fas fa-trash-alt"></i></span>
+                    <span className="popup-text-3-1" type="file" accept=".jpg,.jpeg,.png" onClick={handleFileChange}><i class="fas fa-pen"></i></span>
+                  </span>
+                  <img src={previewUrl} height={140} width={180} style={{ marginTop: 10 }} />
                 </div>
               </div>
             )}
