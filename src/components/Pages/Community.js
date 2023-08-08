@@ -30,6 +30,7 @@ export default function Communinty() {
   const [imageInput, setImageInput] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [zoomUrl, setZoomUrl] = useState(null);
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -164,6 +165,10 @@ export default function Communinty() {
     setImageInput('');
   }
 
+  const handleZoomImage = (e, t) => {
+    setZoomUrl(t);
+  }
+
   const handleSearchFriend = (e) => {
     setSearch(e.target.value);
   }
@@ -258,6 +263,14 @@ export default function Communinty() {
     }
   };
 
+  const handlePopupContainerClick4 = (event) => {
+    // Check if the click event originated from the popup container
+    if (event.target.classList.contains('popup-container-4')) {
+      // Close the popup when clicking outside of it
+      setZoomUrl(null);
+    }
+  };
+
   const handleChatWithFriend = (e, friendId, friendName, friendAvatar) => {
     if (saveToken) {
       setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
@@ -286,7 +299,7 @@ export default function Communinty() {
             <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
             <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
             <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-            {messageData.image ? (<img src={messageData.image} height={200} width={200} style={{ marginLeft: '2.7rem' }} />) : <></>}
+            {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)}/>) : <></>}
           </div>
         )
       } else {
@@ -420,6 +433,15 @@ export default function Communinty() {
                     <span className="popup-text-3-1" type="file" accept=".jpg,.jpeg,.png" onClick={handleFileChange}><i class="fas fa-pen"></i></span>
                   </span>
                   <img src={previewUrl} height={140} width={180} style={{ marginTop: 10 }} />
+                </div>
+              </div>
+            )}
+
+            {/* The pop-up of zoom image*/}
+            {zoomUrl && (
+              <div className="popup-container-4" onClick={(event) => handlePopupContainerClick4(event)}>
+                <div className="popup-content-4">
+                  <img src={zoomUrl} height={610} width={960}/>
                 </div>
               </div>
             )}
