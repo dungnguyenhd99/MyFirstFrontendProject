@@ -8,6 +8,7 @@ import communityService from '../Services/communityService';
 import io from 'socket.io-client';
 import authService from '../Services/authService';
 import { animateScroll } from 'react-scroll';
+import icon from '../../asset/images/icon.svg';
 
 export default function Communinty() {
   const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('userProfile')));
@@ -23,8 +24,9 @@ export default function Communinty() {
   const [showPopup2, setShowPopup2] = useState(false);
   const [friendRequestList, setFriendRequestList] = useState([]);
   const [friendRequestResponse, setFriendRequestResponse] = useState(null);
-  const [currentChatFriend, setCurrentChatFriend] = useState({ friend_id: 1, friend_name: null, friend_avatar: null });
+  const [currentChatFriend, setCurrentChatFriend] = useState({ friend_id: 0, friend_name: null, friend_avatar: null });
   const [messages, setMessages] = useState([]);
+  const [messagesServer, setMessagesServer] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [imageInput, setImageInput] = useState('');
@@ -32,6 +34,8 @@ export default function Communinty() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [zoomUrl, setZoomUrl] = useState(null);
   const [socket, setSocket] = useState(null);
+  const [serverList, setServerList] = useState([]);
+  const [currentServer, setCurrentServer] = useState({ server_id: 1, server_name: 'General #', server_avatar: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDl2OWMzbWIzYmhpMW1udTYybzAxMGRrYXQxaW1hb2d2b3p5eDBvbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ltIFdjNAasOwVvKhvx/200.gif', created_at: null })
 
   useEffect(() => {
     if (!userProfile) {
@@ -51,20 +55,33 @@ export default function Communinty() {
         setUserList(res.data.userList);
       }).catch((err) => {
         console.log(err);
-      })
+      });
 
       communityService.searchForFriendRequest(saveToken.accessToken, friendRequestSearch).then((res) => {
         setFriendRequestList(res.data);
       }).catch((err) => {
         console.log(err);
-      })
+      });
 
       communityService.getChatHistories(saveToken.accessToken).then((res) => {
         setMessages(res.data);
         setUnreadMessages(res.data);
       }).catch((err) => {
         console.log(err);
-      })
+      });
+
+      communityService.getServerChatHistory(saveToken.accessToken, currentServer.server_id).then((res) => {
+        setMessagesServer(res.data);
+        console.log(res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      communityService.getServerList(saveToken.accessToken).then((res) => {
+        setServerList(res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
 
       const socket = io('ngtbackend-production.up.railway.app', {
         query: { userId: userProfile.id.toString() },
@@ -95,18 +112,23 @@ export default function Communinty() {
     if (socket) {
       socket.on('newMessage', async (messageData) => {
         if (messageData.user_id === currentChatFriend.friend_id && messageData.friend_id === userProfile.id) {
-          console.log('mark as read');
           await communityService.markAsRead(saveToken.accessToken, [messageData.id]);
         } else {
           setUnreadMessages((prevMessages) => [...prevMessages, messageData]);
         }
         setMessages((prevMessages) => [...prevMessages, messageData]);
       });
+
+      socket.on('newMessageServer', (messageData) => {
+        setMessagesServer((prevMessages) => [...prevMessages, messageData]);
+      });
+
       return () => {
         socket.off('newMessage');
+        socket.off('newMessageServer');
       };
     }
-  }, [messages, currentChatFriend]);
+  }, [messages, messagesServer, currentChatFriend, currentServer]);
 
   const scrollToBottom = () => {
     animateScroll.scrollToBottom({
@@ -137,12 +159,21 @@ export default function Communinty() {
     e.preventDefault();
     if (socket && (messageInput.trim() !== '' || imageInput.trim() !== '')) {
       // Gửi tin nhắn và hình ảnh mới lên máy chủ
-      socket.emit('sendMessage', {
-        userId: userProfile.id,
-        friendId: currentChatFriend.friend_id ? currentChatFriend.friend_id : 1,
-        message: messageInput,
-        image: imageInput,
-      });
+      if (currentServer.id === null) {
+        socket.emit('sendMessage', {
+          userId: userProfile.id,
+          friendId: currentChatFriend.friend_id ? currentChatFriend.friend_id : 1,
+          message: messageInput,
+          image: imageInput,
+        });
+      } else {
+        socket.emit('sendMessageServer', {
+          userId: userProfile.id,
+          serverId: currentServer.server_id ,
+          message: messageInput,
+          image: imageInput,
+        });
+      }
       setMessageInput('');
       setImageInput('');
       setPreviewUrl(null);
@@ -271,27 +302,56 @@ export default function Communinty() {
     }
   };
 
-  const handleChatWithFriend = (e, friendId, friendName, friendAvatar) => {
+  const handleChatWithFriend = async (e, friendId, friendName, friendAvatar) => {
     if (saveToken) {
+      setCurrentServer({ server_id: null, server_name: null, server_avatar: null, created_at: null });
       setCurrentChatFriend({ friend_id: friendId, friend_name: friendName, friend_avatar: friendAvatar });
       const listId = messages
         .filter(message => message.user_id === friendId && message.friend_id === userProfile.id && !message.isRead)
         .map(message => message.id);
-      communityService.markAsRead(saveToken.accessToken, listId);
-      communityService.getChatHistories(saveToken.accessToken).then((res) => {
-        setUnreadMessages(res.data);
-      }).catch((err) => {
-        console.log(err);
-      })
+      await communityService.markAsRead(saveToken.accessToken, listId);
+      // communityService.getChatHistories(saveToken.accessToken).then((res) => {
+      //   setUnreadMessages(res.data);
+      // }).catch((err) => {
+      //   console.log(err);
+      // })
+      setUnreadMessages(messages);
     }
   };
+
+  const handleChatWithServer = (e, serverId, serverName, serverAvatar) => {
+    if (saveToken) {
+      setCurrentChatFriend({ friend_id: 0, friend_name: null, friend_avatar: null });
+      setCurrentServer({ server_id: serverId, server_name: serverName, server_avatar: serverAvatar, created_at: null });
+      communityService.getServerChatHistory(saveToken.accessToken, serverId).then((res) => {
+        setMessagesServer(res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
 
   const onlineFriends = friendList ? friendList.filter((friend) => onlineUsers.includes(friend.friendId)) : [];
   const offlineFriends = friendList ? friendList.filter((friend) => !onlineUsers.includes(friend.friendId)) : [];
   const sortedFriendList = [...onlineFriends, ...offlineFriends];
 
   const chatHistoryList =
-    messages.map((messageData) => {
+    currentServer.server_id ? 
+    (messagesServer.length > 0 ? (messagesServer.map((messageData) => {
+        return (
+          <div key={messageData.id} style={{ marginTop: '10px' }}>
+            <img src={messageData.user_avatar ? messageData.user_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
+            <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{ messageData.user_fullName ? messageData.user_fullName : messageData.user_name }</span> &#160;
+            <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{ formatDateTime(messageData.createdAt) }</span> &#160;
+            <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
+            {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
+          </div>
+        )
+    })) : 
+    (<></>)
+    )
+    : 
+    (messages.map((messageData) => {
       if ((messageData.friend_id === currentChatFriend.friend_id && messageData.user_id === userProfile.id) || (messageData.friend_id === userProfile.id && messageData.user_id === currentChatFriend.friend_id)) {
         return (
           <div key={messageData.id} style={{ marginTop: '10px' }}>
@@ -299,21 +359,49 @@ export default function Communinty() {
             <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
             <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
             <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-            {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)}/>) : <></>}
+            {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
           </div>
         )
       } else {
         return <></>
       }
-    });
+    }));
 
   return (
     <div className="community container-fluid text-light">
       <div className="row">
         <div className="col-2">
-          <p className='text-center'><i className="fas fa-vr-cardboard"></i> &#160; Server name</p>
+          <p className='text-center'><i className="fas fa-vr-cardboard"></i></p>
           <div className='friend-list'>
-            <div className='server-list'>...</div>
+            <div className='server-list' style={{ paddingTop: 2 }}>
+              <span style={{ display: 'flex' }}>
+                <img src={icon} height={35} style={{ paddingTop: 10, paddingLeft: 85 }} />
+                &#160;
+                <span style={{ paddingTop: 14, paddingLeft: 2, fontSize: '0.8rem', fontWeight: 'bold', paddingBottom: 7 }} >Server System</span>
+              </span>
+              <ul className='friend-list-mapper'>
+                {serverList.length > 0 ? (
+                  serverList.map((server) => {
+                    return (
+                      <li className='server-list-map' key={server.id} style={{ paddingTop: '5px', paddingBottom: '5px', marginTop: 10 }} onClick={(e) => handleChatWithServer(e, server.id, server.server_name, server.server_avatar)}>
+                        <div className='row'>
+                          <div className='col-3' style={{ display: 'flex' }}>
+                            &#160;
+                            <img src={server.server_avatar ? server.server_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
+                              height={35} width={35} style={{ border: '1px solid white', borderRadius: 5 }} />
+                          </div>
+                          <div className='col-7 friend_name' style={{ fontSize: '0.8rem', paddingLeft: 0 }}>
+                            {server.server_name}
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <li>No friends found.</li>
+                )}
+              </ul>
+            </div>
 
             <div className='name-card'>
               <hr></hr>
@@ -334,13 +422,13 @@ export default function Communinty() {
         </div>
 
         <div className="col-8">
-          <p className='text-center'><i className="fas fa-comment-alt"></i> &#160; Chat area</p>
+          <p className='text-center'><i className="fas fa-comment-alt"></i></p>
           <div className='friend-list'>
             <div className='chat-friend'>
               {currentChatFriend ?
                 (<>
-                  <img src={currentChatFriend.friend_avatar ? currentChatFriend.friend_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{ borderRadius: 15 }} />
-                  <span style={{ paddingLeft: 10, fontSize: '0.85rem' }}>{currentChatFriend.friend_name}</span>
+                  <img src={currentChatFriend.friend_avatar ? currentChatFriend.friend_avatar : currentServer.server_avatar} height={30} width={30} style={{ borderRadius: 15 }} />
+                  <span style={{ paddingLeft: 10, fontSize: '0.85rem' }}>{currentChatFriend.friend_name ? currentChatFriend.friend_name : currentServer.server_name}</span>
                 </>)
                 : (<></>)}
             </div>
@@ -373,7 +461,7 @@ export default function Communinty() {
         </div>
 
         <div className="col-2">
-          <p className='text-center'><i className="fas fa-user-friends"></i> &#160; Friend List</p>
+          <p className='text-center'><i className="fas fa-user-friends"></i></p>
           <div className='friend-list'>
 
             <div className='search-bar'>
@@ -390,22 +478,22 @@ export default function Communinty() {
                     );
 
                     return (
-                      <li className='friend-list-map' key={friend.friendshipId} style={{ paddingTop: '5px', paddingBottom: '5px' }}>
+                      <li className='friend-list-map' key={friend.friendshipId} style={{ paddingTop: '8px', paddingBottom: '8px' }}>
                         <div className='row' onClick={(e) => handleChatWithFriend(e, friend.friendId, friend.friendFullname ? friend.friendFullname : friend.friendName, friend.friendAvatar)}>
                           <div className='col-3' style={{ display: 'flex' }}>
                             &#160;
                             <img src={friend.friendAvatar ? friend.friendAvatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'}
-                              height={40} width={40} style={{ border: '1px solid white', borderRadius: 60 }} />
+                              height={35} width={35} style={{ border: '1px solid white', borderRadius: 60 }} />
                             {unread.length > 0 ? <span className='unread-message-number'>{unread.length}</span> : <></>}
                           </div>
-                          <div className='col-5 friend_name' style={{ fontSize: '0.85rem' }}>
+                          <div className='col-5 friend_name' style={{ fontSize: '0.8rem', paddingLeft: 0 }}>
                             {friend.friendFullname ? friend.friendFullname : friend.friendName}
                           </div>
-                          <div className='col-2 pt-2'>
+                          <div className='col-2 pt-1'>
                             {onlineUsers.includes(friend.friendId) ? (
-                              <span style={{ color: 'green', fontSize: '0.8rem' }}><i className="fas fa-circle"></i></span>
+                              <span style={{ color: 'green', fontSize: '0.6rem' }}><i className="fas fa-circle"></i></span>
                             ) : (
-                              <span style={{ color: 'gray', fontSize: '0.8rem' }}><i className="fas fa-circle"></i></span>
+                              <span style={{ color: 'gray', fontSize: '0.6rem' }}><i className="fas fa-circle"></i></span>
                             )}
                           </div>
                         </div>
@@ -441,7 +529,7 @@ export default function Communinty() {
             {zoomUrl && (
               <div className="popup-container-4" onClick={(event) => handlePopupContainerClick4(event)}>
                 <div className="popup-content-4">
-                  <img src={zoomUrl} height={610} width={960}/>
+                  <img src={zoomUrl} height={610} width={960} />
                 </div>
               </div>
             )}

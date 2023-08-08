@@ -59,6 +59,22 @@ class CommunintyService {
     };
     return axios.post(API_URL + `send-request?friendId=${friendId}`, {}, {headers})
   }
+
+  getServerList(access_token) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.get(API_URL +`server-list`, {headers})
+  }
+
+  getServerChatHistory(access_token, serverId) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    };
+    return axios.get(API_URL +`server-chat-histories?serverId=${serverId}`, {headers})
+  }
 }
 
 export default new CommunintyService();

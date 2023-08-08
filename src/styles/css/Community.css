@@ -267,9 +267,20 @@
     /* Điều chỉnh lề bên trong */
 }
 
+.server-list-map {
+    background-color: #242222;
+    border-radius: 5px;
+}
+
 .friend-list-map:hover {
     cursor: pointer;
-    background-color: #3a3838;
+    background-color: #454d5f;
+    border-radius: 5px;
+}
+
+.server-list-map:hover {
+    cursor: pointer;
+    background-color: #454d5f;
     border-radius: 5px;
 }
 
