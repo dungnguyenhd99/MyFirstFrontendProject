@@ -144,6 +144,7 @@ export default function Communinty() {
       });
       setMessageInput('');
       setImageInput('');
+      setPreviewUrl(null);
     }
   };
 
@@ -285,7 +286,7 @@ export default function Communinty() {
             <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
             <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
             <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-            {messageData.image ? (<img src={messageData.user_id === userProfile.id ? userProfile.avatar : currentChatFriend.friend_avatar} height={200} width={200} style={{ marginLeft: '2.7rem' }} />) : <></>}
+            {messageData.image ? (<img src={messageData.image ? messageData.image : null} height={200} width={200} style={{ marginLeft: '2.7rem' }} />) : <></>}
           </div>
         )
       } else {
