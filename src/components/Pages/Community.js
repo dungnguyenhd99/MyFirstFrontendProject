@@ -114,24 +114,24 @@ export default function Communinty() {
     });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files && e.target.files[0]; // Check if files array exists and has elements
-    if (file) {
-      setAvatarFile(file);
-  
-      // Create a URL for the image preview
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-  
-      authService.uploadAvatar(avatarFile).then((res) => {
-        setImageInput(res.data.data.link);
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
+  const handleFileChange = async (e) => {
+    const file = await e.target.files && e.target.files[0]; // Check if files array exists and has elements
+    setAvatarFile(file);
+
+    // Create a URL for the image preview
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+
+    console.log(avatarFile);
+
+    authService.uploadAvatar(avatarFile).then((res) => {
+      setImageInput(res.data.data.link);
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   const handleSendMessage = (e) => {
