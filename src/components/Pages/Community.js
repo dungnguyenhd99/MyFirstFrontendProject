@@ -9,6 +9,9 @@ import io from 'socket.io-client';
 import authService from '../Services/authService';
 import { animateScroll } from 'react-scroll';
 import icon from '../../asset/images/icon.svg';
+import notification from '../../asset/sounds/notification-sound.mp3'
+
+const audio = new Audio(notification);
 
 export default function Communinty() {
   const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('userProfile')));
@@ -117,10 +120,16 @@ export default function Communinty() {
           setUnreadMessages((prevMessages) => [...prevMessages, messageData]);
         }
         setMessages((prevMessages) => [...prevMessages, messageData]);
+        if (messageData.user_id !== userProfile.id) {
+          audio.play();
+        }
       });
 
       socket.on('newMessageServer', (messageData) => {
         setMessagesServer((prevMessages) => [...prevMessages, messageData]);
+        if (messageData.user_id !== userProfile.id) {
+          audio.play();
+        }
       });
 
       return () => {
@@ -160,7 +169,7 @@ export default function Communinty() {
     e.preventDefault();
     if (socket && (messageInput.trim() !== '' || imageInput.trim() !== '')) {
       // Gửi tin nhắn và hình ảnh mới lên máy chủ
-      if (currentServer.id === null) {
+      if (!currentServer.server_id) {
         socket.emit('sendMessage', {
           userId: userProfile.id,
           friendId: currentChatFriend.friend_id ? currentChatFriend.friend_id : 1,
