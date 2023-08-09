@@ -354,7 +354,7 @@ export default function Communinty() {
             <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_fullName ? messageData.user_fullName : messageData.user_name}</span> &#160;
             <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.createdAt)}</span> &#160;
             <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-            {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
+            {messageData.image ? (<img className='chat-image' src={messageData.image} height='20%' width='20%' style={{ marginLeft: '2.7rem', borderRadius: 10 }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
           </div>
         )
       })) :
@@ -369,7 +369,7 @@ export default function Communinty() {
               <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
               <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
               <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-              {messageData.image ? (<img className='chat-image' src={messageData.image} height={200} width={260} style={{ marginLeft: '2.7rem' }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
+              {messageData.image ? (<img className='chat-image' src={messageData.image} height='20%' width='20%' style={{ marginLeft: '2.7rem', borderRadius: 10  }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
             </div>
           )
         } else {

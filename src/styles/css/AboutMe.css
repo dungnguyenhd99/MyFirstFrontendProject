@@ -1,5 +1,6 @@
 .profile {
     margin-top: 70px;
+    animation: move-background 10s linear infinite;
 }
 
 .user-card-full {
@@ -135,4 +136,26 @@ h6 {
     margin: 0 10px 0 0;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+}
+
+@keyframes move-background {
+	0% {
+		background-position: 0 0;
+	}
+
+	25% {
+		background-position: 0 -10px;
+	}
+
+	50% {
+		background-position: 10px -10px;
+	}
+
+	75% {
+		background-position: 10px 0;
+	}
+
+	100% {
+		background-position: 0 0;
+	}
 }

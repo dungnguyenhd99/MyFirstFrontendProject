@@ -1,0 +1,103 @@
+.music-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 780px;
+    left: 660px;
+    background-color: #3734344b;
+    color: rgb(186, 177, 177);
+    width: 600px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+}
+
+.t-buttons:hover {
+    cursor: pointer;
+    color: rgba(39, 189, 240, 0.903) !important;
+}
+
+.volume-button:hover {
+    cursor: pointer;
+    color: rgba(39, 189, 240, 0.903);
+}
+
+.song-name {
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0px;
+}
+
+.time-slider {
+    padding: 0px;
+}
+
+.music-controls {
+    padding: 0px;
+}
+
+.song-name p.marquee {
+    animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-150%);
+    }
+}
+
+.slider-input {
+    width: 100%;
+    height: 15px;
+    background-color: #de222214;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+.volume-input {
+    width: 100%;
+    height: 15px;
+    background-color: #de2222;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+.music-controls button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    padding: 5px 10px;
+}
+
+.time-slider {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+
+.time-slider span,
+.volume-slider span {
+    font-size: 12px;
+    margin: 0 10px;
+    color: #000000;
+    /* Thay đổi màu chữ thành đỏ (#ff0000) */
+}
+
+.song-name p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.volume-slider {
+    width: 100px;
+    display: flex;
+    align-items: center;
+}
