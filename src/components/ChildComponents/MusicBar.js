@@ -14,6 +14,10 @@ function MusicBar({ audioList }) {
     const marqueeRef = useRef(null);
 
     useEffect(() => {
+        setIsPlaying(true);
+    }, []);
+
+    useEffect(() => {
         audioRef.current = new Audio(audioList[currentSongIndex].audioSource);
 
         const audio = audioRef.current;
@@ -27,7 +31,11 @@ function MusicBar({ audioList }) {
         };
 
         const handleEnded = async () => {
-            handleNextSong();
+            setIsPlaying(false);
+            await new Promise(resolve => setTimeout(resolve, 0));
+            const previousSongIndex = (currentSongIndex - 1 + audioList.length) % audioList.length;
+            setCurrentSongIndex(previousSongIndex);
+            setIsPlaying(true);
         };
 
         audio.addEventListener('timeupdate', updateTime);
@@ -118,10 +126,6 @@ function MusicBar({ audioList }) {
             audio.pause();
         };
     }, [currentSongIndex])
-
-    useEffect(() => {
-        setIsPlaying(true);
-    }, []);
 
     return (
         <div className="music-bar row">
