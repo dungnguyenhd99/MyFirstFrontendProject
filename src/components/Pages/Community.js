@@ -39,6 +39,8 @@ export default function Communinty() {
   const [socket, setSocket] = useState(null);
   const [serverList, setServerList] = useState([]);
   const [currentServer, setCurrentServer] = useState({ server_id: 1, server_name: 'General #', server_avatar: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDl2OWMzbWIzYmhpMW1udTYybzAxMGRrYXQxaW1hb2d2b3p5eDBvbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ltIFdjNAasOwVvKhvx/200.gif', created_at: null })
+  const [numberOfMessage, setNumberOfMessage] = useState(10);
+  const [isShowMore, setIsShowMore] = useState(false);
 
   useEffect(() => {
     if (!userProfile) {
@@ -75,7 +77,6 @@ export default function Communinty() {
 
       communityService.getServerChatHistory(saveToken.accessToken, currentServer.server_id).then((res) => {
         setMessagesServer(res.data);
-        console.log(res.data);
       }).catch((err) => {
         console.log(err);
       });
@@ -111,7 +112,12 @@ export default function Communinty() {
   }, [])
 
   useEffect(() => {
+    if (!isShowMore) {
     scrollToBottom();
+    } else {
+      setIsShowMore(false);
+    }
+  
     if (socket) {
       socket.on('newMessage', async (messageData) => {
         if (messageData.user_id === currentChatFriend.friend_id && messageData.friend_id === userProfile.id) {
@@ -146,6 +152,20 @@ export default function Communinty() {
       duration: 300,
     });
   };
+
+  const handleShowMore = (e) => {
+    e.preventDefault();
+    if (saveToken) {
+      setIsShowMore(true);
+      setNumberOfMessage(numberOfMessage + 20);
+      communityService.getChatHistories(saveToken.accessToken).then((res) => {
+        setMessages(res.data);
+        setUnreadMessages(res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
 
   const handleFileChange = async (e) => {
     const file = await e.target.files && await e.target.files[0]; // Check if files array exists and has elements
@@ -202,7 +222,6 @@ export default function Communinty() {
 
   const handleRemoveImage = (e) => {
     setPreviewUrl(null);
-    console.log(previewUrl);
     setImageInput('');
   }
 
@@ -347,17 +366,18 @@ export default function Communinty() {
 
   const chatHistoryList =
     currentServer.server_id ?
-      (messagesServer.length > 0 ? (messagesServer.map((messageData) => {
-        return (
-          <div key={messageData.id} style={{ marginTop: '10px' }}>
-            <img src={messageData.user_avatar ? messageData.user_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
-            <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_fullName ? messageData.user_fullName : messageData.user_name}</span> &#160;
-            <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.createdAt)}</span> &#160;
-            <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-            {messageData.image ? (<img className='chat-image' src={messageData.image} height='20%' width='20%' style={{ marginLeft: '2.7rem', borderRadius: 10 }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
-          </div>
-        )
-      })) :
+      (messagesServer.length > 0 ? (
+        messagesServer.map((messageData) => {
+          return (
+            <div key={messageData.id} style={{ marginTop: '10px' }}>
+              <img src={messageData.user_avatar ? messageData.user_avatar : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png'} height={30} width={30} style={{ borderRadius: 15 }} /> &#160;&#160;
+              <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_fullName ? messageData.user_fullName : messageData.user_name}</span> &#160;
+              <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.createdAt)}</span> &#160;
+              <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
+              {messageData.image ? (<img className='chat-image' src={messageData.image} height='20%' width='20%' style={{ marginLeft: '2.7rem', borderRadius: 10 }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
+            </div>
+          )
+        })) :
         (<></>)
       )
       :
@@ -369,7 +389,7 @@ export default function Communinty() {
               <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{messageData.user_id === userProfile.id ? userProfile.full_name : currentChatFriend.friend_name}</span> &#160;
               <span style={{ fontSize: '0.7rem', color: 'lightgray' }}>{formatDateTime(messageData.created_at)}</span> &#160;
               <p style={{ marginLeft: '2.7rem', fontSize: '0.9rem' }}>{messageData.message}</p>
-              {messageData.image ? (<img className='chat-image' src={messageData.image} height='20%' width='20%' style={{ marginLeft: '2.7rem', borderRadius: 10  }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
+              {messageData.image ? (<img className='chat-image' src={messageData.image} height='20%' width='20%' style={{ marginLeft: '2.7rem', borderRadius: 10 }} onClick={(e) => handleZoomImage(e, messageData.image)} />) : <></>}
             </div>
           )
         } else {
@@ -456,6 +476,11 @@ export default function Communinty() {
                 : (<></>)}
             </div>
             <div className='chat-list ms-3' id='chat-list-container'>
+              {(messages.length > numberOfMessage || messagesServer.length > numberOfMessage) ?
+                (<>
+                  <div className='text-center pt-2 show-more-text'><span onClick={(e) => handleShowMore(e)}>show more <i className="fas fa-angle-up"></i></span>
+                  </div></>)
+                : (<></>)}
               {chatHistoryList}
               <span className="scroll-to-bottom"></span>
             </div>
