@@ -30,9 +30,9 @@ function MusicBar({ audioList, onMusicChange }) {
         const handleEnded = async () => {
             setIsPlaying(false);
             await new Promise(resolve => setTimeout(resolve, 0));
-            const previousSongIndex = (currentSongIndex - 1 + audioList.length) % audioList.length;
-            setCurrentSongIndex(previousSongIndex);
-            onMusicChange({ type: 'songIndexChange', value: previousSongIndex });
+            const nextSongIndex = (currentSongIndex + 1) % audioList.length;
+            setCurrentSongIndex(nextSongIndex);
+            onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
             setIsPlaying(true);
         };
 
@@ -110,18 +110,18 @@ function MusicBar({ audioList, onMusicChange }) {
 
     useEffect(() => {
         const audio = audioRef.current;
-    
+
         const updateTime = () => {
             setCurrentTime(audio.currentTime);
         };
-    
+
         const updateDuration = () => {
             setDuration(audio.duration);
         };
-    
+
         audio.addEventListener('timeupdate', updateTime);
         audio.addEventListener('loadeddata', updateDuration);
-    
+
         return () => {
             audio.removeEventListener('timeupdate', updateTime);
             audio.removeEventListener('loadeddata', updateDuration);
