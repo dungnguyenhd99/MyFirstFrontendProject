@@ -75,16 +75,19 @@ function MusicBar({ audioList, onMusicChange }) {
     }
 
     const handleNextSong = async () => {
-        setIsPlaying(!isPlaying);
+        setIsPlaying(false);
         const nextSongIndex = (currentSongIndex + 1) % audioList.length;
         onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise(resolve => setTimeout(resolve, 1));
         setCurrentSongIndex(nextSongIndex);
+        await new Promise(resolve => setTimeout(resolve, 1));
         setIsPlaying(true);
+        await new Promise(resolve => setTimeout(resolve, 1));
+
     };
 
     const handlePreviousSong = async () => {
-        setIsPlaying(!isPlaying);
+        setIsPlaying(false);
         const previousSongIndex = (currentSongIndex - 1 + audioList.length) % audioList.length;
         onMusicChange({ type: 'songIndexChange', value: previousSongIndex });
         await new Promise(resolve => setTimeout(resolve, 0));
