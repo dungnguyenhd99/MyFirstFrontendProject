@@ -27,13 +27,8 @@ function MusicBar({ audioList, onMusicChange }) {
             setDuration(audio.duration);
         };
 
-        const handleEnded = async () => {
-            setIsPlaying(false);
-            await new Promise(resolve => setTimeout(resolve, 0));
-            const nextSongIndex = (currentSongIndex + 1) % audioList.length;
-            setCurrentSongIndex(nextSongIndex);
-            onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
-            setIsPlaying(true);
+        const handleEnded = () => {
+            handleNextSong();
         };
 
         audio.addEventListener('timeupdate', updateTime);
@@ -48,12 +43,13 @@ function MusicBar({ audioList, onMusicChange }) {
     }, [currentSongIndex, audioList]);
 
     useEffect(() => {
-        const audio = audioRef.current;
-
         if (isPlaying) {
-            audio.play();
+            audioRef.current.play().catch(error => {
+                console.error("Play error:", error);
+                setIsPlaying(false);
+            });
         } else {
-            audio.pause();
+            audioRef.current.pause();
         }
     }, [isPlaying]);
 
@@ -79,27 +75,27 @@ function MusicBar({ audioList, onMusicChange }) {
     }
 
     const handleNextSong = async () => {
-        setIsPlaying(false);
-        await new Promise(resolve => setTimeout(resolve, 0));
+        setIsPlaying(!isPlaying);
         const nextSongIndex = (currentSongIndex + 1) % audioList.length;
+        onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
+        await new Promise(resolve => setTimeout(resolve, 0));
         setCurrentSongIndex(nextSongIndex);
         setIsPlaying(true);
-        onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
     };
 
     const handlePreviousSong = async () => {
-        setIsPlaying(false);
-        await new Promise(resolve => setTimeout(resolve, 0));
+        setIsPlaying(!isPlaying);
         const previousSongIndex = (currentSongIndex - 1 + audioList.length) % audioList.length;
+        onMusicChange({ type: 'songIndexChange', value: previousSongIndex });
+        await new Promise(resolve => setTimeout(resolve, 0));
         setCurrentSongIndex(previousSongIndex);
         setIsPlaying(true);
-        onMusicChange({ type: 'songIndexChange', value: previousSongIndex });
     };
 
     const handleTimeChange = (event) => {
         const newTime = parseFloat(event.target.value);
         setCurrentTime(newTime);
-        audioRef.current.currentTime = newTime;
+        audioRef.current.currentTime = newTime; // Cập nhật thời gian của audio
     };
 
     const formatTime = (timeInSeconds) => {
@@ -133,6 +129,7 @@ function MusicBar({ audioList, onMusicChange }) {
 
         return () => {
             audio.pause();
+            audio.currentTime = 0; // Reset currentTime when switching songs
         };
     }, [currentSongIndex])
 
