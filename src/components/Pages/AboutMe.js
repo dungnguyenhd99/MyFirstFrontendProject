@@ -20,9 +20,6 @@ export default function AboutMe() {
             backgroundPosition: 'right',
             transition: 'background-position 1s ease-in-out', marginTop: 70, paddingTop: 35, paddingBottom: 200
         }}>
-            <div className="audio-player">
-                <MusicBar audioList={audioList} />
-            </div>
             <div className="page-content" id="page-content">
                 <div className="container-profile" style={{ marginTop: 25, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>
                     <div>
@@ -72,7 +69,7 @@ export default function AboutMe() {
                                                 <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>Frameworks</p>
                                                 <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Springboot, Reactjs, Nestjs, .NET, Flask</h6>
                                             </div>
-                                            
+
                                             <div className="pt-1">
                                                 <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>ETC</p>
                                                 <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Git, Unity, Unreal Engine</h6>
@@ -93,6 +90,10 @@ export default function AboutMe() {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="audio-player" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <MusicBar audioList={audioList} />
                 </div>
             </div>
         </div>

@@ -39,7 +39,7 @@ export default function Communinty() {
   const [socket, setSocket] = useState(null);
   const [serverList, setServerList] = useState([]);
   const [currentServer, setCurrentServer] = useState({ server_id: 1, server_name: 'General #', server_avatar: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDl2OWMzbWIzYmhpMW1udTYybzAxMGRrYXQxaW1hb2d2b3p5eDBvbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ltIFdjNAasOwVvKhvx/200.gif', created_at: null })
-  const [numberOfMessage, setNumberOfMessage] = useState(10);
+  const [numberOfMessage, setNumberOfMessage] = useState(20);
   const [isShowMore, setIsShowMore] = useState(false);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function Communinty() {
         console.log(err);
       });
 
-      communityService.getServerChatHistory(saveToken.accessToken, currentServer.server_id).then((res) => {
+      communityService.getServerChatHistory(saveToken.accessToken, currentServer.server_id, numberOfMessage).then((res) => {
         setMessagesServer(res.data);
       }).catch((err) => {
         console.log(err);
@@ -153,14 +153,13 @@ export default function Communinty() {
     });
   };
 
-  const handleShowMore = (e) => {
-    e.preventDefault();
-    if (saveToken) {
+  const handleShowMore = async (e) => {
+    // e.preventDefault();
+    if (saveToken && currentServer.server_id) {
       setIsShowMore(true);
-      setNumberOfMessage(numberOfMessage + 20);
-      communityService.getChatHistories(saveToken.accessToken).then((res) => {
-        setMessages(res.data);
-        setUnreadMessages(res.data);
+      await communityService.getServerChatHistory(saveToken.accessToken, currentServer.server_id, (numberOfMessage + 20)).then((res) => {
+        setMessagesServer(res.data);
+        setNumberOfMessage(numberOfMessage + 20);
       }).catch((err) => {
         console.log(err);
       });
@@ -344,6 +343,7 @@ export default function Communinty() {
       // }).catch((err) => {
       //   console.log(err);
       // })
+      await new Promise(resolve => setTimeout(resolve, 0));
       setUnreadMessages(messages);
     }
   };
@@ -352,7 +352,7 @@ export default function Communinty() {
     if (saveToken) {
       setCurrentChatFriend({ friend_id: 0, friend_name: null, friend_avatar: null });
       setCurrentServer({ server_id: serverId, server_name: serverName, server_avatar: serverAvatar, created_at: null });
-      communityService.getServerChatHistory(saveToken.accessToken, serverId).then((res) => {
+      communityService.getServerChatHistory(saveToken.accessToken, serverId, numberOfMessage).then((res) => {
         setMessagesServer(res.data);
       }).catch((err) => {
         console.log(err);
@@ -476,7 +476,7 @@ export default function Communinty() {
                 : (<></>)}
             </div>
             <div className='chat-list ms-3' id='chat-list-container'>
-              {(messages.length > numberOfMessage || messagesServer.length > numberOfMessage) ?
+              {(currentServer.server_id && messagesServer.length >= numberOfMessage) ?
                 (<>
                   <div className='text-center pt-2 show-more-text'><span onClick={(e) => handleShowMore(e)}>show more <i className="fas fa-angle-up"></i></span>
                   </div></>)

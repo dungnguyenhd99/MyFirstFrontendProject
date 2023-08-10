@@ -2,9 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: absolute;
-    top: 780px;
-    left: 660px;
+    /* position: absolute; */
+    /* top: 780px; */
+    /* left: 660px; */
     background-color: #3734344b;
     color: rgb(186, 177, 177);
     width: 600px;

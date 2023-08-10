@@ -68,12 +68,12 @@ class CommunintyService {
     return axios.get(API_URL +`server-list`, {headers})
   }
 
-  getServerChatHistory(access_token, serverId) {
+  getServerChatHistory(access_token, serverId, take) {
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${access_token}`
     };
-    return axios.get(API_URL +`server-chat-histories?serverId=${serverId}`, {headers})
+    return axios.get(API_URL +`server-chat-histories?serverId=${serverId}&take=${take}`, {headers})
   }
 }
 
