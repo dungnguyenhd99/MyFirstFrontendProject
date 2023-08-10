@@ -18,7 +18,7 @@ export default function App() {
           <Route path="community" element={<Communinty />} />
           <Route path="send-success" element={<SendSuccess />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="about-me" element={<AboutMe />} />
+          <Route path="creator" element={<AboutMe />} />
         </Route>
       </Routes>
     </BrowserRouter>

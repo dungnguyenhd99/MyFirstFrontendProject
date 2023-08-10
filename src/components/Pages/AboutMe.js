@@ -5,7 +5,7 @@ import '../../styles/css/AboutMe.css';
 import Song02 from '../../asset/sounds/MainThemeMusic.mp3';
 import Song01 from '../../asset/sounds/Song01.mp3';
 import Song03 from '../../asset/sounds/Song03.mp3';
-
+import { Helmet } from 'react-helmet';
 import MusicBar from '../ChildComponents/MusicBar';
 import gif01 from '../../asset/images/gif01.gif';
 import gif02 from '../../asset/images/gif02.gif';
@@ -23,7 +23,7 @@ export default function AboutMe() {
     ];
 
     useEffect(() => {
-        switch(currentSongIndex) {
+        switch (currentSongIndex) {
             case 0:
                 setBackgroundUrl(gif01);
                 break;
@@ -53,6 +53,9 @@ export default function AboutMe() {
 
     return (
         <div className="aboutme" style={getBackgroundStyle()}>
+            <Helmet>
+                <title>NGT Studio | Creator</title>
+            </Helmet>
             <div className="page-content" id="page-content">
                 <div className="container-profile" style={{ paddingTop: 55, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>
                     <div>
@@ -125,8 +128,8 @@ export default function AboutMe() {
                     </div>
                 </div>
 
-                <div className="audio-player" style={{display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: 55}}>
-                    <MusicBar audioList={audioList} onMusicChange={handleMusicBarEvent}/>
+                <div className="audio-player" style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: 55 }}>
+                    <MusicBar audioList={audioList} onMusicChange={handleMusicBarEvent} />
                 </div>
 
                 <div className="background-blur"></div>

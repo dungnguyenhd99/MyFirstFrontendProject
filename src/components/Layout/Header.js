@@ -72,7 +72,7 @@ export default function Header() {
                 <a className='title' href='#myproject' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</a>
                 <a className='title' href='#event' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</a>
                 <Link className='title' to={'/community'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('community')}>{t('community')}</Link>
-                <Link className='title' to={'/about-me'} style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</Link>
+                <Link className='title' to={'/creator'} style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</Link>
 
                 <span>
                     <span style={{ marginLeft: 40, color: 'white' }} className="dropdown">

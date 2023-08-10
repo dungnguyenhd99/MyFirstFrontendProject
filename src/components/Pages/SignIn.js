@@ -9,6 +9,7 @@ import '../../styles/css/Signin.css';
 import bg from '../../asset/images/signin-bg.png';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function Signin() {
   const [isSignin, setIsSignin] = useState(true);
 
   useEffect(() => {
-    if(saveToken || userProfile) {
+    if (saveToken || userProfile) {
       navigate("/");
     }
   }, [])
@@ -101,6 +102,11 @@ export default function Signin() {
       backgroundPosition: 'right',
       transition: 'background-position 1s ease-in-out', marginTop: 70, paddingTop: 150, paddingBottom: 200
     }}>
+
+      <Helmet>
+        <title>NGT Studio | SignIn</title>
+      </Helmet>
+
       <div className="container" id="container">
         {!isSignin ? (
           <div className="form-container sign-up-container">
@@ -123,7 +129,7 @@ export default function Signin() {
                 onChange={(e) => setStateSignup({ ...stateSignup, password: e.target.value, })}
                 style={{ color: 'white' }} maxLength={30}
               />
-              <button style={{marginTop: 7}}>{t('signup')}</button>
+              <button style={{ marginTop: 7 }}>{t('signup')}</button>
               <p style={{ color: 'red' }}>{errorSignUp ? errorSignUp : (<></>)}</p>
             </form>
           </div>

@@ -34,6 +34,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
+import { Helmet } from 'react-helmet';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -124,13 +125,13 @@ export default function Home() {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isModalOpen3, setIsModalOpen3] = useState(false);
 
-  const handleOpenModal = () => {setIsModalOpen(true)};
+  const handleOpenModal = () => { setIsModalOpen(true) };
 
-  const handleOpenModal2 = () => {setIsModalOpen2(true)};
+  const handleOpenModal2 = () => { setIsModalOpen2(true) };
 
-  const handleOpenModal3 = () => {setIsModalOpen3(true)};
+  const handleOpenModal3 = () => { setIsModalOpen3(true) };
 
-  const handleCloseModal = () => {setIsModalOpen(false)};
+  const handleCloseModal = () => { setIsModalOpen(false) };
 
   const handleCloseModal2 = () => setIsModalOpen2(false);
 
@@ -140,6 +141,9 @@ export default function Home() {
     <>
       {/* ======================= ======================= Video Container ======================= ======================= */}
       {/* ======================= ======================= Video Container ======================= ======================= */}
+      <Helmet>
+        <title>NGT Studio | Home Page</title>
+      </Helmet>
 
       <div className='home-module-video' style={{ position: 'relative' }}>
         <video ref={ref} preload="true" muted loop playsInline data-testid="hero:video" autoPlay style={{ width: '100%', height: '100%' }}>

@@ -10,6 +10,7 @@ import authService from '../Services/authService';
 import { animateScroll } from 'react-scroll';
 import icon from '../../asset/images/icon.svg';
 import notification from '../../asset/sounds/notification-sound.mp3'
+import { Helmet } from 'react-helmet';
 
 const audio = new Audio(notification);
 
@@ -113,11 +114,11 @@ export default function Communinty() {
 
   useEffect(() => {
     if (!isShowMore) {
-    scrollToBottom();
+      scrollToBottom();
     } else {
       setIsShowMore(false);
     }
-  
+
     if (socket) {
       socket.on('newMessage', async (messageData) => {
         if (messageData.user_id === currentChatFriend.friend_id && messageData.friend_id === userProfile.id) {
@@ -399,6 +400,11 @@ export default function Communinty() {
 
   return (
     <div className="community container-fluid text-light">
+
+      <Helmet>
+        <title>NGT Studio | Community</title>
+      </Helmet>
+
       <div className="row">
         <div className="col-2">
           <p className='text-center'><i className="fas fa-vr-cardboard"></i></p>

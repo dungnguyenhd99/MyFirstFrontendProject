@@ -7,6 +7,7 @@ import icon from '../../asset/images/icon.svg';
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import authService from '../Services/authService';
+import { Helmet } from 'react-helmet';
 
 export default function Profile() {
     const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('userProfile')));
@@ -41,7 +42,7 @@ export default function Profile() {
         if (avatarFile) {
             authService.uploadAvatar(avatarFile)
                 .then((response) => {
-                    authService.updateProfile(saveToken.accessToken, {avatar: response.data.data.link}).then((res) => {
+                    authService.updateProfile(saveToken.accessToken, { avatar: response.data.data.link }).then((res) => {
                         localStorage.setItem('userProfile', JSON.stringify(res.data));
                         setUserProfile(res.data)
                         setIsUpload(false);
@@ -96,6 +97,10 @@ export default function Profile() {
             backgroundPosition: 'right',
             transition: 'background-position 1s ease-in-out', marginTop: 70, paddingTop: 150, paddingBottom: 200
         }}>
+            <Helmet>
+                <title>NGT Studio | User Profile</title>
+            </Helmet>
+
             <div className="page-content" id="page-content">
                 <div className="container-profile" style={{ marginTop: 100, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>
                     <div className="col-6" style={{ width: 650 }}>
