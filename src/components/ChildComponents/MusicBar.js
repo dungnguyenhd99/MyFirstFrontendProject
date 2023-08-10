@@ -80,9 +80,7 @@ function MusicBar({ audioList, onMusicChange }) {
         onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
         await new Promise(resolve => setTimeout(resolve, 1));
         setCurrentSongIndex(nextSongIndex);
-        await new Promise(resolve => setTimeout(resolve, 1));
         setIsPlaying(true);
-        await new Promise(resolve => setTimeout(resolve, 1));
 
     };
 
