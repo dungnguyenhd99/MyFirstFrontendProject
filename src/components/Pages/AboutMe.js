@@ -40,8 +40,6 @@ export default function AboutMe() {
     }, [currentSongIndex]);
 
     const handleMusicBarEvent = (eventData) => {
-        console.log('test');
-        console.log(eventData);
         if (eventData.type === 'songIndexChange') {
             setCurrentSongIndex(eventData.value);
         }

@@ -149,7 +149,7 @@ export default function Communinty() {
     animateScroll.scrollToBottom({
       containerId: 'chat-list-container',
       smooth: true,
-      duration: 300,
+      duration: 150,
     });
   };
 

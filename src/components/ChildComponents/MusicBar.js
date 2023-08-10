@@ -15,10 +15,6 @@ function MusicBar({ audioList, onMusicChange }) {
     const marqueeRef = useRef(null);
 
     useEffect(() => {
-        setIsPlaying(true);
-    }, []);
-
-    useEffect(() => {
         audioRef.current = new Audio(audioList[currentSongIndex].audioSource);
 
         const audio = audioRef.current;
@@ -113,15 +109,24 @@ function MusicBar({ audioList, onMusicChange }) {
     };
 
     useEffect(() => {
-        const marqueeText = marqueeRef.current;
-        const container = marqueeText.parentElement;
-
-        if (marqueeText.scrollWidth > container.clientWidth) {
-            marqueeText.classList.add('marquee');
-        } else {
-            marqueeText.classList.remove('marquee');
-        }
-    }, [audioList[currentSongIndex].songName]);
+        const audio = audioRef.current;
+    
+        const updateTime = () => {
+            setCurrentTime(audio.currentTime);
+        };
+    
+        const updateDuration = () => {
+            setDuration(audio.duration);
+        };
+    
+        audio.addEventListener('timeupdate', updateTime);
+        audio.addEventListener('loadeddata', updateDuration);
+    
+        return () => {
+            audio.removeEventListener('timeupdate', updateTime);
+            audio.removeEventListener('loadeddata', updateDuration);
+        };
+    }, [audioList[currentSongIndex].audioSource]);
 
     useEffect(() => {
         const audio = audioRef.current;
