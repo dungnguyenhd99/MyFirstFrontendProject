@@ -2,26 +2,62 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import '../../styles/css/AboutMe.css';
-import bg from '../../asset/images/signin-bg.png';
-import ms from '../../asset/sounds/MainThemeMusic.mp3';
+import Song02 from '../../asset/sounds/MainThemeMusic.mp3';
+import Song01 from '../../asset/sounds/Song01.mp3';
+import Song03 from '../../asset/sounds/Song03.mp3';
+
 import MusicBar from '../ChildComponents/MusicBar';
+import gif01 from '../../asset/images/gif01.gif';
+import gif02 from '../../asset/images/gif02.gif';
+import gif03 from '../../asset/images/gif03.gif';
+import { useEffect, useState } from 'react';
 
 export default function AboutMe() {
+    const [backgroundUrl, setBackgroundUrl] = useState(gif01);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+
     const audioList = [
-        { audioSource: 'https://cdn.indiesound.com/tracks/206834103_2114305399_1469605877.mp3', songName: 'Id 072019 | 3107 - W/n ft. 267' },
-        { audioSource: ms, songName: 'Peaches - Justin Bieber ft. Daniel Caesar, Giveon' },
-        { audioSource: ms, songName: 'Song 3' },
+        { audioSource: Song01, songName: 'Id 072019 | 3107 - W/n ft. 267' },
+        { audioSource: Song02, songName: 'Peaches - Justin Bieber ft. Daniel Caesar, Giveon' },
+        { audioSource: Song03, songName: '海のまにまに - YOASOBI' },
     ];
 
+    useEffect(() => {
+        console.log('test 2');
+        switch(currentSongIndex) {
+            case 0:
+                setBackgroundUrl(gif01);
+                break;
+            case 1:
+                setBackgroundUrl(gif02);
+                break;
+            case 2:
+                setBackgroundUrl(gif03);
+                break;
+            default:
+                setBackgroundUrl(gif01);
+                break;
+        }
+    }, [currentSongIndex]);
+
+    const handleMusicBarEvent = (eventData) => {
+        console.log('test');
+        console.log(eventData);
+        if (eventData.type === 'songIndexChange') {
+            setCurrentSongIndex(eventData.value);
+        }
+    };
+
+    const getBackgroundStyle = () => {
+        return {
+            background: `url(${backgroundUrl})`,
+        };
+    };
+
     return (
-        <div className="profile" style={{
-            background: `url(${bg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'right',
-            transition: 'background-position 1s ease-in-out', marginTop: 70, paddingTop: 35, paddingBottom: 200
-        }}>
+        <div className="aboutme" style={getBackgroundStyle()}>
             <div className="page-content" id="page-content">
-                <div className="container-profile" style={{ marginTop: 25, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>
+                <div className="container-profile" style={{ paddingTop: 55, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>
                     <div>
                         <div className="card-profile user-card-full" style={{ width: 600 }}>
                             <div className="row m-l-0 m-r-0">
@@ -92,9 +128,11 @@ export default function AboutMe() {
                     </div>
                 </div>
 
-                <div className="audio-player" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <MusicBar audioList={audioList} />
+                <div className="audio-player" style={{display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: 55}}>
+                    <MusicBar audioList={audioList} onMusicChange={handleMusicBarEvent}/>
                 </div>
+
+                <div className="background-blur"></div>
             </div>
         </div>
     );

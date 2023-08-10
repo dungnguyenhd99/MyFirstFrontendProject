@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/css/MusicBar.css';
 
-function MusicBar({ audioList }) {
+function MusicBar({ audioList, onMusicChange }) {
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -36,6 +36,7 @@ function MusicBar({ audioList }) {
             await new Promise(resolve => setTimeout(resolve, 0));
             const previousSongIndex = (currentSongIndex - 1 + audioList.length) % audioList.length;
             setCurrentSongIndex(previousSongIndex);
+            onMusicChange({ type: 'songIndexChange', value: previousSongIndex });
             setIsPlaying(true);
         };
 
@@ -87,6 +88,7 @@ function MusicBar({ audioList }) {
         const nextSongIndex = (currentSongIndex + 1) % audioList.length;
         setCurrentSongIndex(nextSongIndex);
         setIsPlaying(true);
+        onMusicChange({ type: 'songIndexChange', value: nextSongIndex });
     };
 
     const handlePreviousSong = async () => {
@@ -95,6 +97,7 @@ function MusicBar({ audioList }) {
         const previousSongIndex = (currentSongIndex - 1 + audioList.length) % audioList.length;
         setCurrentSongIndex(previousSongIndex);
         setIsPlaying(true);
+        onMusicChange({ type: 'songIndexChange', value: previousSongIndex });
     };
 
     const handleTimeChange = (event) => {
