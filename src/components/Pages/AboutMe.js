@@ -23,7 +23,6 @@ export default function AboutMe() {
     ];
 
     useEffect(() => {
-        console.log('test 2');
         switch(currentSongIndex) {
             case 0:
                 setBackgroundUrl(gif01);
