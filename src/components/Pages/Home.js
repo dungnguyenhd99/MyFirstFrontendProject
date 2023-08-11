@@ -143,11 +143,6 @@ export default function Home() {
       {/* ======================= ======================= Video Container ======================= ======================= */}
       <Helmet>
         <title>NGT Studio | Home Page</title>
-        <meta property="og:description" content="NGT Studio - Your Fantasy, Our Content" />
-        <meta property="og:title" content="NGT Studio Official Website" />
-        <meta property="og:image" content="https://i.postimg.cc/52QqNmbs/preview-Creator.png" />
-        <meta property="og:url" content="https://ngtstudio.netlify.app/" />
-        <meta property="og:type" content="website" />
       </Helmet>
 
       <div className='home-module-video' style={{ position: 'relative' }}>
