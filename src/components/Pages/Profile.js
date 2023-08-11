@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import authService from '../Services/authService';
 import { Helmet } from 'react-helmet';
-import previewImage from '../../asset/images/previewProfile.png';
 
 export default function Profile() {
     const [userProfile, setUserProfile] = useState(JSON.parse(localStorage.getItem('userProfile')));
@@ -100,10 +99,6 @@ export default function Profile() {
         }}>
             <Helmet>
                 <title>NGT Studio | User Profile</title>
-                <meta property="og:description" content="NGT Studio User Profile" />
-                <meta property="og:image" content={previewImage} />
-                <meta property="og:url" content={window.location.href} />
-                <meta property="og:type" content="website" />
             </Helmet>
 
             <div className="page-content" id="page-content">

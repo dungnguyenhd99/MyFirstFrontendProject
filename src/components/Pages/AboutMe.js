@@ -11,7 +11,6 @@ import gif01 from '../../asset/images/gif01.gif';
 import gif02 from '../../asset/images/gif02.gif';
 import gif03 from '../../asset/images/gif03.gif';
 import { useEffect, useState } from 'react';
-import previewImage from '../../asset/images/previewCreator.png';
 
 export default function AboutMe() {
     const [backgroundUrl, setBackgroundUrl] = useState(gif01);
@@ -56,10 +55,6 @@ export default function AboutMe() {
         <div className="aboutme" style={getBackgroundStyle()}>
             <Helmet>
                 <title>NGT Studio | Creator</title>
-                <meta property="og:description" content="NGT Studio Creator" />
-                <meta property="og:image" content={previewImage} />
-                <meta property="og:url" content={window.location.href} />
-                <meta property="og:type" content="website" />
             </Helmet>
             <div className="page-content" id="page-content">
                 <div className="container-profile" style={{ paddingTop: 55, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>

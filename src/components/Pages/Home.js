@@ -35,7 +35,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import { Helmet } from 'react-helmet';
-import previewImage from '../../asset/images/previewHome.png';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -144,10 +143,6 @@ export default function Home() {
       {/* ======================= ======================= Video Container ======================= ======================= */}
       <Helmet>
         <title>NGT Studio | Home Page</title>
-        <meta property="og:description" content="NGT Studio Official Website" />
-        <meta property="og:image" content={previewImage} />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:type" content="website" />
       </Helmet>
 
       <div className='home-module-video' style={{ position: 'relative' }}>
