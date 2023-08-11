@@ -12,6 +12,7 @@ import gif01 from '../../asset/images/gif01.gif';
 import gif02 from '../../asset/images/gif02.gif';
 import gif03 from '../../asset/images/gif03.gif';
 import { useEffect, useState } from 'react';
+import WeatherBar from '../ChildComponents/WeatherBar';
 
 export default function AboutMe() {
     const [backgroundUrl, setBackgroundUrl] = useState(gif01);
@@ -21,7 +22,7 @@ export default function AboutMe() {
         { audioSource: Song01, songName: 'Id 072019 | 3107 - W/n ft. 267' },
         { audioSource: Song02, songName: 'Peaches - Justin Bieber ft. Daniel Caesar, Giveon' },
         { audioSource: Song03, songName: '海のまにまに - YOASOBI' },
-        { audioSource: Song04, songName: '祝福 - YOASOBI'},
+        { audioSource: Song04, songName: '祝福 - YOASOBI' },
     ];
 
     useEffect(() => {
@@ -59,7 +60,11 @@ export default function AboutMe() {
                 <title>NGT Studio | Creator</title>
             </Helmet>
             <div className="page-content" id="page-content">
-                <div className="container-profile" style={{ paddingTop: 55, display: "flex", justifyContent: "center", alignItems: "center", color: 'white' }}>
+                <div className="weather-player" style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 30}}>
+                    <WeatherBar />
+                </div>
+
+                <div className="container-profile" style={{display: "flex", justifyContent: "center", alignItems: "center", color: 'white', paddingTop: 25 }}>
                     <div>
                         <div className="card-profile user-card-full" style={{ width: 600 }}>
                             <div className="row m-l-0 m-r-0">
@@ -106,11 +111,6 @@ export default function AboutMe() {
                                             <div className="pt-1">
                                                 <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>Frameworks</p>
                                                 <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Springboot, Reactjs, Nestjs, .NET, Flask</h6>
-                                            </div>
-
-                                            <div className="pt-1">
-                                                <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>ETC</p>
-                                                <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Git, Unity, Unreal Engine</h6>
                                             </div>
                                         </div>
 
