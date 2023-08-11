@@ -11,6 +11,7 @@ import { animateScroll } from 'react-scroll';
 import icon from '../../asset/images/icon.svg';
 import notification from '../../asset/sounds/notification-sound.mp3'
 import { Helmet } from 'react-helmet';
+import previewImage from '../../asset/images/previewCommunity.png';
 
 const audio = new Audio(notification);
 
@@ -403,6 +404,10 @@ export default function Communinty() {
 
       <Helmet>
         <title>NGT Studio | Community</title>
+        <meta property="og:description" content="NGT Studio Community" />
+        <meta property="og:image" content={previewImage} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
       </Helmet>
 
       <div className="row">
