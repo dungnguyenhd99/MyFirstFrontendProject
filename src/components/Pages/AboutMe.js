@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import '../../styles/css/AboutMe.css';
 import Song02 from '../../asset/sounds/MainThemeMusic.mp3';
+import Song04 from '../../asset/sounds/Song04.mp3';
 import Song01 from '../../asset/sounds/Song01.mp3';
 import Song03 from '../../asset/sounds/Song03.mp3';
 import { Helmet } from 'react-helmet';
@@ -20,6 +21,7 @@ export default function AboutMe() {
         { audioSource: Song01, songName: 'Id 072019 | 3107 - W/n ft. 267' },
         { audioSource: Song02, songName: 'Peaches - Justin Bieber ft. Daniel Caesar, Giveon' },
         { audioSource: Song03, songName: '海のまにまに - YOASOBI' },
+        { audioSource: Song04, songName: '祝福 - YOASOBI'},
     ];
 
     useEffect(() => {
