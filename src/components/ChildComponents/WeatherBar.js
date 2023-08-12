@@ -31,8 +31,6 @@ function WeatherBar() {
         axios.get(nominatimApiUrl)
             .then(async (response) => {
                 const data = response.data;
-                const newCity = data.address.city;
-                const newDistrict = data.address.suburb || data.address.district;
                 const newNeighbourhood = await data.address.neighbourhood;
                 setNeighbourhood(newNeighbourhood);
 
