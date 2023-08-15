@@ -60,11 +60,11 @@ export default function AboutMe() {
                 <title>NGT Studio | Creator</title>
             </Helmet>
             <div className="page-content" id="page-content">
-                <div className="weather-player" style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 30}}>
+                {/* <div className="weather-player" style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 30}}>
                     <WeatherBar />
-                </div>
+                </div> */}
 
-                <div className="container-profile" style={{display: "flex", justifyContent: "center", alignItems: "center", color: 'white', paddingTop: 25 }}>
+                <div className="container-profile" style={{ display: "flex", justifyContent: "center", alignItems: "center", color: 'white', paddingTop: 55 }}>
                     <div>
                         <div className="card-profile user-card-full" style={{ width: 600 }}>
                             <div className="row m-l-0 m-r-0">
@@ -111,6 +111,11 @@ export default function AboutMe() {
                                             <div className="pt-1">
                                                 <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>Frameworks</p>
                                                 <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Springboot, Reactjs, Nestjs, .NET, Flask</h6>
+                                            </div>
+
+                                            <div className="pt-1">
+                                                <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>Hobbies</p>
+                                                <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Games, Football, Art</h6>
                                             </div>
                                         </div>
 
