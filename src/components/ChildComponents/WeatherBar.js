@@ -5,6 +5,9 @@ import '../../styles/css/WeatherBar.css';
 import CloudIcon from "./WeatherIcon/CloudIcon";
 import CloudyIcon from "./WeatherIcon/CloudyIcon";
 import SunIcon from "./WeatherIcon/SunIcon";
+import RainyIcon from "./WeatherIcon/RainyIcon";
+import CloudWithRainAndLightning from "./WeatherIcon/CloudWithRainAndLightning";
+import ClearNight from "./WeatherIcon/ClearNight";
 
 function WeatherBar() {
     const [neighbourhood, setNeighbourhood] = useState('');
@@ -57,7 +60,7 @@ function WeatherBar() {
                 axios.get(getPlaceUrl).then(async (res) => {
                     const place_id = await res.data[0].place_id;
 
-                    const getWeatherUrl = `https://www.meteosource.com/api/v1/free/point?place_id=${place_id}&sections=current%2Chourly&timezone=auto&language=en&units=auto&key=u27ol0z4ex75k3b2jmkv1e16qjom381g61n3jpc2`
+                    const getWeatherUrl = `https://www.meteosource.com/api/v1/free/point?place_id=${place_id}&sections=current&timezone=auto&language=en&units=auto&key=u27ol0z4ex75k3b2jmkv1e16qjom381g61n3jpc2`
                     axios.get(getWeatherUrl).then((res) => {
                         setWeather({ summary: res.data.current.summary, temperature: res.data.current.temperature });
                     })
@@ -77,7 +80,7 @@ function WeatherBar() {
                         <div className="row">
                             <div className="col-6 icon">
                                 {
-                                    (weather.summary === 'Overcast') ?
+                                    (weather.summary === 'Overcast' || weather.summary === 'Overcast with low clouds' || weather.summary === 'Fog') ?
                                         (   // cloudy
                                             <CloudyIcon />
                                         ) : (weather.summary === 'Sunny' || weather.summary === 'Mostly sunny') ?
@@ -86,7 +89,19 @@ function WeatherBar() {
                                             ) : (weather.summary === 'Partly sunny' || weather.summary === 'Mostly cloudy' || weather.summary === 'Cloudy') ?
                                                 (
                                                     <CloudIcon />
-                                                ) : (null)
+                                                ) : (weather.summary === 'Light rain' || weather.summary === 'Rain' || weather.summary === 'Possible rain') ?
+                                                    (
+                                                        <RainyIcon />
+                                                    ) : (weather.summary === 'Rain shower' || weather.summary === 'Thunderstorm' || weather.summary === 'Local thunderstorms' || weather.summary === 'Rain shower (night)' || weather.summary === 'Local thunderstorms (night)') ?
+                                                        (
+                                                            <CloudWithRainAndLightning />
+                                                        ) : (weather.summary === 'Clear (night)' || weather.summary === 'Clear' || weather.summary === 'Mostly clear (night)' || weather.summary === 'Mostly clear' || weather.summary === 'Partly clear (night)' || weather.summary === 'Partly clear' || weather.summary === 'Mostly cloudy (night)' || weather.summary === 'Mostly cloudy' || weather.summary === 'Cloudy (night)' || weather.summary === 'Cloudy' || weather.summary === 'Overcast with low clouds' || weather.summary === 'Overcast with low clouds') ?
+                                                            (
+                                                                <ClearNight />
+                                                            ) :
+                                                                (
+                                                                <CloudyIcon />
+                                                                )
                                 }
                             </div>
 
