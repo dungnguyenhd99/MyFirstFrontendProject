@@ -12,7 +12,7 @@ import gif01 from '../../asset/images/gif01.gif';
 import gif02 from '../../asset/images/gif02.gif';
 import gif03 from '../../asset/images/gif03.gif';
 import { useEffect, useState } from 'react';
-import WeatherBar from '../ChildComponents/WeatherBar';
+// import WeatherBar from '../ChildComponents/WeatherBar';
 
 export default function AboutMe() {
     const [backgroundUrl, setBackgroundUrl] = useState(gif01);
