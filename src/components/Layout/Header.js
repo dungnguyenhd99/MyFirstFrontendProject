@@ -70,7 +70,7 @@ export default function Header() {
                 <Link className='title' to={'/'} style={{ marginLeft: 70 }} onClick={clickView}><img src={logo} width={85}></img></Link>
                 <Link className='title' to={'/'} style={{ marginLeft: 50 }} onClick={clickView} data-hover={t('home')}>{t('home')}</Link>
                 <a className='title' href='#myproject' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</a>
-                <a className='title' href='#event' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</a>
+                <Link className='title' to='/news' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</Link>
                 <Link className='title' to={'/community'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('community')}>{t('community')}</Link>
                 <Link className='title' to={'/creator'} style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</Link>
 

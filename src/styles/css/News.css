@@ -1,0 +1,11 @@
+.news-container {
+    margin-top: 70px;
+}
+
+.weather-bar {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding-right: 20px;
+    padding-top: 10px;
+}

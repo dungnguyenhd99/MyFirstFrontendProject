@@ -7,6 +7,7 @@ import SendSuccess from './components/Pages/SendSuccess';
 import Profile from './components/Pages/Profile';
 import Communinty from './components/Pages/Community';
 import AboutMe from './components/Pages/AboutMe';
+import News from './components/Pages/News';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="send-success" element={<SendSuccess />} />
           <Route path="profile" element={<Profile />} />
           <Route path="creator" element={<AboutMe />} />
+          <Route path="news" element={<News />}/>
         </Route>
       </Routes>
     </BrowserRouter>
