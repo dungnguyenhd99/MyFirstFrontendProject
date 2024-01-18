@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
 
-const API_URL = "https://ngtbackend-production.up.railway.app/friendship/";
+const API_URL = "https://ngtbackend-v1.fly.dev/friendship/";
 
 class CommunintyService {
   getFriendList(access_token, search) {

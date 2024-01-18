@@ -2,7 +2,7 @@
 import axios from "axios";
 import FormData from 'form-data';
 
-const API_URL = "https://ngtbackend-production.up.railway.app/auth/";
+const API_URL = "https://ngtbackend-v1.fly.dev/auth/";
 
 class AuthService {
   signin(user_name, password) {
