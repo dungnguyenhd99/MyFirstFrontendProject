@@ -114,7 +114,7 @@ export default function Signin() {
               <h1>{t('signup')}</h1>
               <div className="social-container">
                 <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-                <a href="https://ngtbackend-production.up.railway.app/auth/google" className="social"><i className="fab fa-google-plus-g"></i></a>
+                <a href="https://ngtbackend-v1.fly.dev/auth/google" className="social"><i className="fab fa-google-plus-g"></i></a>
               </div>
               <span>{t('orUseYourEmailForRegistration')}</span>
               <input type="text" placeholder="Full Name" value={stateSignup.fullName}
