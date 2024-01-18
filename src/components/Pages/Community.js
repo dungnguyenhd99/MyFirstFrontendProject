@@ -88,7 +88,7 @@ export default function Communinty() {
         console.log(err);
       });
 
-      const socket = io('ngtbackend-production.up.railway.app', {
+      const socket = io('ngtbackend-v1.fly.dev', {
         query: { userId: userProfile.id.toString() },
       });
       setSocket(socket);
