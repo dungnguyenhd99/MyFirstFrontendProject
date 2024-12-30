@@ -352,11 +352,10 @@ export default function Home() {
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
-                <iframe width="770" height="450" src="https://www.youtube.com/watch?v=J88bF8YLfcE" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                <iframe width="770" height="450" src="https://www.youtube.com/embed/J88bF8YLfcE" title="Gameplay - Stick Battle: War Of Stickman" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                   style={{ display: 'block', margin: 'auto', }}
                 ></iframe>
               </ReactModal>
-
               <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
               <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
             </span>
@@ -390,7 +389,7 @@ export default function Home() {
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
-                <iframe width="770" height="450" src="https://www.youtube.com/shorts/0gRavJhRvmU" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                <iframe width="770" height="450" src="https://www.youtube.com/embed/0gRavJhRvmU" title="Gameplay - Coin Pusher" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                   style={{ display: 'block', margin: 'auto', }}
                 ></iframe>
               </ReactModal>
@@ -428,7 +427,7 @@ export default function Home() {
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
-                <iframe width="770" height="450" src="https://www.youtube.com/watch?v=J88bF8YLfcE" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                <iframe width="770" height="450" src="https://www.youtube.com/embed/ZYbkVhcqTkE" title="Gameplay - Monster Survival: Kingdom" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                   style={{ display: 'block', margin: 'auto', }}
                 ></iframe>
               </ReactModal>
