@@ -1,7 +1,7 @@
 {
     "home": "Trang chủ",
-    "project": "Dự án",
-    "event": "Tin tức",
+    "project": "Dự án PC",
+    "event": "Dự án Mobile",
     "community": "Cộng đồng",
     "download": "Creator",
     "signin": "Đăng nhập",
@@ -22,5 +22,11 @@
     "citydescription2": "Level bao gồm nhiều loại model khác nhau, cư dân thành phố tự động di chuyển, thời tiết, các loại động vật, .... Bạn có thể di chuyển, leo trèo xung quanh thành phố bằng nhân vật của bạn để khám phá xung quanh.",
     "rpgdescription": "Dự án này là một hệ thống combat phức tạp sử dụng Unreal Engine 4 và được lấy cảm hứng từ hệ thống combat của các dòng game Souls.",
     "rpgdescription2": "Hệ thống combat gồm nhiều chức năng như: ám sát, đánh thường, trọng kính, các kiểu combat theo từng loại vũ khí, né chiêu, postion health, AI enemy behavior, etc ...",
-    "conclution1":"Website template được xây dựng trên ReactJs cho frontend site và NestJs cho backend server."
+    "conclution1":"Website template được xây dựng trên ReactJs cho frontend site và NestJs cho backend server.",
+    "monsterdescription": "Hóa thân thành anh hùng bị đày lên đảo hoang đầy quái vật, nơi bạn xây dựng căn cứ, công trình phòng thủ, và trang trí lãnh thổ.",
+    "monsterdescription2": "Thu thập tài nguyên, nghiên cứu phát triển, nâng cấp công trình và chiêu mộ các hero để chống lại những đợt quái vật không ngừng tấn công. Hãy lãnh đạo và bảo vệ vương quốc của bạn trước những mối đe dọa ngày càng lớn mạnh!",
+    "stickdescription": "Được phát triển trên Unity 6, trò chơi đưa bạn vào vai một hero stickman dũng mãnh chiến đấu với quái vật. Người chơi sẽ lần lượt đối mặt với các quái vật từ yếu đến mạnh, thu thập item để tăng cường sức mạnh và mở khóa các skin độc đáo cho hero.",
+    "stickdescription2": "Hãy chiến đấu, nâng cấp và trở thành stickman mạnh nhất trên chiến trường!",
+    "coindescription": "Trải nghiệm máy đẩy coin cổ điển, nơi bạn thu thập coin, mở khóa các bộ sưu tập quý hiếm và tham gia vào nhiều mini game thú vị.",
+    "coindescription2": "Hãy thử vận may và kỹ năng của bạn để giành được những phần thưởng giá trị!"
 }

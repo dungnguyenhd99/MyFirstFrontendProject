@@ -24,6 +24,9 @@ import card04character from '../../asset/images/card04-character.png';
 import concept01 from '../../asset/videos/concept01.mp4';
 import concept02 from '../../asset/videos/concept02.mp4';
 import concept03 from '../../asset/videos/concept03.mp4';
+import concept04 from '../../asset/videos/concept04.mp4';
+import concept05 from '../../asset/videos/concept05.mp4';
+import concept06 from '../../asset/videos/concept06.mp4';
 import title02 from '../../asset/images/title02.png';
 import title03 from '../../asset/images/title03.png';
 import ReactModal from 'react-modal';
@@ -46,7 +49,6 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
   const [isVisible3, setIsVisible3] = useState(false);
-  const [isVisible4, setIsVisible4] = useState(false);
 
   const { ref } = useInView({
     /* Optional options */
@@ -104,22 +106,6 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    function handleScroll() {
-      const image4 = imageRef4.current;
-      const top4 = image4.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-
-      if (top4 < windowHeight * 0.75) {
-        setIsVisible4(true);
-      } else {
-        setIsVisible4(false);
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
@@ -312,14 +298,14 @@ export default function Home() {
       <hr className="hr-text mt-5" data-content="CONCEPTS 03" />
       <br />
 
-      <div className={isVisible3 ? "fade-in-1 text-center" : "fade-out-1 text-center"}>
+      <div className="fade-in-1 text-center">
         <img ref={imageRef4} src={title03} height={55} />
       </div>
       <br /><br />
       <div className='row'>
         <div className='col-2'></div>
         <div className='col-4'>
-          <span className={isVisible4 ? "fade-in-1" : "fade-out-1"} style={{ color: 'white' }}>
+          <span className="fade-in-1" style={{ color: 'white' }}>
             <h5 style={{ fontFamily: 'Comic Sans MS', paddingTop: 40 }}>RPG COMBAT SYSTEM</h5>
             <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('rpgdescription')}</p>
             <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('rpgdescription2')}</p>
@@ -339,8 +325,122 @@ export default function Home() {
           </span>
         </div>
         <div className='video-concept col-4 text-center'>
-          <video className={isVisible4 ? "fade-in text-center" : "fade-out text-center"} ref={ref} autoPlay muted loop height={340} style={{ border: '2px solid rgba(44, 43, 47, 0.57)' }}>
+          <video className="fade-in text-center" ref={ref} autoPlay muted loop height={340} style={{ border: '2px solid rgba(44, 43, 47, 0.57)' }}>
             <source src={concept03} type="video/mp4" />
+          </video>
+        </div>
+        <div className='col-2'></div>
+      </div>
+      <br />
+
+      <hr id='myprojectmobile' className="hr-text mt-5" data-content="CONCEPTS 04" />
+      <br />
+
+      <div className={isVisible3 ? "fade-in-1 text-center" : "fade-out-1 text-center"}>
+        <img ref={imageRef4} src={title02} height={55} />
+      </div>
+      <br /><br />
+      <div className='row'>
+        <div className='col-2'></div>
+        <div className='col-4'>
+          <span className="fade-in-1" style={{ color: 'white' }}>
+            <h5 style={{ fontFamily: 'Comic Sans MS', paddingTop: 40 }}>STICK BATTLE: WAR OF STICKMAN</h5>
+            <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('stickdescription')}</p>
+            <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('stickdescription2')}</p>
+            <span className="text-box">
+              <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+                content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
+                overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
+              }}>
+                <iframe width="770" height="450" src="https://www.youtube.com/watch?v=J88bF8YLfcE" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                  style={{ display: 'block', margin: 'auto', }}
+                ></iframe>
+              </ReactModal>
+
+              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+              <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
+            </span>
+          </span>
+        </div>
+        <div className='video-concept col-4 text-center'>
+          <video className="fade-in text-center" ref={ref} autoPlay muted loop height={400} style={{ border: '2px solid rgba(44, 43, 47, 0.57)' }}>
+            <source src={concept05} type="video/mp4" />
+          </video>
+        </div>
+        <div className='col-2'></div>
+      </div>
+      <br />
+
+      <hr className="hr-text mt-5" data-content="CONCEPTS 05" />
+      <br />
+
+      <div className={isVisible3 ? "fade-in-1 text-center" : "fade-out-1 text-center"}>
+        <img ref={imageRef4} src={title02} height={55} />
+      </div>
+      <br /><br />
+      <div className='row'>
+        <div className='col-2'></div>
+        <div className='col-4'>
+          <span className="fade-in-1" style={{ color: 'white' }}>
+            <h5 style={{ fontFamily: 'Comic Sans MS', paddingTop: 40 }}>COIN PUSHER</h5>
+            <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('stickdescription')}</p>
+            <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('stickdescription2')}</p>
+            <span className="text-box">
+              <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+                content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
+                overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
+              }}>
+                <iframe width="770" height="450" src="https://www.youtube.com/shorts/0gRavJhRvmU" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                  style={{ display: 'block', margin: 'auto', }}
+                ></iframe>
+              </ReactModal>
+
+              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+              <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
+            </span>
+          </span>
+        </div>
+        <div className='video-concept col-4 text-center'>
+          <video className="fade-in text-center" ref={ref} autoPlay muted loop height={400} style={{ border: '2px solid rgba(44, 43, 47, 0.57)' }}>
+            <source src={concept06} type="video/mp4" />
+          </video>
+        </div>
+        <div className='col-2'></div>
+      </div>
+      <br />
+
+      <hr className="hr-text mt-5" data-content="CONCEPTS 06" />
+      <br />
+
+      <div className="fade-in-1 text-center">
+        <img ref={imageRef4} src={title02} height={55} />
+      </div>
+      <br /><br />
+      <div className='row'>
+        <div className='col-2'></div>
+        <div className='col-4'>
+          <span className="fade-in-1" style={{ color: 'white' }}>
+            <h5 style={{ fontFamily: 'Comic Sans MS', paddingTop: 40 }}>MONSTER SURVIVAL: KINGDOM</h5>
+            <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('monsterdescription')}</p>
+            <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('monsterdescription2')}</p>
+            <span className="text-box">
+              <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+                content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
+                overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
+              }}>
+                <iframe width="770" height="450" src="https://www.youtube.com/watch?v=J88bF8YLfcE" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                  style={{ display: 'block', margin: 'auto', }}
+                ></iframe>
+              </ReactModal>
+
+              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+              <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
+            </span>
+          </span>
+        </div>
+        <div className='video-concept col-4 text-center'>
+          <video className="fade-in text-center" ref={ref} autoPlay muted loop height={340} style={{ border: '2px solid rgba(44, 43, 47, 0.57)' }}>
+            <source src={concept04} type="video/mp4" />
           </video>
         </div>
         <div className='col-2'></div>
@@ -348,6 +448,7 @@ export default function Home() {
       <br />
       <hr className="hr-text mt-5" data-content="CONCLUSION" />
       <br />  <br />
+
       <div className='row'>
         <div className='col-2'></div>
         <div className='col-4 text-light'>

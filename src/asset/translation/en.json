@@ -1,7 +1,7 @@
 {
     "home": "Home",
-    "project": "Project",
-    "event": "News",
+    "project": "PC Project",
+    "event": "Mobile Project",
     "community": "Community",
     "download": "Creator",
     "signin": "Sign in",
@@ -22,5 +22,11 @@
     "citydescription2": "The level include many type of models, AI citizen movement, weather, animals, .... You can move around, climb around the city throw a chateracter to wandering over the world.",
     "rpgdescription": "This project is a rpg complicate combat system using Unreal Engine 4 inspired by the combat system of the Souls game series.",
     "rpgdescription2": "The combat system includes many functions like: assassination, light attack combo, heavy attack combat, many kinds of weapons combat type, dodging, posion health, AI enemy behavior, etc ...",
-    "conclution1":"This website template built on ReactJs for frontend site and NestJs for backend server."
+    "conclution1":"This website template built on ReactJs for frontend site and NestJs for backend server.",
+    "monsterdescription": "Step into the role of a hero exiled to a monster-infested island, where you build a base, construct defenses, and decorate your territory.",
+    "monsterdescription2": "Gather resources, conduct research, upgrade buildings, and recruit heroes to fend off relentless waves of monsters. Lead and protect your kingdom against ever-growing threats!",
+    "stickdescription": "Developed on Unity 6, this game puts you in the role of a brave stickman hero battling monsters. Players face off against increasingly powerful enemies, starting from weaker ones, while collecting items to enhance strength and unlock unique skins for their hero.",
+    "stickdescription2": "Fight, upgrade, and become the strongest stickman on the battlefield!",
+    "coindescription": "Experience the classic coin pusher machine, where you collect coins, unlock rare collections, and dive into exciting mini-games.",
+    "coindescription2": "Test your luck and skills to win valuable rewards!"
 }

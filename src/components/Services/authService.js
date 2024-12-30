@@ -2,18 +2,17 @@
 import axios from "axios";
 import FormData from 'form-data';
 
-const API_URL = "https://ngtbackend-v1.fly.dev/auth/";
+const API_URL = "https://monster-survival-server-patient-thunder-5787.fly.dev/user/";
 
 class AuthService {
-  signin(user_name, password) {
+  signin(username, password) {
     const headers = {
       'Content-Type': 'application/json',
     };
     return axios
       .post(API_URL + "signin", {
-        user_name,
+        username,
         password,
-        type: "ACCOUNT"
       }, { headers })
   }
 

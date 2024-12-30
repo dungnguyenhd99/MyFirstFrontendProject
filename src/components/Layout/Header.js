@@ -64,13 +64,44 @@ export default function Header() {
         }
     }, [])
 
+    const handleClick = (targetId) => {
+        if (location.pathname === '/') {
+            const element = document.querySelector(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            navigate('/');
+            setTimeout(() => {
+                const element = document.querySelector(targetId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+    };
+
     return (
         <>
             <nav className="navbar-main fixed-top cl-effect-17">
                 <Link className='title' to={'/'} style={{ marginLeft: 70 }} onClick={clickView}><img src={logo} width={85}></img></Link>
                 <Link className='title' to={'/'} style={{ marginLeft: 50 }} onClick={clickView} data-hover={t('home')}>{t('home')}</Link>
-                <a className='title' href='#myproject' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('project')}>{t('project')}</a>
-                <Link className='title' to='/news' style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('event')}>{t('event')}</Link>
+                <a
+                className='title'
+                style={{ marginLeft: 40 }}
+                onClick={() => handleClick('#myproject')}
+                data-hover={t('project')}
+                >
+                    {t('project')}
+                </a>
+                <a
+                    className='title'
+                    style={{ marginLeft: 40 }}
+                    onClick={() => handleClick('#myprojectmobile')}
+                    data-hover={t('event')}
+                >
+                    {t('event')}
+                </a>
                 <Link className='title' to={'/community'} style={{ marginLeft: 40 }} onClick={clickView} data-hover={t('community')}>{t('community')}</Link>
                 <Link className='title' to={'/creator'} style={{ marginLeft: 40 }} data-hover={t('download')} rel="noreferrer">{t('download')}</Link>
 
