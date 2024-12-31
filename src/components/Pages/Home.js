@@ -110,18 +110,27 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isModalOpen3, setIsModalOpen3] = useState(false);
+  const [isModalOpen4, setIsModalOpen4] = useState(false);
+  const [isModalOpen5, setIsModalOpen5] = useState(false);
+  const [isModalOpen6, setIsModalOpen6] = useState(false);
 
   const handleOpenModal = () => { setIsModalOpen(true) };
 
   const handleOpenModal2 = () => { setIsModalOpen2(true) };
 
   const handleOpenModal3 = () => { setIsModalOpen3(true) };
+  const handleOpenModal4 = () => { setIsModalOpen4(true) };
+  const handleOpenModal5 = () => { setIsModalOpen5(true) };
+  const handleOpenModal6 = () => { setIsModalOpen6(true) };
 
   const handleCloseModal = () => { setIsModalOpen(false) };
 
   const handleCloseModal2 = () => setIsModalOpen2(false);
 
   const handleCloseModal3 = () => setIsModalOpen3(false);
+  const handleCloseModal4 = () => setIsModalOpen4(false);
+  const handleCloseModal5 = () => setIsModalOpen5(false);
+  const handleCloseModal6 = () => setIsModalOpen6(false);
 
   return (
     <>
@@ -310,7 +319,7 @@ export default function Home() {
             <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('rpgdescription')}</p>
             <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('rpgdescription2')}</p>
             <span className="text-box">
-              <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+              <ReactModal isOpen={isModalOpen5} onRequestClose={handleCloseModal5} style={{
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
@@ -319,7 +328,7 @@ export default function Home() {
                 ></iframe>
               </ReactModal>
 
-              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal5}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
               <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
             </span>
           </span>
@@ -348,7 +357,7 @@ export default function Home() {
             <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('stickdescription')}</p>
             <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('stickdescription2')}</p>
             <span className="text-box">
-              <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+              <ReactModal isOpen={isModalOpen4} onRequestClose={handleCloseModal4} style={{
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
@@ -356,7 +365,7 @@ export default function Home() {
                   style={{ display: 'block', margin: 'auto', }}
                 ></iframe>
               </ReactModal>
-              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal4}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
               <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
             </span>
           </span>
@@ -385,7 +394,7 @@ export default function Home() {
             <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('stickdescription')}</p>
             <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('stickdescription2')}</p>
             <span className="text-box">
-              <ReactModal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={{
+              <ReactModal isOpen={isModalOpen6} onRequestClose={handleCloseModal6} style={{
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
                 overlay: { backgroundColor: 'rgba(0, 0, 0, 0.6)', },
               }}>
@@ -394,7 +403,7 @@ export default function Home() {
                 ></iframe>
               </ReactModal>
 
-              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
+              <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal6}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
               <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
             </span>
           </span>
