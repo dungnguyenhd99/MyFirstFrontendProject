@@ -391,8 +391,8 @@ export default function Home() {
         <div className='col-4'>
           <span className="fade-in-1" style={{ color: 'white' }}>
             <h5 style={{ fontFamily: 'Comic Sans MS', paddingTop: 40 }}>COIN PUSHER</h5>
-            <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('stickdescription')}</p>
-            <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('stickdescription2')}</p>
+            <p style={{ paddingRight: 110, paddingTop: 10, fontSize: '.95rem' }}>{t('coindescription')}</p>
+            <p style={{ paddingRight: 110, overflow: 'auto', fontSize: '.95rem' }}>{t('coindescription2')}</p>
             <span className="text-box">
               <ReactModal isOpen={isModalOpen6} onRequestClose={handleCloseModal6} style={{
                 content: { width: "42.7%", height: "54.7%", margin: "auto", backgroundColor: 'black' },
