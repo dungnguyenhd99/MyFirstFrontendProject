@@ -110,7 +110,7 @@ export default function AboutMe() {
 
                                             <div className="pt-1">
                                                 <p className="m-b-10 f-w-600" style={{ fontSize: '0.9rem' }}>Frameworks</p>
-                                                <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Springboot, Reactjs, Nestjs, .NET, Flask, Django</h6>
+                                                <h6 className="text-muted f-w-400" style={{ fontSize: '0.85rem' }}>Springboot, Reactjs, Nestjs, Unity, Unreal Engine, .NET, Flask, Django</h6>
                                             </div>
 
                                             <div className="pt-1">
