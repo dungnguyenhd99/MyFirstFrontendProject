@@ -366,7 +366,7 @@ export default function Home() {
                 ></iframe>
               </ReactModal>
               <a href="javascript:void(0)" className="btn btn-white btn-animate" style={{ marginRight: 250 }} onClick={handleOpenModal4}><i className="fas fa-play" style={{ fontSize: '.7rem' }}></i> Demo</a>
-              <a href="javascript:void(0)" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
+              <a href="https://play.google.com/store/apps/details?id=com.Studio60Games.StickBattleValorWar&hl=en" target='_blank' className="btn btn-blue btn-animate" rel="noreferrer"><i className="fas fa-download" style={{ fontSize: '.7rem' }} onClick={handleOpenModal}></i> Download</a>
             </span>
           </span>
         </div>
