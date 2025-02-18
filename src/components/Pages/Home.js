@@ -54,6 +54,7 @@ export default function Home() {
     /* Optional options */
     threshold: 0,
   });
+  
 
   useEffect(() => {
     function handleScroll() {
